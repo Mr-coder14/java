@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn,btndownload;
     private Uri selectedPdfUri;
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
