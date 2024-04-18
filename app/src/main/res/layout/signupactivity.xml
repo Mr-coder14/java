@@ -50,13 +50,14 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextText3"
+            android:id="@+id/editTextname"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/edittext_background"
             android:ems="10"
             android:hint="Enter Your Name"
+            android:textColorHint="@color/black"
             android:inputType="textPersonName"
             android:padding="12dp"
             android:textColor="#707070"
@@ -73,7 +74,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/editTextemail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
@@ -81,12 +82,13 @@
             android:ems="10"
             android:hint="Enter Your Email"
             android:inputType="textEmailAddress"
+            android:textColorHint="@color/black"
             android:padding="12dp"
             android:textColor="#707070"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textViewcpass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -96,13 +98,14 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/editTextpassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/edittext_background"
             android:ems="10"
             android:hint="Create Your Password"
+            android:textColorHint="@color/black"
             android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="#707070"
@@ -119,21 +122,21 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/editTextconfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/edittext_background"
             android:ems="10"
             android:hint="Renter Your Password"
+            android:textColorHint="@color/black"
             android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="#707070"
             android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
-
+            android:id="@+id/signup"
             style="@android:style/Widget.Button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
