@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "229149776050",
+    "project_id": "javaxerox-11341",
+    "storage_bucket": "javaxerox-11341.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:229149776050:android:7e96075bf1f949104611ab",
+        "android_client_info": {
+          "package_name": "com.example.java"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7InFSXQPb3Kgmtj9iq-kktzsQr_5FaXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
