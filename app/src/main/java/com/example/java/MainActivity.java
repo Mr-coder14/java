@@ -1,6 +1,7 @@
 package com.example.java;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         bottomNavigationView=findViewById(R.id.bottomappbar);
         auth=FirebaseAuth.getInstance();
         fragment=new home_fragment();

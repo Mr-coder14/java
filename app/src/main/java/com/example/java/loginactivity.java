@@ -60,8 +60,8 @@ public class loginactivity extends AppCompatActivity {
                 String pass1=passlg.getText().toString();
                 if(TextUtils.isEmpty(email1) || TextUtils.isEmpty(pass1)){
                     Toast.makeText(loginactivity.this, "Enter All details", Toast.LENGTH_SHORT).show();
-                } else if (pass1.length()<7) {
-                    Toast.makeText(loginactivity.this, "Password should be Eight Characters ", Toast.LENGTH_SHORT).show();
+                } else if (pass1.length()<6) {
+                    Toast.makeText(loginactivity.this, "Incorrect Password ", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     auth.signInWithEmailAndPassword(email1,pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
