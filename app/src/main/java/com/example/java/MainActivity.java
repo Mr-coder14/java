@@ -1,58 +1,56 @@
 package com.example.java;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.annotation.SuppressLint;
-import android.content.Intent;
+import androidx.fragment.app.Fragment;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import java.io.File;
+import android.view.MenuItem;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
-
-    private int PICK_PDF_REQUEST = 1;
-    private int PERMISSION_REQUEST_CODE = 100;
-    private Button btn,btndownload;
-    private Uri selectedPdfUri;
-
+    private int PERMISSION_REQUEST_CODE=100;
+    private BottomNavigationView bottomNavigationView;
+    private Fragment fragment;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn = findViewById(R.id.btnupload);
-        btndownload=findViewById(R.id.Pdfdownload);
+        bottomNavigationView=findViewById(R.id.bottomappbar);
+        auth=FirebaseAuth.getInstance();
+        fragment=new home_fragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
         checkPermissions();
 
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("application/pdf");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(Intent.createChooser(intent, "Select PDF"), PICK_PDF_REQUEST);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id=item.getItemId();
+                if(id==R.id.Homebottom){
+                    fragment=new home_fragment();
+                }
+                if(id==R.id.Historybottom){
+                    fragment=new history_fragment();
+                }
+                if(id==R.id.profilebottom)
+                {
+                    fragment = new profile_fragment();
+                }
+                if(fragment!=null)
+                {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         });
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            selectedPdfUri = data.getData();
-            uploadPdfToFirebase(selectedPdfUri);
-        }
-    }
-
+}
     private boolean checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
@@ -62,26 +60,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return true;
-    }
-    private void uploadPdfToFirebase(Uri pdfUri) {
-        if (pdfUri != null) {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReference();
-            StorageReference pdfRef = storageRef.child("pdfs/" + System.currentTimeMillis() + ".pdf");
-
-            pdfRef.putFile(pdfUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(MainActivity.this, "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
     }
 }

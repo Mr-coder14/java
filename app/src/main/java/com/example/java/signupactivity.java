@@ -1,5 +1,6 @@
 package com.example.java;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,7 +14,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class signupactivity extends AppCompatActivity {
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if(currentUser != null){
+            startActivity(new Intent(signupactivity.this,MainActivity.class));
+            finish();
+        }
+    }
     EditText email,pass,confirm_pass,Name;
     Button register;
     FirebaseAuth auth;
