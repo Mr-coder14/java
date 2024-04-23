@@ -1,44 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/carduploadback"
-        android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:src="@drawable/borrderlines"
-        android:layout_marginTop="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageView
-        android:id="@+id/file_upload"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/cx"
-        app:layout_constraintBottom_toBottomOf="@+id/carduploadback"
-        app:layout_constraintEnd_toEndOf="@+id/carduploadback"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="@+id/carduploadback"
-        app:layout_constraintTop_toTopOf="@+id/carduploadback"
-        app:layout_constraintVertical_bias="0.372" />
-
-
-    <Button
-        android:id="@+id/pdfupload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="148dp"
-        android:gravity="center_horizontal"
-        android:text="PDFupload"
-        android:textSize="20dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/homeconstraint1"
+                        android:layout_width="match_parent"
+                        android:layout_height="320dp"
+                        android:background="@drawable/bg"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/jasahead"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="JASA Xerox"
+                            android:textColor="#FFFFFF"
+                            android:textSize="23dp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.497"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/womenpencil"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginTop="36dp"
+                            android:layout_marginEnd="3dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toEndOf="@+id/jasahead"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/women1" />
+
+                        <TextView
+                            android:id="@+id/selectfiletxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="104dp"
+                            android:text="Select The File"
+                            android:textColor="@color/white"
+                            android:textSize="30dp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/womenpencil"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/linearLayouthome1"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="260dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/whitebg_profile"
+                        android:elevation="6dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/imageView843"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/borrderlines" />
+
+                            <ImageView
+                                android:id="@+id/vccvdfdfdfd"
+                                android:layout_width="180dp"
+                                android:layout_height="180dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageView843"
+                                app:layout_constraintEnd_toEndOf="@+id/imageView843"
+                                app:layout_constraintHorizontal_bias="0.497"
+                                app:layout_constraintStart_toStartOf="@+id/imageView843"
+                                app:layout_constraintTop_toTopOf="@+id/imageView843"
+                                app:layout_constraintVertical_bias="0.309"
+                                app:srcCompat="@drawable/cx" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="50dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toEndOf="@+id/vccvdfdfdfd"
+                                app:layout_constraintStart_toStartOf="@+id/vccvdfdfdfd"
+                                app:layout_constraintTop_toBottomOf="@+id/vccvdfdfdfd">
+
+                                <ImageView
+                                    android:id="@+id/gfrt4t4545454fgfg"
+                                    android:layout_width="50dp"
+                                    android:layout_height="35dp"
+                                    app:srcCompat="@drawable/upload2" />
+
+                                <TextView
+                                    android:id="@+id/fdereer3fd64"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:textSize="22sp"
+                                    android:textAlignment="center"
+                                    android:layout_marginStart="14dp"
+                                    android:textStyle="bold"
+                                    android:textColor="#000000"
+                                    android:text="Upload PDF" />
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/pdfupload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/backround_btn_profile"
+                android:textColor="#FFFF"
+                android:text="Upload PDF"
+                android:layout_margin="50dp"
+                />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

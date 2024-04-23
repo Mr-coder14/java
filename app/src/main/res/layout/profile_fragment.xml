@@ -27,7 +27,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/constraintLayout"
+                        android:id="@+id/homeconstraint1"
                         android:layout_width="match_parent"
                         android:layout_height="360dp"
                         android:background="@drawable/banner_bgprofile"
@@ -46,13 +46,13 @@
                         android:src="@drawable/person3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+                        app:layout_constraintTop_toTopOf="@+id/homeconstraint1"
                         app:shapeAppearanceOverlay="@style/CircleImage"
                         app:strokeColor="#BFBFC0"
                         app:strokeWidth="3dp" />
 
                     <TextView
-                        android:id="@+id/Nameprofile"
+                        android:id="@+id/jasahead"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -60,7 +60,7 @@
                         android:textColor="#FFFFFF"
                         android:textSize="23dp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/Nameprofile"
+                        app:layout_constraintBottom_toBottomOf="@id/jasahead"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewq"
@@ -76,10 +76,10 @@
                         android:textColor="#ffff"
                         android:textSize="16sp"
                         android:textStyle="italic"
-                        app:layout_constraintEnd_toEndOf="@+id/Nameprofile"
+                        app:layout_constraintEnd_toEndOf="@+id/jasahead"
                         app:layout_constraintHorizontal_bias="0.509"
-                        app:layout_constraintStart_toStartOf="@+id/Nameprofile"
-                        app:layout_constraintTop_toBottomOf="@+id/Nameprofile" />
+                        app:layout_constraintStart_toStartOf="@+id/jasahead"
+                        app:layout_constraintTop_toBottomOf="@+id/jasahead" />
 
 
                     <ImageView
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+                        app:layout_constraintBottom_toBottomOf="@+id/homeconstraint1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
