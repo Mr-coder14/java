@@ -25,7 +25,6 @@ public class signupactivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             startActivity(new Intent(signupactivity.this, MainActivity.class));

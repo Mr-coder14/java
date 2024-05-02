@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
     private int PERMISSION_REQUEST_CODE=100;
@@ -26,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
         fragment=new home_fragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
         checkPermissions();
+
+        FirebaseApp.initializeApp(/*context=*/ this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance());
 
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

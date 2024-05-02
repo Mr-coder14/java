@@ -102,7 +102,7 @@
             android:id="@+id/rgbuttontxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create an Account,Click To Register"
+            android:text="Create an Account"
             android:textSize="18sp"
             android:focusable="true"
             android:textColor="@color/black"
@@ -209,7 +209,6 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnlg"
-
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
