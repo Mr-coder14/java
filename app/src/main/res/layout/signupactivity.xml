@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".signupactivity"
     android:background="#F2F2F2" >
 
     <ImageView
@@ -20,18 +21,18 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hi,\nCreate Account"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:text="Hi,\nCreate Account"
+        android:textColor="#ffffff"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="700dp"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         android:padding="32dp"
@@ -41,6 +42,7 @@
 
         <TextView
             android:id="@+id/textView9"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -49,59 +51,85 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextText3"
+            android:id="@+id/editTextname"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/edittext_background"
             android:ems="10"
             android:hint="Enter Your Name"
+            android:textColorHint="@color/black"
             android:inputType="textPersonName"
             android:padding="12dp"
             android:textColor="#707070"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/textView78"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Phone Number"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextname78"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edittext_background"
+            android:ems="10"
+            android:hint="Enter Your Number"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textColor="#707070"
+            android:textColorHint="@color/black"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="Email"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/editTextemail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/edittext_background"
             android:ems="10"
             android:hint="Enter Your Email"
             android:inputType="textEmailAddress"
+            android:textColorHint="@color/black"
             android:padding="12dp"
             android:textColor="#707070"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textViewcpass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="Create Password"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/editTextpassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/edittext_background"
             android:ems="10"
             android:hint="Create Your Password"
+            android:textColorHint="@color/black"
             android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="#707070"
@@ -111,34 +139,34 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="Confirm Password"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/editTextconfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/edittext_background"
             android:ems="10"
             android:hint="Renter Your Password"
+            android:textColorHint="@color/black"
             android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="#707070"
             android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
-
+            android:id="@+id/signup"
             style="@android:style/Widget.Button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/button_background"
-            android:text="Singn Up"
+            android:text="Sign Up"
             android:textColor="#ffffff"
             android:textSize="25dp"
             android:textStyle="bold" />

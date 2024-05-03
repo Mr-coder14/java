@@ -1,38 +1,66 @@
 package com.example.java;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
+import android.view.MenuItem;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
+import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
-
-    private int PICK_PDF_REQUEST=1;
     private int PERMISSION_REQUEST_CODE=100;
-    private Button btn;
+    private BottomNavigationView bottomNavigationView;
+    private Fragment fragment;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn=findViewById(R.id.btnupload);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        bottomNavigationView=findViewById(R.id.bottomappbar);
+        auth=FirebaseAuth.getInstance();
+        fragment=new home_fragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
         checkPermissions();
 
+        FirebaseApp.initializeApp(/*context=*/ this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance());
 
-        btn.setOnClickListener(new View.OnClickListener() {
+
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("application/pdf");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(Intent.createChooser(intent, "Select PDF"), PICK_PDF_REQUEST);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id=item.getItemId();
+                if(id==R.id.Homebottom){
+                    fragment=new home_fragment();
+                }
+                if(id==R.id.Historybottom){
+                    fragment=new history_fragment();
+                }
+                if(id==R.id.profilebottom)
+                {
+                    fragment = new profile_fragment();
+                }
+                if(fragment!=null)
+                {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         });
-    }
+}
     private boolean checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
@@ -43,6 +71,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
 }

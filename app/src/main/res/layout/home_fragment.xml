@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/homeconstraint1"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:background="@drawable/bg"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/jasahead"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="JASA Xerox"
+                            android:textColor="#000000"
+                            android:textSize="23dp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.497"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/womenpencil"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="3dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toEndOf="@+id/jasahead"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/women1" />
+
+                        <TextView
+                            android:id="@+id/selectfiletxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="104dp"
+                            android:text="Select The File"
+                            android:textColor="@color/black"
+                            android:textSize="30dp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/womenpencil"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/linearLayouthome1"
+                        android:layout_width="match_parent"
+                        android:layout_height="350dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="200dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/whitebg_profile"
+                        android:elevation="6dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/imageView843"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="1.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
+                                app:srcCompat="@drawable/borrderlines" />
+
+                            <ImageView
+                                android:id="@+id/vccvdfdfdfd"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageView843"
+                                app:layout_constraintEnd_toEndOf="@+id/imageView843"
+                                app:layout_constraintHorizontal_bias="0.497"
+                                app:layout_constraintStart_toStartOf="@+id/imageView843"
+                                app:layout_constraintTop_toTopOf="@+id/imageView843"
+                                app:layout_constraintVertical_bias="0.27"
+                                app:srcCompat="@drawable/cx" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="55dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toEndOf="@+id/vccvdfdfdfd"
+                                app:layout_constraintStart_toStartOf="@+id/vccvdfdfdfd"
+                                app:layout_constraintTop_toBottomOf="@+id/vccvdfdfdfd">
+
+                                <ImageView
+                                    android:id="@+id/gfrt4t4545454fgfg"
+                                    android:layout_width="50dp"
+                                    android:layout_height="35dp"
+                                    app:srcCompat="@drawable/upload2" />
+
+                                <TextView
+                                    android:id="@+id/fdereer3fd64"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="14dp"
+                                    android:text="Upload PDF"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="26sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                >
+                <EditText
+                    android:id="@+id/selectpdf"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:textSize="18sp"
+                    android:textColorHint="@color/black"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="#EDB819"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    android:ems="10"
+                    android:background="@drawable/edittext_background"
+                    android:hint="Click to select the file"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/pdfupload"
+                    android:layout_width="150dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/backround_btn_profile"
+                    android:textColor="#FFFF"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:text="Upload PDF"
+                    />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttondownload"
+                    android:layout_width="150dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/backround_btn_profile"
+                    android:layout_height="wrap_content"
+                    android:text="Download PDF" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
