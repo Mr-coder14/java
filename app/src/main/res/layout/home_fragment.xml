@@ -177,7 +177,9 @@
                     android:padding="10dp"
                     android:ems="10"
                     android:background="@drawable/edittext_background"
-                    android:hint="click to select the file" />
+                    android:hint="Click to select the file"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

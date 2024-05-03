@@ -39,8 +39,9 @@ public class history_fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         progressBar=view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
+
  
-        query=databaseReference.orderByChild("name");
+        query=databaseReference.orderByChild("timestamp");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -77,11 +78,12 @@ public class history_fragment extends Fragment {
                         protected void onBindViewHolder(@NonNull RetrivepdfAdaptor holder, int position, @NonNull Fileinmodel model) {
                             progressBar.setVisibility(View.GONE);
                             holder.pdffilename.setText(model.getName());
+
                             holder.itemView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     Intent intent=new Intent(Intent.ACTION_VIEW);
-                                    intent.setType("*/*");
+                                    intent.setType("application/pdf");
                                     intent.setData(Uri.parse(model.getUri()));
                                     startActivity(intent);
                                 }
@@ -95,6 +97,10 @@ public class history_fragment extends Fragment {
                             return holder;
                         }
                     };
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setReverseLayout(true);
+            layoutManager.setStackFromEnd(true);
+            recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
             adapter.startListening();
     }
