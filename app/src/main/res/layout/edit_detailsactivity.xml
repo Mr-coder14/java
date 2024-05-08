@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:text="Hi,\nCreate Account"
+        android:text="Edit Details"
         android:textColor="#ffffff"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -33,18 +33,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="700dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
         android:padding="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.103">
 
         <TextView
             android:id="@+id/textView9"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="Name"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -54,7 +56,7 @@
             android:id="@+id/editTextname"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/edittext_background"
             android:drawableLeft="@drawable/ic_baseline_person_24"
             android:drawablePadding="10dp"
@@ -65,21 +67,22 @@
             android:textColor="#707070"
             android:textColorHint="@color/black"
             android:textSize="18sp" />
+
         <TextView
             android:id="@+id/textView78"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="Phone Number"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/phno"
+            android:id="@+id/editTextname78"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/edittext_background"
             android:drawableLeft="@drawable/phonelogo"
             android:drawablePadding="10dp"
@@ -95,7 +98,7 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="Email"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -105,7 +108,7 @@
             android:id="@+id/editTextemail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/edittext_background"
             android:drawableLeft="@drawable/ic_baseline_email_24"
             android:drawablePadding="10dp"
@@ -117,66 +120,15 @@
             android:textColorHint="@color/black"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textViewcpass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Create Password"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/editTextpassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edittext_background"
-            android:drawableLeft="@drawable/ic_baseline_security_24"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:hint="Create Your Password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:textColor="#707070"
-            android:textColorHint="@color/black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Confirm Password"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/editTextconfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edittext_background"
-            android:drawableLeft="@drawable/ic_baseline_security_24"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:hint="Renter Your Password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:textColor="#707070"
-            android:textColorHint="@color/black"
-            android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/signup"
+            android:id="@+id/savechanges"
             style="@android:style/Widget.Button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/button_background"
-            android:text="Sign Up"
+            android:text="Save Changes"
             android:textColor="#ffffff"
             android:textSize="25dp"
             android:textStyle="bold" />
