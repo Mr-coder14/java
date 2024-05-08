@@ -1,6 +1,6 @@
 package com.example.java;
 
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -28,7 +28,6 @@ public class loginactivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = auth.getCurrentUser();
         if(currentUser != null){
             startActivity(new Intent(loginactivity.this,MainActivity.class));

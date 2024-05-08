@@ -2,6 +2,7 @@ package com.example.java;
 public class User {
     private String name;
     private String email;
+    private String phno;
 
 
     public User() {
@@ -10,9 +11,10 @@ public class User {
 
 
 
-    public User(String name, String email) {
+    public User(String name, String email,String phno) {
         this.name = name;
         this.email = email;
+        this.phno=phno;
     }
 
     public String getName() {
@@ -21,6 +23,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+    public  String getPhno()
+    {
+        return phno;
     }
 }
 

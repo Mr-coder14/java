@@ -52,15 +52,15 @@
                         app:strokeWidth="3dp" />
 
                     <TextView
-                        android:id="@+id/jasahead"
+                        android:id="@+id/profilename"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
-                        android:text="Parmugilan S"
+                        android:text=""
                         android:textColor="#FFFFFF"
                         android:textSize="23dp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/jasahead"
+                        app:layout_constraintBottom_toBottomOf="@id/profilename"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewq"
@@ -72,14 +72,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="mukilan895@gmail.com"
+                        android:text=""
                         android:textColor="#ffff"
                         android:textSize="16sp"
                         android:textStyle="italic"
-                        app:layout_constraintEnd_toEndOf="@+id/jasahead"
+                        app:layout_constraintEnd_toEndOf="@+id/profilename"
                         app:layout_constraintHorizontal_bias="0.509"
-                        app:layout_constraintStart_toStartOf="@+id/jasahead"
-                        app:layout_constraintTop_toBottomOf="@+id/jasahead" />
+                        app:layout_constraintStart_toStartOf="@+id/profilename"
+                        app:layout_constraintTop_toBottomOf="@+id/profilename" />
 
 
                     <ImageView
@@ -257,14 +257,14 @@
                                 android:text="Name" />
 
                             <TextView
-                                android:id="@+id/textView"
+                                android:id="@+id/name11"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="16sp"
                                 android:textColor="#5B5B5B"
                                 android:textAlignment="viewEnd"
-                                android:text="Parmugilan" />
+                                android:text="" />
 
                         </LinearLayout>
 
@@ -292,11 +292,11 @@
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/textView610"
+                                android:id="@+id/phno11"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="9629409771"
+                                android:text=""
                                 android:textAlignment="viewEnd"
                                 android:textColor="#5B5B5B"
                                 android:textSize="16sp" />
@@ -326,11 +326,11 @@
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/textView19890"
+                                android:id="@+id/email11"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="mukilan895@gmail.com"
+                                android:text=""
                                 android:textAlignment="viewEnd"
                                 android:textColor="#5B5B5B"
                                 android:textSize="16sp" />

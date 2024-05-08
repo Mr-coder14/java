@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -145,7 +146,13 @@ public class home_fragment extends Fragment {
                             Task<Uri> uriTask= taskSnapshot.getStorage().getDownloadUrl();
                             while (!uriTask.isComplete());
                             Uri uri=uriTask.getResult();
-                            Fileinmodel fileinmodel=new Fileinmodel(filename.getText().toString(),uri.toString());
+                            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                            // Create a new instance of Fileinmodel with the filename and URI
+                            Fileinmodel fileinmodel = new Fileinmodel(filename.getText().toString(), uri.toString(),currentUserId);
+
+
+                            // Store the Fileinmodel object in the Firebase Realtime Database
                             databaseReference.child(databaseReference.push().getKey()).setValue(fileinmodel);
                             Toast.makeText(getActivity(), "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();

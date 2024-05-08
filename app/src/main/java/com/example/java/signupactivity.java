@@ -1,5 +1,6 @@
 package com.example.java;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,7 +33,7 @@ public class signupactivity extends AppCompatActivity {
         }
     }
 
-    EditText email, pass, confirm_pass, Name;
+    EditText email, pass, confirm_pass, Name,phno;
     Button register;
     FirebaseAuth auth;
     DatabaseReference usersRef;
@@ -43,6 +44,7 @@ public class signupactivity extends AppCompatActivity {
         setContentView(R.layout.signupactivity);
         email = findViewById(R.id.editTextemail);
         pass = findViewById(R.id.editTextpassword);
+        phno=findViewById(R.id.phno);
         confirm_pass = findViewById(R.id.editTextconfirmPassword);
         register = findViewById(R.id.signup);
         Name = findViewById(R.id.editTextname);
@@ -55,8 +57,9 @@ public class signupactivity extends AppCompatActivity {
                 final String name = Name.getText().toString();
                 final String email1 = email.getText().toString();
                 String pass1 = pass.getText().toString();
+                String phnoo=phno.getText().toString();
                 String passconfirm1 = confirm_pass.getText().toString();
-                if (TextUtils.isEmpty(email1) || TextUtils.isEmpty(pass1) || TextUtils.isEmpty(passconfirm1) || TextUtils.isEmpty(name)) {
+                if (TextUtils.isEmpty(email1) || TextUtils.isEmpty(pass1) || TextUtils.isEmpty(passconfirm1) || TextUtils.isEmpty(name) || TextUtils.isEmpty(phnoo)) {
                     Toast.makeText(signupactivity.this, "Enter All details", Toast.LENGTH_SHORT).show();
                 } else if (pass1.length() < 6) {
                     Toast.makeText(signupactivity.this, "Password should be Minimum 6 Characters ", Toast.LENGTH_SHORT).show();
@@ -70,7 +73,7 @@ public class signupactivity extends AppCompatActivity {
                                 FirebaseUser user = auth.getCurrentUser();
                                 if (user != null) {
                                     String userId = user.getUid();
-                                    User newUser = new User(name, email1);
+                                    User newUser = new User(name, email1,phnoo);
                                     usersRef.child(userId).setValue(newUser);
                                 }
                                 Toast.makeText(signupactivity.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
