@@ -124,16 +124,17 @@
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
+
                                     android:layout_gravity="center_horizontal"
                                     android:layout_margin="12dp"
                                     android:background="@drawable/whitebgcircleprofile">
 
                                     <ImageButton
-                                        android:id="@+id/imageButtonedit"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:background="@android:color/transparent"
                                         android:scaleX="1.2"
+                                        android:id="@+id/editdetails"
                                         android:scaleY="1.2"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"

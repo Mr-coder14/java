@@ -38,6 +38,7 @@ public class loginactivity extends AppCompatActivity {
     EditText emaillg,passlg;
     Button login;
     TextView forgotPassword;
+    private boolean isButtonClickable = true;
     FirebaseAuth auth;
 
 
@@ -50,32 +51,39 @@ public class loginactivity extends AppCompatActivity {
         passlg=findViewById(R.id.Password);
         auth=FirebaseAuth.getInstance();
         login=findViewById(R.id.btnlg);
+
         forgotPassword = findViewById(R.id.forget_password);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email1=emaillg.getText().toString();
-                String pass1=passlg.getText().toString();
-                if(TextUtils.isEmpty(email1) || TextUtils.isEmpty(pass1)){
-                    Toast.makeText(loginactivity.this, "Enter All details", Toast.LENGTH_SHORT).show();
-                } else if (pass1.length()<6) {
-                    Toast.makeText(loginactivity.this, "Incorrect Password ", Toast.LENGTH_SHORT).show();
+                if(isButtonClickable){
+                    login.setEnabled(false);
+                    String email1=emaillg.getText().toString();
+                    String pass1=passlg.getText().toString();
+                    if(TextUtils.isEmpty(email1) || TextUtils.isEmpty(pass1)){
+                        Toast.makeText(loginactivity.this, "Enter All details", Toast.LENGTH_SHORT).show();
+                    } else if (pass1.length()<6) {
+                        Toast.makeText(loginactivity.this, "Incorrect Password ", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        auth.signInWithEmailAndPassword(email1,pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(loginactivity.this, MainActivity.class));
+                                    finish();
+                                }
+                                else{
+                                    Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
                 }
-                else{
-                    auth.signInWithEmailAndPassword(email1,pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(loginactivity.this, MainActivity.class));
-                                finish();
-                            }
-                            else{
-                                Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                else {
+                    Toast.makeText(loginactivity.this, "Please wait...", Toast.LENGTH_SHORT).show();
                 }
             }
         });

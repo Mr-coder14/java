@@ -30,6 +30,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"/>
+        <activity
+            android:name=".editdetails"
+            android:exported="false"/>
     </application>
 
 </manifest>

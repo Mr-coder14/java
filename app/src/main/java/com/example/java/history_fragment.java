@@ -24,7 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 public class history_fragment extends Fragment {
     RecyclerView recyclerView;
     private DatabaseReference databaseReference;
@@ -42,8 +41,6 @@ public class history_fragment extends Fragment {
         progressBar=view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
- 
         query=databaseReference.orderByChild("userID").equalTo(currentUserId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

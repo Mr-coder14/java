@@ -1,5 +1,4 @@
 package com.example.java;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,14 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class profile_fragment extends Fragment {
+   ImageButton constraintLayout;
     ImageButton btnlout;
     FirebaseAuth auth;
     TextView email,name,email1,name1,phno1;
     FirebaseUser user;
     DatabaseReference usersRef;
 
-
-    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,12 +34,13 @@ public class profile_fragment extends Fragment {
         user= auth.getCurrentUser();
         name=view.findViewById(R.id.profilename);
         phno1=view.findViewById(R.id.phno11);
+        constraintLayout=view.findViewById(R.id.editdetails);
         email1=view.findViewById(R.id.email11);
         name1=view.findViewById(R.id.name11);
         email=view.findViewById(R.id.emailprofile);
 
         usersRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -50,6 +49,8 @@ public class profile_fragment extends Fragment {
                         name.setText(userData.getName());
                         name1.setText(userData.getName());
                         phno1.setText(userData.getPhno());
+                        email.setText(userData.getEmail());
+                        email1.setText(userData.getEmail());
                     }
                 }
             }
@@ -58,8 +59,7 @@ public class profile_fragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        email.setText(user.getEmail());
-        email1.setText(user.getEmail());
+
 
         btnlout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +70,13 @@ public class profile_fragment extends Fragment {
                     startActivity(new Intent(getActivity(), loginactivity.class));
                     getActivity().finish();
                 }
+            }
+        });
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), editdetails.class));
+
             }
         });
         return view;
