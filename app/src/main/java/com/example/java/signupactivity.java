@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class signupactivity extends AppCompatActivity {
+    String em="abcd1234@gmail.com";
     @Override
     public void onStart() {
         super.onStart();
@@ -60,7 +61,28 @@ public class signupactivity extends AppCompatActivity {
                     Toast.makeText(signupactivity.this, "Password should be Minimum 6 Characters ", Toast.LENGTH_SHORT).show();
                 } else if (!pass1.equals(passconfirm1)) {
                     Toast.makeText(signupactivity.this, "Enter Same Passwords", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else if(email.getText().toString().equals(em)){
+                    auth.createUserWithEmailAndPassword(em, pass1).addOnCompleteListener(signupactivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = auth.getCurrentUser();
+                                if (user != null) {
+                                    String userId = user.getUid();
+                                    User newUser = new User(name, em,phnoo);
+                                    usersRef.child(userId).setValue(newUser);
+                                }
+                                Toast.makeText(signupactivity.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(signupactivity.this, Adminactivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(signupactivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+                else {
                     auth.createUserWithEmailAndPassword(email1, pass1).addOnCompleteListener(signupactivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {

@@ -1,7 +1,5 @@
 package com.example.java;
 import static android.app.Activity.RESULT_OK;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -38,6 +36,7 @@ public class home_fragment extends Fragment {
     EditText filename;
     private StorageReference storageRef;
     private DatabaseReference databaseReference;
+    String diplayname=null;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,7 +64,8 @@ public class home_fragment extends Fragment {
 
     private void downloadpdf() {
 
-        StorageReference pdfRef = storageRef.child("pdfs/1713840755743.pdf");
+
+        StorageReference pdfRef = storageRef.child("pdfs/"+diplayname);
 
         pdfRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -75,7 +75,7 @@ public class home_fragment extends Fragment {
                 request.setTitle("PDF File");
                 request.setDescription("Downloading");
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "example.pdf");
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,diplayname);
                 DownloadManager manager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
                 manager.enqueue(request);
                 Toast.makeText(getActivity(), "PDF Download started", Toast.LENGTH_SHORT).show();
@@ -95,6 +95,7 @@ public class home_fragment extends Fragment {
         startActivityForResult(Intent.createChooser(intent, "Select PDF"), PICK_PDF_REQUEST);
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -103,7 +104,7 @@ public class home_fragment extends Fragment {
             String uri=Uri.toString();
             File myfile=new File(uri);
             String path=myfile.getAbsolutePath();
-            String diplayname=null;
+
             if(uri.startsWith("content://")){
                 Cursor cursor=null;
                 try{
@@ -137,8 +138,9 @@ public class home_fragment extends Fragment {
         progressDialog.setTitle("Uploading...");
         progressDialog.show();
 
+
         if (pdfUri != null) {
-            final StorageReference pdfRef = storageRef.child("pdfs/" + System.currentTimeMillis() + ".pdf");
+            final StorageReference pdfRef = storageRef.child("pdfs/" +diplayname);
             pdfRef.putFile(pdfUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

@@ -24,16 +24,26 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class loginactivity extends AppCompatActivity {
+    String email="abcd1234@gmail.com";
 
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if(currentUser != null){
-            startActivity(new Intent(loginactivity.this,MainActivity.class));
-            finish();
+        FirebaseUser user= auth.getCurrentUser();
+        if(user!=null)
+        {
+            if(user.getEmail().equals(email)){
+                    startActivity(new Intent(loginactivity.this,Adminactivity.class));
+                    finish();
+                }
+            else{
+                    startActivity(new Intent(loginactivity.this,MainActivity.class));
+                    finish();
+
+            }
+            }
         }
-    }
+
     TextView rgbuttontxt;
     EditText emaillg,passlg;
     Button login;
@@ -65,6 +75,21 @@ public class loginactivity extends AppCompatActivity {
                         Toast.makeText(loginactivity.this, "Enter All details", Toast.LENGTH_SHORT).show();
                     } else if (pass1.length()<6) {
                         Toast.makeText(loginactivity.this, "Incorrect Password ", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(emaillg.getText().toString().equals(email)){
+                        auth.signInWithEmailAndPassword(email,pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(loginactivity.this, Adminactivity.class));
+                                    finish();
+                                }
+                                else{
+                                    Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                     else{
                         auth.signInWithEmailAndPassword(email1,pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
