@@ -42,7 +42,7 @@ public class history_fragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         query=databaseReference.orderByChild("userID").equalTo(currentUserId);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("fdfd","hello");
@@ -63,8 +63,8 @@ public class history_fragment extends Fragment {
                 Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
-        });
 
+        });
         return view;
     }
 
@@ -84,10 +84,14 @@ public class history_fragment extends Fragment {
                             holder.itemView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent=new Intent(Intent.ACTION_VIEW);
-                                    intent.setType("application/pdf");
-                                    intent.setData(Uri.parse(model.getUri()));
-                                    startActivity(intent);
+                                    if (model.getUri() != null && !model.getUri().isEmpty()) {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setType("application/pdf");
+                                        intent.setData(Uri.parse(model.getUri()));
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(getContext(), "PDF URI is not valid", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             });
                         }

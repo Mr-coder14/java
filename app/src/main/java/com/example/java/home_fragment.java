@@ -32,6 +32,7 @@ import java.io.File;
 
 public class home_fragment extends Fragment {
     private static final int PICK_PDF_REQUEST = 1;
+    private Context context;
     private Button btnupload,btm;
     EditText filename;
     private StorageReference storageRef;
@@ -43,6 +44,7 @@ public class home_fragment extends Fragment {
         View view=inflater.inflate(R.layout.home_fragment,container,false);
         btnupload=view.findViewById(R.id.pdfupload);btm=view.findViewById(R.id.buttondownload);
         filename=view.findViewById(R.id.selectpdf);
+        context=getContext();
         storageRef=FirebaseStorage.getInstance().getReference();
         databaseReference= FirebaseDatabase.getInstance().getReference("pdfs");
         btnupload.setEnabled(false);
@@ -83,7 +85,7 @@ public class home_fragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getActivity(), "Failed to download PDF", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Failed to download PDF", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -150,11 +152,10 @@ public class home_fragment extends Fragment {
                             Uri uri=uriTask.getResult();
                             String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                            // Create a new instance of Fileinmodel with the filename and URI
                             Fileinmodel fileinmodel = new Fileinmodel(filename.getText().toString(), uri.toString(),currentUserId);
 
 
-                            // Store the Fileinmodel object in the Firebase Realtime Database
+
                             databaseReference.child(databaseReference.push().getKey()).setValue(fileinmodel);
                             Toast.makeText(getActivity(), "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
