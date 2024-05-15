@@ -1,5 +1,7 @@
 package com.example.java;
 import static android.app.Activity.RESULT_OK;
+
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -42,60 +44,28 @@ public class home_fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.home_fragment,container,false);
-        btnupload=view.findViewById(R.id.pdfupload);btm=view.findViewById(R.id.buttondownload);
         filename=view.findViewById(R.id.selectpdf);
         context=getContext();
         storageRef=FirebaseStorage.getInstance().getReference();
         databaseReference= FirebaseDatabase.getInstance().getReference("pdfs");
-        btnupload.setEnabled(false);
         filename.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openfile();
             }
         });
-        btm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                downloadpdf();
-            }
-        });
-
         return view;
     }
 
-    private void downloadpdf() {
 
-
-        StorageReference pdfRef = storageRef.child("pdfs/"+diplayname);
-
-        pdfRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                String url = uri.toString();
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                request.setTitle("PDF File");
-                request.setDescription("Downloading");
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,diplayname);
-                DownloadManager manager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-                manager.enqueue(request);
-                Toast.makeText(getActivity(), "PDF Download started", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Failed to download PDF", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void openfile() {
         Intent intent = new Intent();
         intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select PDF"), PICK_PDF_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_PDF_REQUEST);
     }
+
 
 
     @Override
@@ -124,59 +94,18 @@ public class home_fragment extends Fragment {
             } else if (uri.startsWith("file://")) {
                 diplayname=myfile.getName();
             }
-            btnupload.setEnabled(true);
             filename.setText(diplayname);
-            btnupload.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    uploadPdfToFirebase(data.getData());
-                }
-            });
+            openPreviewActivity(Uri,filename.getText().toString());
+
         }
     }
 
-    private void uploadPdfToFirebase(Uri pdfUri) {
-        ProgressDialog progressDialog=new ProgressDialog(getContext());
-        progressDialog.setTitle("Uploading...");
-        progressDialog.show();
-
-
-        if (pdfUri != null) {
-            final StorageReference pdfRef = storageRef.child("pdfs/" +diplayname);
-            pdfRef.putFile(pdfUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Task<Uri> uriTask= taskSnapshot.getStorage().getDownloadUrl();
-                            while (!uriTask.isComplete());
-                            Uri uri=uriTask.getResult();
-                            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                            Fileinmodel fileinmodel = new Fileinmodel(filename.getText().toString(), uri.toString(),currentUserId);
-
-
-
-                            databaseReference.child(databaseReference.push().getKey()).setValue(fileinmodel);
-                            Toast.makeText(getActivity(), "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-
-
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                            float per=(100*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
-                            progressDialog.setMessage("Uploading : "+ per +"%");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(), "PDF Cannot Upload", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-        }
+    private void openPreviewActivity(Uri uri,String fileName) {
+        Intent intent = new Intent(getActivity(), preview_orderActivity.class);
+        intent.setData(uri);
+        intent.putExtra("fileName", fileName);
+        startActivity(intent);
     }
+
+
 }

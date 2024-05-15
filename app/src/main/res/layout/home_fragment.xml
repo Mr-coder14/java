@@ -44,9 +44,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
+                            android:fontFamily="@font/jost_bold"
                             android:text="JASA Xerox"
-                            android:textColor="#000000"
-                            android:textSize="23dp"
+                            android:textColor="#FFFFFF"
+                            android:textSize="34sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.497"
@@ -58,10 +59,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="3dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="24dp"
                             android:layout_marginEnd="3dp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_bias="0.309"
                             app:layout_constraintStart_toEndOf="@+id/profilename"
                             app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/women1" />
@@ -70,12 +71,14 @@
                             android:id="@+id/selectfiletxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="104dp"
+                            android:layout_marginTop="168dp"
+                            android:fontFamily="@font/aleo_bold"
                             android:text="Select The File"
-                            android:textColor="@color/black"
-                            android:textSize="30dp"
+                            android:textColor="@color/white"
+                            android:textSize="21sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@+id/womenpencil"
+                            app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -117,8 +120,8 @@
 
                             <ImageView
                                 android:id="@+id/vccvdfdfdfd"
-                                android:layout_width="120dp"
-                                android:layout_height="120dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 app:layout_constraintBottom_toBottomOf="@+id/imageView843"
                                 app:layout_constraintEnd_toEndOf="@+id/imageView843"
                                 app:layout_constraintHorizontal_bias="0.497"
@@ -147,6 +150,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginStart="14dp"
+                                    android:fontFamily="@font/aleo_bold"
                                     android:text="Upload PDF"
                                     android:textAlignment="center"
                                     android:textColor="#000000"
@@ -159,7 +163,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <LinearLayout
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="60dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -180,34 +184,6 @@
                     android:hint="Click to select the file"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal">
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/pdfupload"
-                    android:layout_width="150dp"
-                    android:layout_gravity="center"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/backround_btn_profile"
-                    android:textColor="#FFFF"
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"
-                    android:text="Upload PDF"
-                    />
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/buttondownload"
-                    android:layout_width="150dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:background="@drawable/backround_btn_profile"
-                    android:layout_height="wrap_content"
-                    android:text="Download PDF" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

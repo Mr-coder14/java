@@ -19,6 +19,12 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="33">
         <activity
+            android:name=".pdfpreview_activity"
+            android:exported="false" />
+        <activity
+            android:name=".suceesanimation"
+            android:exported="false" />
+        <activity
             android:name=".preview_orderActivity"
             android:exported="false" />
         <activity
@@ -42,6 +48,10 @@
         <activity
             android:name=".editdetails"
             android:exported="false" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
