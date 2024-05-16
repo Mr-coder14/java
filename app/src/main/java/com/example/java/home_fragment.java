@@ -1,9 +1,5 @@
 package com.example.java;
 import static android.app.Activity.RESULT_OK;
-
-import android.annotation.SuppressLint;
-import android.app.DownloadManager;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;

@@ -98,8 +98,8 @@ public class editdetails extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
-                        Toast.makeText(editdetails.this, "Successfully changed", Toast.LENGTH_SHORT).show();
-                    }else{
+                        Toast.makeText(editdetails.this, "Updated email", Toast.LENGTH_SHORT).show();
+                    }else {
                         Toast.makeText(editdetails.this, "Unable to change", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -111,6 +111,7 @@ public class editdetails extends AppCompatActivity {
         usersRef.child("email").setValue(email);
         usersRef.child("phno").setValue(phno);
         Toast.makeText(editdetails.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
 
