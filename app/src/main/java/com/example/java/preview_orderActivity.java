@@ -266,7 +266,10 @@ public class preview_orderActivity extends AppCompatActivity {
                             Uri uri = uriTask.getResult();
                             String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                            Fileinmodel fileinmodel = new Fileinmodel(name, uri.toString(), currentUserId);
+
+                            String amount = finalamt.getText().toString().replace("₹ ", "");
+
+                            Fileinmodel fileinmodel = new Fileinmodel(name, uri.toString(), currentUserId, amount);
 
                             databaseReference.child(databaseReference.push().getKey()).setValue(fileinmodel);
                             Toast.makeText(preview_orderActivity.this, "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();

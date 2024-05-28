@@ -18,6 +18,7 @@ import com.example.java.recyculer.RetrivepdfAdaptor;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,9 +29,13 @@ import com.google.firebase.database.ValueEventListener;
 public class history_fragment extends Fragment {
     private RecyclerView recyclerView;
     private DatabaseReference databaseReference;
+    private DatabaseReference usersRef;
+    private FirebaseAuth auth;
     private Query query;
     private ProgressBar progressBar;
+    private FirebaseUser user;
     private SearchView searchView;
+    private User userData;
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptor> adapter;
 
     @Nullable
@@ -39,11 +44,26 @@ public class history_fragment extends Fragment {
         View view = inflater.inflate(R.layout.history_fragment, container, false);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         recyclerView = view.findViewById(R.id.recyclerView);
+        auth=FirebaseAuth.getInstance();
+        user=auth.getCurrentUser();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         progressBar = view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
         searchView = view.findViewById(R.id.search_view);
+        usersRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+        usersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    userData = dataSnapshot.getValue(User.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         query = databaseReference.orderByChild("userID").equalTo(currentUserId);
@@ -119,6 +139,10 @@ public class history_fragment extends Fragment {
             protected void onBindViewHolder(@NonNull RetrivepdfAdaptor holder, int position, @NonNull Fileinmodel model) {
                 progressBar.setVisibility(View.GONE);
                 holder.pdffilename.setText(model.getName());
+                holder.email.setText(userData.getEmail());
+                holder.UserName.setText(userData.getName());
+                holder.amt.setText(model.getAmt());
+
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

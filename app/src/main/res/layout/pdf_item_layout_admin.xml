@@ -9,7 +9,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardViewadmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -43,7 +43,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/filenamerecyculer"
+                    android:id="@+id/filenamerecyculeradmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="PDF url" 
@@ -53,7 +53,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/namerecyculer"
+                    android:id="@+id/namerecyculeradmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="PDF url"
@@ -62,21 +62,23 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/emailerecucyler"
+                    android:id="@+id/emailerecucyleradmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="PDF url"
                     android:fontFamily="@font/plus"
                     android:textSize="12sp"
                     android:textStyle="bold" />
+
                 <TextView
-                    android:id="@+id/amountrecucyler"
+                    android:id="@+id/amounterecucyleradmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="PDF url"
                     android:fontFamily="@font/plus"
                     android:textSize="12sp"
                     android:textStyle="bold" />
+
 
             </LinearLayout>
 
