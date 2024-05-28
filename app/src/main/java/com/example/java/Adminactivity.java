@@ -19,9 +19,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class Adminactivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
-    Button btn;
-  BottomNavigationView bottomNavigationView;
-  Fragment fragment=null;
+    BottomNavigationView bottomNavigationView;
+    Fragment fragment=null;
 
 
 
@@ -31,7 +30,7 @@ public class Adminactivity extends AppCompatActivity {
         setContentView(R.layout.activity_adminactivity);
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
-        btn=findViewById(R.id.adminlgout);
+
         bottomNavigationView=findViewById(R.id.bottomappbaradmin);
         fragment=new homeadmin();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containeradmin,fragment).commit();
@@ -58,19 +57,6 @@ public class Adminactivity extends AppCompatActivity {
                 }
             }
         });
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(user!=null){
-                    auth.signOut();
-                    startActivity(new Intent(Adminactivity.this, loginactivity.class));
-                    finish();
-                }
-            }
-        });
-
-
 
     }
 }

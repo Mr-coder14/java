@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
