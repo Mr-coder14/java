@@ -1,11 +1,11 @@
 package com.example.java;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -35,23 +35,25 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.util.ArrayList;
-
 public class preview_orderActivity extends AppCompatActivity {
     private TextView fileNameTextView, pg, amt1, finalamt, qtyno, qtytxt1,perpageamt,deliveryamt;
     private StorageReference storageRef;
     private EditText qty;
     private Spinner spinner, spinner1;
+    private ImageButton backbtn;
     private int count = 1;
     private float perpage=0.75f;
     private DatabaseReference databaseReference;
+    private ProgressDialog progressDialog;
     private Button btn, preview;
     private PDFView pdfView;
     private String formats;
     private int pgsam;
     private ImageButton plus, minus;
     private Uri pdf;
+    private boolean isUploading = false;
+    private float currentProgress = 0;
     private float delivercharge=20.0f;
 
     @Override
@@ -59,6 +61,7 @@ public class preview_orderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview_order);
         spinner = findViewById(R.id.spinner);
+        backbtn=findViewById(R.id.back1);
         qtytxt1 = findViewById(R.id.qtytxt1);
         qtyno = findViewById(R.id.qtyno);
         fileNameTextView = findViewById(R.id.filenametxt1);
@@ -82,6 +85,14 @@ public class preview_orderActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("pdfs");
         String name = getIntent().getStringExtra("fileName");
         fileNameTextView.setText(name);
+
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               showExitConfirmationDialog();
+            }
+        });
+
 
         ArrayList<String> format = new ArrayList<>();
         format.add("Front & Back");
@@ -196,6 +207,33 @@ public class preview_orderActivity extends AppCompatActivity {
         });
     }
 
+    private void showExitConfirmationDialog() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Exit");
+            builder.setMessage("Are you sure you want to quit?");
+            builder.setCancelable(false);
+
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(preview_orderActivity.this, MainActivity.class));
+                    finish();
+                }
+            });
+
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    dialog.dismiss();
+                }
+            });
+
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+
     private void updateamt() {
         try {
             String amt1Text = amt1.getText().toString().replaceAll("[^\\d.]", "");
@@ -227,7 +265,7 @@ public class preview_orderActivity extends AppCompatActivity {
                     public void loadComplete(int nbPages) {
                         pg.setText(String.valueOf(nbPages));
                         pgsam = nbPages;
-                        float a = pgsam * perpage;
+                        float a = pgsam * perpage+delivercharge;
                         perpageamt.setText(String.valueOf(perpage));
                         amt1.setText("₹ " + String.valueOf(a));
                         finalamt.setText("₹ " + String.valueOf(a));
@@ -251,9 +289,13 @@ public class preview_orderActivity extends AppCompatActivity {
     }
 
     private void uploadpdf(Uri pdfUri, String name) {
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading...");
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.setCancelable(false);
+        }
         progressDialog.show();
+        isUploading = true;
 
         if (pdfUri != null) {
             final StorageReference pdfRef = storageRef.child("pdfs/" + name);
@@ -262,37 +304,70 @@ public class preview_orderActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                            while (!uriTask.isComplete()) ;
-                            Uri uri = uriTask.getResult();
-                            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            uriTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    if (task.isSuccessful()) {
+                                        Uri uri = task.getResult();
+                                        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        String amount = finalamt.getText().toString().replace("₹ ", "");
 
+                                        Fileinmodel fileinmodel = new Fileinmodel(name, uri.toString(), currentUserId, amount);
+                                        databaseReference.child(databaseReference.push().getKey()).setValue(fileinmodel);
 
-                            String amount = finalamt.getText().toString().replace("₹ ", "");
-
-                            Fileinmodel fileinmodel = new Fileinmodel(name, uri.toString(), currentUserId, amount);
-
-                            databaseReference.child(databaseReference.push().getKey()).setValue(fileinmodel);
-                            Toast.makeText(preview_orderActivity.this, "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                            startActivity(new Intent(preview_orderActivity.this, suceesanimation.class));
+                                        Toast.makeText(preview_orderActivity.this, "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
+                                        isUploading = false;
+                                        startActivity(new Intent(preview_orderActivity.this, suceesanimation.class));
+                                    } else {
+                                        progressDialog.dismiss();
+                                        isUploading = false;
+                                        Toast.makeText(preview_orderActivity.this, "Failed to get download URL", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                            float per = (100 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-                            progressDialog.setMessage("Uploading : " + per + "%");
+                            currentProgress = (100 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                            progressDialog.setMessage("Uploading: " + currentProgress + "%");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            isUploading = false;
                             Toast.makeText(preview_orderActivity.this, "PDF Cannot Upload", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isUploading) {
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialog(this);
+                progressDialog.setTitle("Uploading...");
+                progressDialog.setCancelable(false);
+            }
+            progressDialog.show();
+            progressDialog.setMessage("Uploading: " + currentProgress + "%");
+        }
+    }
 }
+
 
 class InputFilterMinMax implements InputFilter {
     private int min, max;
