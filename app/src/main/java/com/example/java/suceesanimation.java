@@ -14,13 +14,13 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 public class suceesanimation extends AppCompatActivity {
 
     private static final int DELAY_TIME_MS = 3000;
+    private static final int SUCCESS_GIF_DISPLAY_TIME_MS = 2000; // Adjust this value if needed
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suceesanimation);
-        final ImageView imageView=findViewById(R.id.gif);
-
+        final ImageView imageView = findViewById(R.id.gif);
 
         loadGif(R.raw.load, imageView);
 
@@ -28,6 +28,17 @@ public class suceesanimation extends AppCompatActivity {
             @Override
             public void run() {
                 loadGif(R.raw.payment_successfully, imageView);
+
+                // Delay to show the success animation before transitioning to MainActivity
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(suceesanimation.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, SUCCESS_GIF_DISPLAY_TIME_MS);
             }
         }, DELAY_TIME_MS);
     }
@@ -40,4 +51,4 @@ public class suceesanimation extends AppCompatActivity {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageView);
     }
-    }
+}

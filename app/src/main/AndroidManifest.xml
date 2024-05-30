@@ -19,6 +19,9 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".Orderedactivityadmin"
+            android:exported="false" />
+        <activity
             android:name=".pdfpreview_activity"
             android:exported="false" />
         <activity

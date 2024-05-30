@@ -318,6 +318,7 @@ public class preview_orderActivity extends AppCompatActivity {
                                         progressDialog.dismiss();
                                         isUploading = false;
                                         startActivity(new Intent(preview_orderActivity.this, suceesanimation.class));
+                                        finish();
                                     } else {
                                         progressDialog.dismiss();
                                         isUploading = false;

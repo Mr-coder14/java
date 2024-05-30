@@ -125,15 +125,24 @@ public class homeadmin extends Fragment {
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if (model.getUri() != null && !model.getUri().isEmpty()) {
+                                String pdfUri = model.getUri();
+
+                                if (pdfUri != null && !pdfUri.isEmpty()) {
+                                    Log.d("PDF_URI", "PDF URI: " + pdfUri);
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setType("application/pdf");
-                                    intent.setData(Uri.parse(model.getUri()));
-                                    startActivity(intent);
+                                    intent.setDataAndType(Uri.parse(pdfUri), "application/pdf");
+                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Ensure you have read permission
+                                    try {
+                                        startActivity(intent);
+                                    } catch (Exception e) {
+                                        Toast.makeText(getContext(), "No PDF viewer found", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
+                                    Log.e("PDF_URI", "PDF URI is not valid: " + pdfUri);
                                     Toast.makeText(getContext(), "PDF URI is not valid", Toast.LENGTH_SHORT).show();
                                 }
                             }
+
                         });
                     }
 
