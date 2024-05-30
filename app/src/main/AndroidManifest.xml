@@ -20,21 +20,27 @@
         tools:targetApi="34">
         <activity
             android:name=".Orderedactivityadmin"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".pdfpreview_activity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".suceesanimation"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".preview_orderActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Adminactivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".loginactivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,16 +50,20 @@
         </activity>
         <activity
             android:name=".signupactivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".editdetails"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"
+            android:screenOrientation="portrait"
             android:resource="@array/preloaded_fonts" />
     </application>
 
