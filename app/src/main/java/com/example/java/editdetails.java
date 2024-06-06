@@ -27,6 +27,7 @@ public class editdetails extends AppCompatActivity {
     private Button buttonSave;
     private FirebaseAuth auth;
     private DatabaseReference usersRef;
+
     private FirebaseUser currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,6 @@ public class editdetails extends AppCompatActivity {
 
 
             currentUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
                         Toast.makeText(editdetails.this, "Updated email", Toast.LENGTH_SHORT).show();

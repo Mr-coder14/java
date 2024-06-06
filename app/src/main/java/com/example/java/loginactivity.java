@@ -1,6 +1,5 @@
 package com.example.java;
 
-
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,90 +23,81 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class loginactivity extends AppCompatActivity {
-    String email="abcd1234@gmail.com";
+    String email = "abcd1234@gmail.com";
 
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser user= auth.getCurrentUser();
-        if(user!=null)
-        {
-            if(user.getEmail().equals(email)){
-                    startActivity(new Intent(loginactivity.this,Adminactivity.class));
-                    finish();
-                }
-            else{
-                    startActivity(new Intent(loginactivity.this,MainActivity.class));
-                    finish();
-
-            }
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            if (user.getEmail().equals(email)) {
+                startActivity(new Intent(loginactivity.this, Adminactivity.class));
+                finish();
+            } else {
+                startActivity(new Intent(loginactivity.this, MainActivity.class));
+                finish();
             }
         }
+    }
 
     TextView rgbuttontxt;
-    EditText emaillg,passlg;
+    EditText emaillg, passlg;
     Button login;
     TextView forgotPassword;
     private boolean isButtonClickable = true;
     FirebaseAuth auth;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loginactivity);
-        rgbuttontxt=findViewById(R.id.rgbuttontxt);
-        emaillg=findViewById(R.id.email);
-        passlg=findViewById(R.id.Password);
-        auth=FirebaseAuth.getInstance();
-        login=findViewById(R.id.btnlg);
+        rgbuttontxt = findViewById(R.id.rgbuttontxt);
+        emaillg = findViewById(R.id.email);
+        passlg = findViewById(R.id.Password);
+        auth = FirebaseAuth.getInstance();
+        login = findViewById(R.id.btnlg);
 
         forgotPassword = findViewById(R.id.forget_password);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isButtonClickable){
+                if (isButtonClickable) {
                     login.setEnabled(false);
-                    String email1=emaillg.getText().toString();
-                    String pass1=passlg.getText().toString();
-                    if(TextUtils.isEmpty(email1) || TextUtils.isEmpty(pass1)){
+                    String email1 = emaillg.getText().toString();
+                    String pass1 = passlg.getText().toString();
+                    if (TextUtils.isEmpty(email1) || TextUtils.isEmpty(pass1)) {
                         Toast.makeText(loginactivity.this, "Enter All details", Toast.LENGTH_SHORT).show();
-                    } else if (pass1.length()<6) {
+                    } else if (pass1.length() < 6) {
                         Toast.makeText(loginactivity.this, "Incorrect Password ", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(emaillg.getText().toString().equals(email)){
-                        auth.signInWithEmailAndPassword(email,pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    } else if (emaillg.getText().toString().equals(email)) {
+                        auth.signInWithEmailAndPassword(email, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(loginactivity.this, Adminactivity.class));
                                     finish();
-                                }
-                                else{
+                                } else {
                                     Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-                    }
-                    else{
-                        auth.signInWithEmailAndPassword(email1,pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    } else {
+                        auth.signInWithEmailAndPassword(email1, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(loginactivity.this, MainActivity.class));
                                     finish();
-                                }
-                                else{
+                                } else {
                                     Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(loginactivity.this, "Please wait...", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -115,7 +105,7 @@ public class loginactivity extends AppCompatActivity {
         rgbuttontxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(loginactivity.this,signupactivity.class));
+                startActivity(new Intent(loginactivity.this, signupactivity.class));
             }
         });
 
@@ -131,14 +121,14 @@ public class loginactivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         String userEmail = emailBox.getText().toString();
-                        if (TextUtils.isEmpty(userEmail) && !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
+                        if (TextUtils.isEmpty(userEmail) && !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
                             Toast.makeText(loginactivity.this, "Enter your registered email id", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         auth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     Toast.makeText(loginactivity.this, "Check your email", Toast.LENGTH_SHORT).show();
                                     dialog.dismiss();
                                 } else {
@@ -154,16 +144,11 @@ public class loginactivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-                if (dialog.getWindow() != null){
+                if (dialog.getWindow() != null) {
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
                 }
                 dialog.show();
             }
         });
-
-
-
-
-
     }
 }

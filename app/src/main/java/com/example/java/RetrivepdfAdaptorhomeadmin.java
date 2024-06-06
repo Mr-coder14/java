@@ -7,14 +7,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.barteksc.pdfviewer.PDFView;
+
 public class RetrivepdfAdaptorhomeadmin extends RecyclerView.ViewHolder implements View.OnClickListener {
     public com.example.java.recyculer.itemClickListener itemClickListener;
     public final Context context;
-    public TextView pdffilename1,UserName1;
+    public TextView pdffilename1,UserName1,orderid;
+    public PDFView pdfView;
     public RetrivepdfAdaptorhomeadmin(@NonNull View itemView) {
         super(itemView);
         pdffilename1=itemView.findViewById(R.id.filenameadmin);
         UserName1=itemView.findViewById(R.id.orderedusername);
+        pdfView=itemView.findViewById(R.id.pdfviewadmin);
+        orderid=itemView.findViewById(R.id.orderidadmin);
         context=itemView.getContext();
     }
 

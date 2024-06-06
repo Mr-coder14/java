@@ -34,7 +34,7 @@
                         android:id="@+id/homeconstraint1"
                         android:layout_width="match_parent"
                         android:layout_height="280dp"
-                        android:background="@drawable/bg"
+                        android:background="@drawable/home_bg_green"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">

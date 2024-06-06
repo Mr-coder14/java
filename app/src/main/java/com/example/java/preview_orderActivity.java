@@ -35,25 +35,31 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
+import java.util.UUID;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class preview_orderActivity extends AppCompatActivity {
-    private TextView fileNameTextView, pg, amt1, finalamt, qtyno, qtytxt1,perpageamt,deliveryamt;
+    private TextView fileNameTextView, pg, amt1, finalamt, qtyno, qtytxt1,perpageamt,deliveryamt,colortxt;
     private StorageReference storageRef;
     private EditText qty;
-    private Spinner spinner, spinner1;
+    private String orderid;
+    private Spinner spinner, spinner1,spinner3;
     private ImageButton backbtn;
     private int count = 1;
     private float perpage=0.75f;
     private DatabaseReference databaseReference;
+    private CircleImageView black,gradient;
     private ProgressDialog progressDialog;
     private Button btn, preview;
     private PDFView pdfView;
-    private String formats;
+    private String formats="Front & Back",ratios="1:1",sheet="A4",Color="Black";
     private int pgsam;
     private ImageButton plus, minus;
     private Uri pdf;
     private boolean isUploading = false;
-    private float currentProgress = 0;
-    private float delivercharge=20.0f;
+    private float currentProgress = 0,finalamount;
+    private float delivercharge=10.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +70,11 @@ public class preview_orderActivity extends AppCompatActivity {
         qtytxt1 = findViewById(R.id.qtytxt1);
         qtyno = findViewById(R.id.qtyno);
         fileNameTextView = findViewById(R.id.filenametxt1);
+        black=findViewById(R.id.blackcolor);
+        gradient=findViewById(R.id.gradientcolor);
+
         pg = findViewById(R.id.pageno);
+        spinner3=findViewById(R.id.spinner3);
         amt1 = findViewById(R.id.amt1);
         spinner1 = findViewById(R.id.spinner1);
         finalamt = findViewById(R.id.finalamt);
@@ -78,6 +88,7 @@ public class preview_orderActivity extends AppCompatActivity {
         minus = findViewById(R.id.minusqty);
         pdfView = findViewById(R.id.pdfView);
         qtyno.setText(String.valueOf(count));
+        colortxt=findViewById(R.id.colorfont);
 
         Uri uri = getIntent().getData();
         storageRef = FirebaseStorage.getInstance().getReference();
@@ -85,10 +96,46 @@ public class preview_orderActivity extends AppCompatActivity {
         String name = getIntent().getStringExtra("fileName");
         fileNameTextView.setText(name);
 
+        black.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                colortxt.setText("Black");
+                Color="Black";
+            }
+        });
+
+        gradient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                colortxt.setText("Gradient");
+                Color="Gradient";
+            }
+        });
+
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                showExitConfirmationDialog();
+            }
+        });
+
+
+        ArrayList<String> sheets=new ArrayList<>();
+        sheets.add("A4");
+        sheets.add("OHP");
+
+        ArrayAdapter<String> adapter3=new ArrayAdapter<>(this,R.layout.spinner_item_layout,sheets);
+        spinner3.setAdapter(adapter3);
+
+        spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sheet=parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -117,9 +164,8 @@ public class preview_orderActivity extends AppCompatActivity {
         });
 
         ArrayList<String> ratio = new ArrayList<>();
-        ratio.add("1:0");
+        ratio.add("1:1");
         ratio.add("1:2");
-        ratio.add("1:3");
         ratio.add("1:4");
         ArrayAdapter<String> Adaptor2 = new ArrayAdapter<>(
                 this,
@@ -128,6 +174,19 @@ public class preview_orderActivity extends AppCompatActivity {
         );
         Adaptor2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(Adaptor2);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ratios=parent.getItemAtPosition(position).toString();
+                updateamt();
+                Toast.makeText(preview_orderActivity.this, ratios, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         qty.setFilters(new InputFilter[]{new InputFilterMinMax(1, 10000)});
         qty.addTextChangedListener(new TextWatcher() {
@@ -201,7 +260,12 @@ public class preview_orderActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadpdf(uri, name);
+                if(finalamount>=50){
+                    uploadpdf(uri, name);
+                }else{
+                    Toast.makeText(preview_orderActivity.this, "The Minimum Order is 50 rupees", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -236,24 +300,44 @@ public class preview_orderActivity extends AppCompatActivity {
     private void updateamt() {
         try {
             String amt1Text = amt1.getText().toString().replaceAll("[^\\d.]", "");
-            if (formats.equals("Front Only") && (pgsam>=200) ) {
-                perpage = 0.65f;
-                delivercharge=0.0f;
-                if(count>=10){
 
-                }
-
-            } else {
-                perpage = 0.75f;
+            switch (ratios) {
+                case "1:1":
+                    perpage = 0.75f;
+                    break;
+                case "1:2":
+                case "1:4":
+                    perpage = 0.85f;
+                    break;
             }
-            deliveryamt.setText("₹ "+String.valueOf(delivercharge));
-            perpageamt.setText(String.valueOf(perpage));
-            float amount = perpage * pgsam * count;
-            amount+=delivercharge;
-            finalamt.setText("₹ " + String.valueOf(amount));
+
+            finalamount = perpage * pgsam * count;
+
+            if (ratios.equals("1:1") && formats.equals("Front Only") && pgsam > 50) {
+                float discount = 0.05f * finalamount;
+                finalamount -= discount;
+            }
+
+            if((ratios.equals("1:2") || ratios.equals("1:4")) && formats.equals("Front & Back") && pgsam>200){
+                float discount = 0.05f * finalamount;
+                finalamount -= discount;
+            }
+
+            finalamount += delivercharge;
+            setamt();
+
         } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
+    private void setamt() {
+        deliveryamt.setText(String.format("₹ %.2f", delivercharge));
+        perpageamt.setText(String.format("%.2f", perpage));
+        finalamt.setText(String.format("₹ %.2f", finalamount));
+    }
+
+
+
 
     private void displayPdfFromUri(Uri uri, String name) {
         pdf = uri;
@@ -286,6 +370,17 @@ public class preview_orderActivity extends AppCompatActivity {
                 .pageFling(false)
                 .load();
     }
+    public String generateOrderId() {
+
+        UUID uuid = UUID.randomUUID();
+
+        String uuidString = uuid.toString().replaceAll("-", "");
+
+        String id = uuidString.substring(0, Math.min(uuidString.length(), 10));
+        return id;
+
+
+    }
 
     private void uploadpdf(Uri pdfUri, String name) {
         if (progressDialog == null) {
@@ -310,8 +405,10 @@ public class preview_orderActivity extends AppCompatActivity {
                                         Uri uri = task.getResult();
                                         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                         String amount = finalamt.getText().toString().replace("₹ ", "");
+                                        orderid = generateOrderId();
 
-                                        Fileinmodel fileinmodel = new Fileinmodel(name, uri.toString(), currentUserId, amount);
+
+                                        Fileinmodel fileinmodel = new Fileinmodel(name, uri.toString(), currentUserId, amount,ratios,formats,sheet,Color,String.valueOf(count),String.valueOf(pgsam),orderid);
                                         databaseReference.child(databaseReference.push().getKey()).setValue(fileinmodel);
 
                                         Toast.makeText(preview_orderActivity.this, "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
@@ -351,6 +448,11 @@ public class preview_orderActivity extends AppCompatActivity {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        showExitConfirmationDialog();
     }
 
     @Override

@@ -131,7 +131,7 @@ public class homeadmin extends Fragment {
                                     Log.d("PDF_URI", "PDF URI: " + pdfUri);
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.setDataAndType(Uri.parse(pdfUri), "application/pdf");
-                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Ensure you have read permission
+                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     try {
                                         startActivity(intent);
                                     } catch (Exception e) {
