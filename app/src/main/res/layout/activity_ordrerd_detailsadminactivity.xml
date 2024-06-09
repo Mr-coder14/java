@@ -355,7 +355,6 @@
                             android:text="1:1"
                             android:fontFamily="@font/plus"
                             android:textSize="18sp"
-                            android:textStyle="bold"
                             android:layout_weight="1"
                             android:gravity="end"
                             />
