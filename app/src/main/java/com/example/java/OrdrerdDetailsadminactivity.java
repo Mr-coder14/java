@@ -1,6 +1,9 @@
 package com.example.java;
 
+import static java.security.AccessController.getContext;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -8,6 +11,7 @@ import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -29,9 +33,12 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -72,6 +79,7 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
         colortxtadmin = findViewById(R.id.colorfontadmin1);
         pgadmin = findViewById(R.id.pagenoadmin1);
         amt1admin = findViewById(R.id.amt1admin1);
+        backbtn=findViewById(R.id.backadmin1);
         finalamtadmin = findViewById(R.id.finalamtadmin1);
         preview = findViewById(R.id.preview1);
         pdfView = findViewById(R.id.pdfViewadmin1);
@@ -85,8 +93,17 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         scrollView.setVisibility(View.GONE);
 
+
+
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs").child(orderidadmin);
         pdfuri = getIntent().getData();
+
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                colse();
+            }
+        });
 
 
 
@@ -95,6 +112,25 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "PDF URI: " + pdfuri.toString());
         }
+
+        preview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (pdfuri != null) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(pdfuri, "application/pdf");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(intent);
+                }
+                else {
+
+                    if (getContext() != null) {
+                        Toast.makeText(OrdrerdDetailsadminactivity.this, "PDF URI is not valid", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
 
         databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -137,6 +173,35 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+    private void colse() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Exit");
+            builder.setMessage("Are you sure you want to quit?");
+            builder.setCancelable(false);
+
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(OrdrerdDetailsadminactivity.this, Adminactivity.class));
+                    finish();
+                }
+            });
+
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    dialog.dismiss();
+                }
+            });
+
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
 
 
 

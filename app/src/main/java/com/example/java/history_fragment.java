@@ -143,8 +143,8 @@ public class history_fragment extends Fragment {
 
 
         Drawable drawable = ContextCompat.getDrawable(getContext(), com.android.car.ui.R.drawable.car_ui_icon_search);
-        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
-        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 31, getResources().getDisplayMetrics());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 31, getResources().getDisplayMetrics());
         drawable.setBounds(0, 0, width, height);
         searchView.setCompoundDrawables(drawable, null, null, null);
 
@@ -232,14 +232,9 @@ public class history_fragment extends Fragment {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.setDataAndType(Uri.parse(pdfUri), "application/pdf");
                                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    try {
-                                        startActivity(intent);
-                                    } catch (Exception e) {
-                                        if (getContext() != null) {
-                                            Toast.makeText(getContext(), "No PDF viewer found", Toast.LENGTH_SHORT).show();
-                                        }
+                                    startActivity(intent);
                                     }
-                                } else {
+                                 else {
 
                                     if (getContext() != null) {
                                         Toast.makeText(getContext(), "PDF URI is not valid", Toast.LENGTH_SHORT).show();

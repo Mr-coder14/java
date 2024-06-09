@@ -1,20 +1,28 @@
 package com.example.java;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -35,9 +43,12 @@ public class homeadmin extends Fragment {
     private RecyclerView recyclerView;
     FirebaseAuth auth;
     FirebaseUser user;
+    private EditText editText;
     private DatabaseReference databaseReference;
     private Query query;
     private ProgressBar progressBar;
+    private Handler debounceHandler = new Handler(Looper.getMainLooper());
+    private Runnable searchRunnable;
     private Button btn;
 
     @Override
@@ -51,6 +62,7 @@ public class homeadmin extends Fragment {
         progressBar = view.findViewById(R.id.progressbarhomeadmin);
         progressBar.setVisibility(View.VISIBLE);
         btn = view.findViewById(R.id.adminlgout);
+        editText=view.findViewById(R.id.search_edit_textadmin);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -72,7 +84,7 @@ public class homeadmin extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     progressBar.setVisibility(View.GONE);
-                    displaypdfs();
+                    displaypdfs(query);
                 } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "No PDFs found", Toast.LENGTH_SHORT).show();
@@ -86,10 +98,70 @@ public class homeadmin extends Fragment {
             }
         });
 
+        Drawable drawable = ContextCompat.getDrawable(getContext(), com.android.car.ui.R.drawable.car_ui_icon_search);
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 31, getResources().getDisplayMetrics());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 31, getResources().getDisplayMetrics());
+        drawable.setBounds(0, 0, width, height);
+        editText.setCompoundDrawables(drawable, null, null, null);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+
+                if (searchRunnable != null) {
+                    debounceHandler.removeCallbacks(searchRunnable);
+                }
+                searchRunnable = () -> {
+                    String searchText = charSequence.toString().trim();
+                    if (!searchText.isEmpty()) {
+                        searchPDFs(searchText);
+                    } else {
+
+                        displaypdfs(query);
+                    }
+                };
+                debounceHandler.postDelayed(searchRunnable, 300);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         return view;
     }
 
-    private void displaypdfs() {
+    private void searchPDFs(String searchText) {
+        Query searchQuery = databaseReference.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
+
+
+        searchQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    progressBar.setVisibility(View.GONE);
+                    displaypdfs(searchQuery);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "No PDFs found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void displaypdfs(Query query) {
 
         FirebaseRecyclerOptions<Fileinmodel> options =
                 new FirebaseRecyclerOptions.Builder<Fileinmodel>()
