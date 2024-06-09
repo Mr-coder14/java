@@ -9,7 +9,7 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 
 public class Orderedactivityadmin extends AppCompatActivity {
-    PDFView pdfView;
+    private PDFView pdfView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

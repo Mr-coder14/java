@@ -25,14 +25,14 @@
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 android:background="@color/green"
-                android:id="@+id/uio"
+                android:id="@+id/uioad"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
 
                 <ImageButton
-                    android:id="@+id/back1"
+                    android:id="@+id/backadmin"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/green"
@@ -44,7 +44,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/filenametxt1h"
+                    android:id="@+id/FDFEFEFE"
                     android:layout_marginRight="25dp"
                     android:layout_width="175dp"
                     android:layout_height="match_parent"
@@ -63,12 +63,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="#000000"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/uio"
+                app:layout_constraintTop_toBottomOf="@+id/uioad"
                 android:orientation="horizontal">
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/consmain"
+                android:id="@+id/consmainadmin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/filenametxt1"
+                            android:id="@+id/filenametxt1admin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="0dp"
@@ -144,7 +144,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <com.github.barteksc.pdfviewer.PDFView
-                            android:id="@+id/pdfView"
+                            android:id="@+id/pdfViewadmin"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="10dp"
@@ -231,7 +231,7 @@
                                 android:textColor="@color/black"
                                 android:textSize="19sp" />
                             <TextView
-                                android:id="@+id/colorfont"
+                                android:id="@+id/colorfontadmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/plus"
@@ -276,7 +276,7 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/qtytxt1"
+                            android:id="@+id/qtytxt1admin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/plus"
@@ -286,7 +286,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/qtyjkji"
+                        android:id="@+id/qtyjkjii"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="17dp"
@@ -300,7 +300,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
                         <ImageButton
-                            android:id="@+id/minusqty"
+                            android:id="@+id/minusqtyadmin"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -311,7 +311,7 @@
                             android:src="@drawable/baseline_minimize_24" />
 
                         <EditText
-                            android:id="@+id/qtytxt"
+                            android:id="@+id/qtytxtadmin"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -325,7 +325,7 @@
                             android:textStyle="bold" />
 
                         <ImageButton
-                            android:id="@+id/addqty"
+                            android:id="@+id/addqtyadmin"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -351,7 +351,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
                         <TextView
-                            android:id="@+id/textView11gf"
+                            android:id="@+id/textView11gffx"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/plus"
@@ -364,7 +364,7 @@
                         <Spinner
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/spinner"/>
+                            android:id="@+id/spinneradmin"/>
 
                 </LinearLayout>
 
@@ -385,7 +385,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView1641"
+                            android:id="@+id/textView1641ds"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -396,7 +396,7 @@
                             android:textSize="18sp" />
 
                         <Spinner
-                            android:id="@+id/spinner1"
+                            android:id="@+id/spinner1admin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -421,7 +421,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView164901"
+                            android:id="@+id/textView164901hg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -432,7 +432,7 @@
                             android:textSize="18sp" />
 
                         <Spinner
-                            android:id="@+id/spinner3"
+                            android:id="@+id/spinner3admin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -457,7 +457,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView11"
+                            android:id="@+id/textView11hg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -468,7 +468,7 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/pageno"
+                            android:id="@+id/pagenoadmin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -498,7 +498,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView11dcfde"
+                            android:id="@+id/textView11dcfdeyu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -509,7 +509,7 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/perpageamt"
+                            android:id="@+id/perpageamtadmin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -539,7 +539,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView11dc"
+                            android:id="@+id/textView11dchg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -550,7 +550,7 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/qtyno"
+                            android:id="@+id/qtynoadmin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -580,7 +580,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView1frfg1"
+                            android:id="@+id/gtgfdgd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -591,7 +591,7 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/amt1"
+                            android:id="@+id/amt1admin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -621,7 +621,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView1frfg1j"
+                            android:id="@+id/textView1frfg1jh"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -632,7 +632,7 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/deliveryamt1"
+                            android:id="@+id/deliveryamt1admin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -659,10 +659,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/consmain">
+                app:layout_constraintTop_toBottomOf="@+id/consmainadmin">
 
                 <TextView
-                    android:id="@+id/finalamt"
+                    android:id="@+id/finalamtadmin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -673,7 +673,7 @@
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/orderbtn"
+                    android:id="@+id/orderbtnadmin"
                     android:layout_width="190dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"

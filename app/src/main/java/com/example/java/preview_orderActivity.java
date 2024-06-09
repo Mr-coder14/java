@@ -65,34 +65,34 @@ public class preview_orderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview_order);
-        spinner = findViewById(R.id.spinner);
-        backbtn=findViewById(R.id.back1);
-        qtytxt1 = findViewById(R.id.qtytxt1);
-        qtyno = findViewById(R.id.qtyno);
-        fileNameTextView = findViewById(R.id.filenametxt1);
+        spinner = findViewById(R.id.spinneradmin);
+        backbtn=findViewById(R.id.backadmin);
+        qtytxt1 = findViewById(R.id.qtytxt1admin);
+        qtyno = findViewById(R.id.qtynoadmin);
+        fileNameTextView = findViewById(R.id.filenametxt1admin);
         black=findViewById(R.id.blackcolor);
         gradient=findViewById(R.id.gradientcolor);
 
-        pg = findViewById(R.id.pageno);
-        spinner3=findViewById(R.id.spinner3);
-        amt1 = findViewById(R.id.amt1);
-        spinner1 = findViewById(R.id.spinner1);
-        finalamt = findViewById(R.id.finalamt);
-        qty = findViewById(R.id.qtytxt);
+        pg = findViewById(R.id.pagenoadmin);
+        spinner3=findViewById(R.id.spinner3admin);
+        amt1 = findViewById(R.id.amt1admin);
+        spinner1 = findViewById(R.id.spinner1admin);
+        finalamt = findViewById(R.id.finalamtadmin);
+        qty = findViewById(R.id.qtytxtadmin);
         preview = findViewById(R.id.preview);
-        btn = findViewById(R.id.orderbtn);
-        perpageamt=findViewById(R.id.perpageamt);
-        plus = findViewById(R.id.addqty);
-        qtyno=findViewById(R.id.qtyno);
-        deliveryamt=findViewById(R.id.deliveryamt1);
-        minus = findViewById(R.id.minusqty);
-        pdfView = findViewById(R.id.pdfView);
+        btn = findViewById(R.id.orderbtnadmin);
+        perpageamt=findViewById(R.id.perpageamtadmin);
+        plus = findViewById(R.id.addqtyadmin);
+        qtyno=findViewById(R.id.qtynoadmin);
+        deliveryamt=findViewById(R.id.deliveryamt1admin);
+        minus = findViewById(R.id.minusqtyadmin);
+        pdfView = findViewById(R.id.pdfViewadmin);
         qtyno.setText(String.valueOf(count));
-        colortxt=findViewById(R.id.colorfont);
+        colortxt=findViewById(R.id.colorfontadmin);
 
         Uri uri = getIntent().getData();
         storageRef = FirebaseStorage.getInstance().getReference();
-        databaseReference = FirebaseDatabase.getInstance().getReference("pdfs");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         String name = getIntent().getStringExtra("fileName");
         fileNameTextView.setText(name);
 
@@ -409,7 +409,7 @@ public class preview_orderActivity extends AppCompatActivity {
 
 
                                         Fileinmodel fileinmodel = new Fileinmodel(name, uri.toString(), currentUserId, amount,ratios,formats,sheet,Color,String.valueOf(count),String.valueOf(pgsam),orderid);
-                                        databaseReference.child(databaseReference.push().getKey()).setValue(fileinmodel);
+                                        databaseReference.child(orderid).setValue(fileinmodel);
 
                                         Toast.makeText(preview_orderActivity.this, "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
                                         progressDialog.dismiss();

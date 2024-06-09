@@ -103,6 +103,8 @@ public class homeadmin extends Fragment {
                     @Override
                     protected void onBindViewHolder(@NonNull RetrivepdfAdaptorhomeadmin holder, int position, @NonNull Fileinmodel model) {
                         holder.pdffilename1.setText(model.getName());
+                        String orderids= model.getOrderid().toString();
+                        holder.orderid.setText(model.getOrderid());
 
                         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(model.getuserID());
                         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -112,6 +114,7 @@ public class homeadmin extends Fragment {
                                     User user = snapshot.getValue(User.class);
                                     if (user != null) {
                                         holder.UserName1.setText(user.getName());
+
                                     }
                                 }
                             }
@@ -128,17 +131,12 @@ public class homeadmin extends Fragment {
                                 String pdfUri = model.getUri();
 
                                 if (pdfUri != null && !pdfUri.isEmpty()) {
-                                    Log.d("PDF_URI", "PDF URI: " + pdfUri);
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setDataAndType(Uri.parse(pdfUri), "application/pdf");
-                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    try {
-                                        startActivity(intent);
-                                    } catch (Exception e) {
-                                        Toast.makeText(getContext(), "No PDF viewer found", Toast.LENGTH_SHORT).show();
-                                    }
+                                    Intent intent=new Intent(getActivity(),OrdrerdDetailsadminactivity.class);
+                                    intent.setData(Uri.parse(pdfUri));
+                                    intent.putExtra("orderid",orderids);
+                                    startActivity(intent);
+
                                 } else {
-                                    Log.e("PDF_URI", "PDF URI is not valid: " + pdfUri);
                                     Toast.makeText(getContext(), "PDF URI is not valid", Toast.LENGTH_SHORT).show();
                                 }
                             }
