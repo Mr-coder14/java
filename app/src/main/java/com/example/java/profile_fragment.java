@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,9 @@ public class profile_fragment extends Fragment {
     ImageButton btnlout;
     FirebaseAuth auth;
     TextView email, name, email1, name1, phno1;
+
+    ProgressBar progressBar;
+    ScrollView scrollView;
     FirebaseUser user;
     DatabaseReference usersRef;
 
@@ -36,11 +41,15 @@ public class profile_fragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         name = view.findViewById(R.id.profilename);
+        progressBar=view.findViewById(R.id.progressprofile);
+        scrollView=view.findViewById(R.id.profilevisible);
         phno1 = view.findViewById(R.id.phno11);
         constraintLayout = view.findViewById(R.id.editdetails);
         email1 = view.findViewById(R.id.email11);
         name1 = view.findViewById(R.id.name11);
         email = view.findViewById(R.id.emailprofile);
+        progressBar.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(View.GONE);
 
         usersRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
         usersRef.addValueEventListener(new ValueEventListener() {
@@ -55,11 +64,15 @@ public class profile_fragment extends Fragment {
                         email.setText(userData.getEmail());
                         email1.setText(userData.getEmail());
                     }
+                    progressBar.setVisibility(View.GONE);
+                    scrollView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressBar.setVisibility(View.GONE);
+                scrollView.setVisibility(View.VISIBLE);
             }
         });
 

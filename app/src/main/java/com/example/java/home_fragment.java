@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
@@ -14,14 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -34,8 +38,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 
@@ -45,79 +47,106 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
     private EditText filename;
     private DrawerLayout drawerLayout;
     private FirebaseAuth auth;
+    private ProgressBar progressBarf;
     private FirebaseUser user;
-    private Fragment fragment;
     private Toolbar toolbar;
     private TextView username, email;
-    DatabaseReference usersRef;
+    private LinearLayout linearLayout;
+    private DatabaseReference usersRef;
     private String diplayname = null;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
-        filename = view.findViewById(R.id.selectpdf);
-        context = getContext();
 
+        initializeViews(view);
+        setupListeners();
+        return view;
+    }
+
+    private void initializeViews(View view) {
+        filename = view.findViewById(R.id.selectpdf);
+        drawerLayout = view.findViewById(R.id.drawer_layout);
+        NavigationView navigationView = view.findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        progressBarf = headerView.findViewById(R.id.progressBarhfragment);
+        linearLayout = headerView.findViewById(R.id.userInfoLayout);
+        username = headerView.findViewById(R.id.header_username);
+        email = headerView.findViewById(R.id.headeremail);
+        context = getContext();
+    }
+
+    private void setupListeners() {
         filename.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openfile();
             }
         });
-        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        drawerLayout = view.findViewById(R.id.drawer_layout);
+        progressBarf.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.GONE);
+        setupToolbar(view);
+        setupDrawer(view);
+        loadUserData();
+    }
+
+    private void setupToolbar(View view) {
         toolbar = view.findViewById(R.id.toolbar);
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-
-        // Get the NavigationView and its header view
-        NavigationView navigationView = view.findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
-        username = headerView.findViewById(R.id.header_username);
-        email = headerView.findViewById(R.id.headeremail);
-
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
             activity.setSupportActionBar(toolbar);
             activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-
             LayoutInflater inflater = LayoutInflater.from(activity);
             View customTitleView = inflater.inflate(R.layout.coustom_text_tbar, toolbar, false);
             toolbar.addView(customTitleView);
         }
+    }
 
-        // Initialize Firebase Database reference to the user
-        usersRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-        usersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    User userData = dataSnapshot.getValue(User.class);
-                    if (userData != null) {
-                        username.setText(userData.getName());
-                        email.setText(userData.getEmail());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle possible errors
-            }
-        });
-
+    private void setupDrawer(View view) {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        NavigationView navigationView = view.findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+    private void loadUserData() {
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        if (user != null) {
+            usersRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+            usersRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        User userData = dataSnapshot.getValue(User.class);
+                        if (userData != null) {
+                            username.setText(userData.getName());
+                            email.setText(userData.getEmail());
+                        }
+                        progressBarf.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    progressBarf.setVisibility(View.GONE);
+                    linearLayout.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+    }
+
 
     private void openfile() {
         Intent intent = new Intent();
@@ -130,27 +159,30 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri Uri = data.getData();
-            String uri = Uri.toString();
-            File myfile = new File(uri);
-            String path = myfile.getAbsolutePath();
-
-            if (uri.startsWith("content://")) {
-                Cursor cursor = null;
-                try {
-                    cursor = getContext().getContentResolver().query(Uri, null, null, null, null);
-                    if (cursor != null && cursor.moveToFirst()) {
-                        diplayname = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                    }
-                } finally {
-                    cursor.close();
-                }
-            } else if (uri.startsWith("file://")) {
-                diplayname = myfile.getName();
-            }
-            filename.setText(diplayname);
-            openPreviewActivity(Uri, filename.getText().toString());
+            handleFileSelection(data.getData());
         }
+    }
+
+    private void handleFileSelection(Uri uri) {
+        String displayName = getFileName(uri);
+        filename.setText(displayName);
+        openPreviewActivity(uri, displayName);
+    }
+
+
+
+    private String getFileName(Uri uri) {
+        String displayName = null;
+        if (uri.toString().startsWith("content://")) {
+            try (Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            }
+        } else if (uri.toString().startsWith("file://")) {
+            displayName = new File(uri.toString()).getName();
+        }
+        return displayName;
     }
 
     private void openPreviewActivity(Uri uri, String fileName) {
@@ -162,9 +194,9 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START);
         int itemid = item.getItemId();
         if (itemid == R.id.nav_home) {
-            drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         } else if (itemid == R.id.nav_profile) {
 
