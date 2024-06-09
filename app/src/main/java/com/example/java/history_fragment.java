@@ -200,6 +200,7 @@ public class history_fragment extends Fragment {
                                     .load();
 
                         holder.orderid.setText(model.getOrderid());
+                        String orderID=holder.orderid.getText().toString();
 
 
                         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(model.getuserID());
@@ -228,18 +229,10 @@ public class history_fragment extends Fragment {
                             public void onClick(View view) {
                                 String pdfUri = model.getUri();
 
-                                if (pdfUri != null && !pdfUri.isEmpty()) {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setDataAndType(Uri.parse(pdfUri), "application/pdf");
-                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    startActivity(intent);
-                                    }
-                                 else {
-
-                                    if (getContext() != null) {
-                                        Toast.makeText(getContext(), "PDF URI is not valid", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
+                               Intent intent=new Intent(getActivity(),OrderdDetailsuser.class);
+                               intent.setData(Uri.parse(pdfUri));
+                               intent.putExtra("Orderid",orderID);
+                               startActivity(intent);
                             }
 
                         });

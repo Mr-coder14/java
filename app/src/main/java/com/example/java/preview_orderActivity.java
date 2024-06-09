@@ -1,4 +1,6 @@
 package com.example.java;
+import static java.security.AccessController.getContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -251,9 +253,18 @@ public class preview_orderActivity extends AppCompatActivity {
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(preview_orderActivity.this, pdfpreview_activity.class);
-                intent.setData(uri);
-                startActivity(intent);
+                if (uri != null) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri, "application/pdf");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(intent);
+                }
+                else {
+
+                    if (getContext() != null) {
+                        Toast.makeText(preview_orderActivity.this, "PDF URI is not valid", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
@@ -428,7 +439,7 @@ public class preview_orderActivity extends AppCompatActivity {
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                            currentProgress = (100 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                            currentProgress = (int)(100 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
                             progressDialog.setMessage("Uploading: " + currentProgress + "%");
                         }
                     })

@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class orders_activity_admin extends Fragment {
+public class orders_fragment_admin extends Fragment {
 
     private RecyclerView recyclerView;
     private DatabaseReference databaseReference;

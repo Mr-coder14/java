@@ -36,14 +36,6 @@
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Orderedactivityadmin"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".pdfpreview_activity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".suceesanimation"
             android:exported="false"
             android:screenOrientation="portrait" />
