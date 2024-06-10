@@ -1,6 +1,5 @@
 package com.example.java;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -9,7 +8,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,8 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +33,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.UUID;
 
 public class history_fragment extends Fragment {
     private RecyclerView recyclerView;
@@ -89,10 +84,13 @@ public class history_fragment extends Fragment {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         query = databaseReference.orderByChild("userID").equalTo(currentUserId);
 
+
+
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
+
                     progressBar.setVisibility(View.GONE);
                     displaypdfs(query);
                 } else {
@@ -188,16 +186,8 @@ public class history_fragment extends Fragment {
                     @Override
                     protected void onBindViewHolder(@NonNull RetrivepdfAdaptorhomeadmin holder, int position, @NonNull Fileinmodel model) {
                         holder.pdffilename1.setText(model.getName());
-                            Uri pdfUri=Uri.parse(model.getUri());
-                            holder.pdfView.fromUri(pdfUri)
-                                    .defaultPage(0)
-                                    .onLoad(new OnLoadCompleteListener() {
-                                        @Override
-                                        public void loadComplete(int nbPages) {
-                                            Toast.makeText(getContext(), "PDF loaded successfully", Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .load();
+                        Uri pdfUri=Uri.parse(model.getUri());
+
 
                         holder.orderid.setText(model.getOrderid());
                         String orderID=holder.orderid.getText().toString();
@@ -229,10 +219,10 @@ public class history_fragment extends Fragment {
                             public void onClick(View view) {
                                 String pdfUri = model.getUri();
 
-                               Intent intent=new Intent(getActivity(),OrderdDetailsuser.class);
-                               intent.setData(Uri.parse(pdfUri));
-                               intent.putExtra("Orderid",orderID);
-                               startActivity(intent);
+                                Intent intent=new Intent(getActivity(),OrderdDetailsuser.class);
+                                intent.setData(Uri.parse(pdfUri));
+                                intent.putExtra("Orderid",orderID);
+                                startActivity(intent);
                             }
 
                         });
@@ -251,7 +241,7 @@ public class history_fragment extends Fragment {
         adapter.startListening();
     }
 
-    ;
+
 
 
 }

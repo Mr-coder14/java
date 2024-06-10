@@ -2,6 +2,7 @@ package com.example.java;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,12 +14,12 @@ public class RetrivepdfAdaptorhomeadmin extends RecyclerView.ViewHolder implemen
     public com.example.java.recyculer.itemClickListener itemClickListener;
     public final Context context;
     public TextView pdffilename1,UserName1,orderid;
-    public PDFView pdfView;
+
+
     public RetrivepdfAdaptorhomeadmin(@NonNull View itemView) {
         super(itemView);
         pdffilename1=itemView.findViewById(R.id.filenameadmin);
         UserName1=itemView.findViewById(R.id.orderedusername);
-        pdfView=itemView.findViewById(R.id.pdfviewadmin);
         orderid=itemView.findViewById(R.id.orderidadmin);
         context=itemView.getContext();
     }

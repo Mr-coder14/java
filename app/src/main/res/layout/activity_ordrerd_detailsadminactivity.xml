@@ -21,85 +21,83 @@
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintVertical_bias="0.5" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:background="@color/green"
+        android:id="@+id/uioad1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
+        <ImageButton
+            android:id="@+id/backadmin1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/green"
+            android:scaleX="1.5"
+            android:backgroundTint="@color/green"
+            android:layout_marginLeft="20dp"
+            android:scaleY="1.5"
+            app:srcCompat="@drawable/baseline_arrow_back_24"
+            />
+
+        <TextView
+            android:id="@+id/FDFEFEFE1"
+            android:layout_width="175dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="22dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/plus"
+            android:gravity="center"
+            android:text="Orderd Details"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout00"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uioad1"
+        android:orientation="horizontal"
+        >
+    </LinearLayout>
 
 
     <ScrollView
         android:id="@+id/scrolladmin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/linearLayout00">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal"
-                android:background="@color/green"
-                android:id="@+id/uioad1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-
-                <ImageButton
-                    android:id="@+id/backadmin1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@color/green"
-                    android:scaleX="1.5"
-                    android:backgroundTint="@color/green"
-                    android:layout_marginLeft="20dp"
-                    android:scaleY="1.5"
-                    app:srcCompat="@drawable/baseline_arrow_back_24"
-                    />
-
-                <TextView
-                    android:id="@+id/FDFEFEFE1"
-                    android:layout_width="175dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="22dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/plus"
-                    android:gravity="center"
-                    android:text="Orderd Details"
-                    android:textColor="@color/white"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linearLayout00"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:background="#E8DECF"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="18dp"
-                android:layout_marginLeft="18dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/uioad1"
-                android:orientation="horizontal">
-            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/consmainadmin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="15dp"
                 android:background="@drawable/whitebg_profile"
                 android:elevation="5dp"
                 app:cardElevation="5dp"
-                android:layout_margin="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout00">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:id="@+id/avatar1"
@@ -123,9 +121,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="0dp"
-                            android:lines="1"
                             android:layout_marginTop="50dp"
                             android:fontFamily="@font/plus"
+                            android:lines="1"
                             android:text="Example.pdf"
                             android:textColor="@color/black"
                             android:textSize="20sp"
@@ -138,9 +136,9 @@
                             android:layout_marginLeft="11dp"
                             android:layout_marginTop="20dp"
                             android:layout_marginBottom="20dp"
-                            android:elevation="5dp"
                             android:background="@drawable/button_background"
                             android:drawableStart="@drawable/baseline_remove_red_eye_24"
+                            android:elevation="5dp"
                             android:fontFamily="@font/plus"
                             android:padding="10dp"
                             android:text="Preview"
@@ -174,6 +172,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+
                     </LinearLayout>
                 </LinearLayout>
 
@@ -201,34 +200,34 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp">
 
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/plus"
-                                android:text="Color:"
-                                android:layout_weight="1"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginTop="15dp"
-                                android:textColor="@color/black"
-                                android:textSize="19sp" />
-                            <TextView
-                                android:id="@+id/colorfontadmin1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/plus"
-                                android:text="Black"
-                                android:layout_marginRight="15dp"
-                                android:gravity="end"
-                                android:layout_weight="1"
-                                android:layout_marginLeft="2dp"
-                                android:layout_marginTop="15dp"
-                                android:textColor="@color/black"
-                                android:textSize="19sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/plus"
+                            android:text="Color:"
+                            android:textColor="@color/black"
+                            android:textSize="19sp" />
 
+                        <TextView
+                            android:id="@+id/colorfontadmin1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/plus"
+                            android:gravity="end"
+                            android:text="Black"
+                            android:textColor="@color/black"
+                            android:textSize="19sp" />
 
 
                     </LinearLayout>
@@ -268,18 +267,17 @@
                             android:id="@+id/qtytxt1admin1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-
-                            android:fontFamily="@font/plus"
-                            android:layout_marginRight="15dp"
                             android:layout_marginLeft="2dp"
-                            android:textSize="18sp"
+
                             android:layout_marginTop="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/plus"
                             android:gravity="end|center_horizontal"
                             android:text="1"
-
                             android:textColor="@color/black"
-                            />
+
+                            android:textSize="18sp" />
                     </LinearLayout>
 
 
@@ -311,13 +309,12 @@
                         android:id="@+id/formatadmin1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginLeft="2dp"
-                        android:textSize="18sp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/plus"
                         android:gravity="end"
                         android:text="Front Only"
-                         />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -352,12 +349,11 @@
                             android:id="@+id/ratioadmin1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1:1"
-                            android:fontFamily="@font/plus"
-                            android:textSize="18sp"
                             android:layout_weight="1"
+                            android:fontFamily="@font/plus"
                             android:gravity="end"
-                            />
+                            android:text="1:1"
+                            android:textSize="18sp" />
 
 
                     </LinearLayout>
@@ -394,12 +390,11 @@
                             android:id="@+id/sheetadmin1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/plus"
                             android:layout_weight="1"
+                            android:fontFamily="@font/plus"
                             android:gravity="end"
-                            android:textSize="18sp"
                             android:text="A4"
-                            />
+                            android:textSize="18sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -641,11 +636,11 @@
                     android:layout_width="190dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:textStyle="bold"
                     android:background="@drawable/button_background"
                     android:fontFamily="@font/plus"
                     android:text="Download PDF"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.java;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -26,8 +27,16 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.java.Fileinmodel;
+import com.example.java.OrdrerdDetailsadminactivity;
+import com.example.java.R;
+import com.example.java.RetrivepdfAdaptorhomeadmin;
+import com.example.java.User;
+import com.example.java.loginactivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +45,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class homeadmin extends Fragment {
     private static final String TAG = "homeadmin";
@@ -106,13 +119,10 @@ public class homeadmin extends Fragment {
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-
                 if (searchRunnable != null) {
                     debounceHandler.removeCallbacks(searchRunnable);
                 }
@@ -121,7 +131,6 @@ public class homeadmin extends Fragment {
                     if (!searchText.isEmpty()) {
                         searchPDFs(searchText);
                     } else {
-
                         displaypdfs(query);
                     }
                 };
@@ -129,9 +138,7 @@ public class homeadmin extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) {}
         });
 
         return view;
@@ -139,7 +146,6 @@ public class homeadmin extends Fragment {
 
     private void searchPDFs(String searchText) {
         Query searchQuery = databaseReference.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
-
 
         searchQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -162,7 +168,6 @@ public class homeadmin extends Fragment {
     }
 
     private void displaypdfs(Query query) {
-
         FirebaseRecyclerOptions<Fileinmodel> options =
                 new FirebaseRecyclerOptions.Builder<Fileinmodel>()
                         .setQuery(query, Fileinmodel.class)
@@ -170,13 +175,12 @@ public class homeadmin extends Fragment {
 
         FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter =
                 new FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin>(options) {
-
-
                     @Override
                     protected void onBindViewHolder(@NonNull RetrivepdfAdaptorhomeadmin holder, int position, @NonNull Fileinmodel model) {
                         holder.pdffilename1.setText(model.getName());
                         String orderids= model.getOrderid().toString();
                         holder.orderid.setText(model.getOrderid());
+
 
                         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(model.getuserID());
                         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -186,7 +190,6 @@ public class homeadmin extends Fragment {
                                     User user = snapshot.getValue(User.class);
                                     if (user != null) {
                                         holder.UserName1.setText(user.getName());
-
                                     }
                                 }
                             }
@@ -203,11 +206,10 @@ public class homeadmin extends Fragment {
                                 String pdfUri = model.getUri();
 
                                 if (pdfUri != null && !pdfUri.isEmpty()) {
-                                    Intent intent=new Intent(getActivity(),OrdrerdDetailsadminactivity.class);
+                                    Intent intent=new Intent(getActivity(), OrdrerdDetailsadminactivity.class);
                                     intent.setData(Uri.parse(pdfUri));
                                     intent.putExtra("orderid",orderids);
                                     startActivity(intent);
-
                                 } else {
                                     Toast.makeText(getContext(), "PDF URI is not valid", Toast.LENGTH_SHORT).show();
                                 }
@@ -228,4 +230,6 @@ public class homeadmin extends Fragment {
         recyclerView.setAdapter(adapter);
         adapter.startListening();
     }
+
+
 }

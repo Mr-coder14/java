@@ -81,7 +81,7 @@ public class profile_fragment extends Fragment {
             public void onClick(View view) {
                 if (user != null) {
                     auth.signOut();
-                    Intent intent = new Intent(getActivity(), loginactivity.class);
+                    Intent intent = new Intent(getContext(), loginactivity.class);
                     startActivity(intent);
                     getActivity().finish();
                 }

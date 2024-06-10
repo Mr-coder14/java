@@ -1,11 +1,8 @@
 package com.example.java;
 
-import static java.security.AccessController.getContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
@@ -15,9 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-
 import android.net.Uri;
-
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -30,25 +25,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class OrdrerdDetailsadminactivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 100;
     private BroadcastReceiver downloadReceiver;
-
     private static final String TAG = "OrderDetailsAdmin";
+
     private TextView fileNameTextViewadmin, pgadmin, amt1admin, finalamtadmin, qtynoadmin, qtytxt1admin, perpageamtadmin, deliveryamtadmin, colortxtadmin, formatadmin, ratioadmin, sheetadmin;
     private String orderidadmin;
     private ImageButton backbtn;
@@ -79,21 +73,16 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
         colortxtadmin = findViewById(R.id.colorfontadmin1);
         pgadmin = findViewById(R.id.pagenoadmin1);
         amt1admin = findViewById(R.id.amt1admin1);
-        backbtn=findViewById(R.id.backadmin1);
         finalamtadmin = findViewById(R.id.finalamtadmin1);
         preview = findViewById(R.id.preview1);
         pdfView = findViewById(R.id.pdfViewadmin1);
         formatadmin = findViewById(R.id.formatadmin1);
         ratioadmin = findViewById(R.id.ratioadmin1);
         sheetadmin = findViewById(R.id.sheetadmin1);
-        orderidadmin=getIntent().getStringExtra("orderid");
-
-
+        orderidadmin = getIntent().getStringExtra("orderid");
 
         progressBar.setVisibility(View.VISIBLE);
         scrollView.setVisibility(View.GONE);
-
-
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs").child(orderidadmin);
         pdfuri = getIntent().getData();
@@ -101,33 +90,27 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                colse();
+                close();
             }
         });
-
-
 
         if (pdfuri == null) {
             Toast.makeText(this, "No PDF URI provided", Toast.LENGTH_SHORT).show();
         } else {
             Log.d(TAG, "PDF URI: " + pdfuri.toString());
+            loadPdfFromUri(pdfuri.toString());
         }
 
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (pdfuri != null) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(pdfuri, "application/pdf");
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivity(intent);
-                }
-                else {
-
-                    if (getContext() != null) {
-                        Toast.makeText(OrdrerdDetailsadminactivity.this, "PDF URI is not valid", Toast.LENGTH_SHORT).show();
-                    }
+                } else {
+                    Toast.makeText(OrdrerdDetailsadminactivity.this, "PDF URI is not valid", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -146,7 +129,7 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
                         qtynoadmin.setText(fileinmodel.getQty());
                         qtytxt1admin.setText(fileinmodel.getQty());
                         colortxtadmin.setText(fileinmodel.getColor());
-                        finalamtadmin.setText("₹ "+fileinmodel.getAmt());
+                        finalamtadmin.setText("₹ " + fileinmodel.getAmt());
                         formatadmin.setText(fileinmodel.getFormat());
                         sheetadmin.setText(fileinmodel.getSheet());
                         ratioadmin.setText(fileinmodel.getRatio());
@@ -164,45 +147,73 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
             }
         });
 
-
         downloadbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 downloadPdf(pdfuri.toString());
-
             }
         });
     }
 
+    private void loadPdfFromUri(String uri) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading PDF");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
+        new Thread(() -> {
+            try {
+                URL url = new URL(uri);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream inputStream = connection.getInputStream();
+                runOnUiThread(() -> {
+                    pdfView.fromStream(inputStream)
+                            .enableAnnotationRendering(true)
+                            .spacing(10)
+                            .onLoad(new OnLoadCompleteListener() {
+                                @Override
+                                public void loadComplete(int nbPages) {
+                                    progressDialog.dismiss();
+                                }
+                            })
+                            .load();
+                });
+            } catch (Exception e) {
+                Log.e(TAG, "Error loading PDF", e);
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "Failed to load PDF", Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
+    }
 
-    private void colse() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Exit");
-            builder.setMessage("Are you sure you want to quit?");
-            builder.setCancelable(false);
+    private void close() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Exit");
+        builder.setMessage("Are you sure you want to quit?");
+        builder.setCancelable(false);
 
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
 
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
 
-                    dialog.dismiss();
-                }
-            });
-
-
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        }
-
-
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
     private void downloadPdf(String uri) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -235,7 +246,6 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
         registerReceiver(downloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -243,9 +253,6 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
             unregisterReceiver(downloadReceiver);
         }
     }
-
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -258,6 +265,4 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
             }
         }
     }
-
-
 }

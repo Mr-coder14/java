@@ -30,10 +30,12 @@ public class signupactivity extends AppCompatActivity {
         if (currentUser != null) {
             if (currentUser.getEmail().equals(adminEmail)) {
                 startActivity(new Intent(signupactivity.this, Adminactivity.class));
+                finish();
             } else {
                 startActivity(new Intent(signupactivity.this, MainActivity.class));
+                finish();
             }
-            finish();
+
         }
     }
 
