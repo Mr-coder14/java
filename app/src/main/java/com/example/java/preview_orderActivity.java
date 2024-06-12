@@ -290,7 +290,6 @@ public class preview_orderActivity extends AppCompatActivity {
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(preview_orderActivity.this, MainActivity.class));
                     finish();
                 }
             });

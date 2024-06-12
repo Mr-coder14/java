@@ -6,15 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".suceesanimation">
 
-    <ImageView
-        android:id="@+id/gif"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="314dp"
-        android:layout_marginBottom="343dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/gif2"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/paymentdone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintVertical_bias="0.46"
+         />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/gif1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.46"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
+
+    <TextView
+        android:id="@+id/ordertxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ordered Confirmed"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/green"
+        android:textStyle="bold"
+        android:textSize="27sp"
+        android:fontFamily="@font/plus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gif2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

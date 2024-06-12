@@ -7,9 +7,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
+
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieProperty;
+import com.airbnb.lottie.model.KeyPath;
+import com.airbnb.lottie.value.LottieValueCallback;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,6 +42,7 @@ public class OrderdDetailsuser extends AppCompatActivity {
     private static final String TAG = "OrderDetailsUser";
     private TextView fileNameTextViewauser, pguser, amt1user, finalamtuser, qtynouser, qtytxt1user, perpageamtuser, deliveryamtuser, colortxtuser, formatuser, ratiouser, sheetuser;
     private String orderiduser;
+    private LottieAnimationView lottieAnimationView;
     private ImageButton backbtn;
     private StorageReference storageRef;
     private DatabaseReference databaseReference;
@@ -65,12 +72,31 @@ public class OrderdDetailsuser extends AppCompatActivity {
         finalamtuser = findViewById(R.id.finalamtuser);
         pdfView = findViewById(R.id.pdfViewuser);
         formatuser = findViewById(R.id.formatuser);
+        lottieAnimationView=findViewById(R.id.lottie);
         ratiouser = findViewById(R.id.ratiouser);
         sheetuser = findViewById(R.id.sheetuser);
 
         orderiduser=getIntent().getStringExtra("Orderid");
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs").child(orderiduser);
+
+        lottieAnimationView.setAnimation(R.raw.lineloading);
+        lottieAnimationView.setSpeed(4.0f);
+        lottieAnimationView.playAnimation();
+        int color = getResources().getColor(R.color.green);
+        ColorFilter colorFilter = new LightingColorFilter(color, color);
+
+
+        lottieAnimationView.addValueCallback(
+                new KeyPath("**"),
+                LottieProperty.COLOR_FILTER,
+                new LottieValueCallback<ColorFilter>(colorFilter)
+        );
+        lottieAnimationView.loop(true);
+        lottieAnimationView.setScaleType(LottieAnimationView.ScaleType.CENTER_INSIDE);
+
+        lottieAnimationView.setScaleX(1.0f); // No horizontal flip
+        lottieAnimationView.setScaleY(-1.0f);
 
         pdfuri=getIntent().getData();
         preview=findViewById(R.id.previewuser);

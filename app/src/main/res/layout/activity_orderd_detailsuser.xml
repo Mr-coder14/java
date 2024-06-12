@@ -188,7 +188,9 @@
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/avatar123"></LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/avatar123">
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/fejhdhhejhfehjfe23"
@@ -269,7 +271,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-
                             android:fontFamily="@font/plus"
                             android:layout_marginRight="15dp"
                             android:layout_marginLeft="2dp"
@@ -277,7 +278,6 @@
                             android:layout_marginTop="15dp"
                             android:gravity="end|center_horizontal"
                             android:text="1"
-
                             android:textColor="@color/black"
                             />
                     </LinearLayout>
@@ -322,6 +322,25 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearLayout9"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lottie"
+                        app:lottie_rawRes="@raw/lineloading"
+                        app:lottie_loop="true"
+                        app:lottie_autoPlay="true"
+                        android:scaleX="19.0"
+                        android:scaleY="3.0"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:id="@+id/linearLayout088"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -329,7 +348,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -352,12 +371,11 @@
                             android:id="@+id/ratiouser"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1:1"
-                            android:fontFamily="@font/plus"
-                            android:textSize="18sp"
                             android:layout_weight="1"
+                            android:fontFamily="@font/plus"
                             android:gravity="end"
-                            />
+                            android:text="1:1"
+                            android:textSize="18sp" />
 
 
                     </LinearLayout>

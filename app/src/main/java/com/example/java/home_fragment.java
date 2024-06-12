@@ -2,12 +2,10 @@ package com.example.java;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
@@ -18,13 +16,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -53,13 +51,11 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
     private TextView username, email;
     private LinearLayout linearLayout;
     private DatabaseReference usersRef;
-    private String diplayname = null;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
-
         initializeViews(view);
         setupListeners();
         return view;
@@ -124,7 +120,7 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
 
         if (user != null) {
             usersRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-            usersRef.addValueEventListener(new ValueEventListener() {
+            usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -147,7 +143,6 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
         }
     }
 
-
     private void openfile() {
         Intent intent = new Intent();
         intent.setType("application/pdf");
@@ -168,8 +163,6 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
         filename.setText(displayName);
         openPreviewActivity(uri, displayName);
     }
-
-
 
     private String getFileName(Uri uri) {
         String displayName = null;
@@ -199,21 +192,18 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
         if (itemid == R.id.nav_home) {
             return true;
         } else if (itemid == R.id.nav_profile) {
-
             ((MainActivity) getActivity()).selectBottomNavItem(R.id.profilebottom);
             return true;
         } else if (itemid == R.id.nav_logout) {
             logout();
             return true;
         } else if (itemid == R.id.nav_history) {
-
             ((MainActivity) getActivity()).selectBottomNavItem(R.id.Historybottom);
             return true;
         } else {
             Toast.makeText(context, "About Clicked", Toast.LENGTH_SHORT).show();
             return true;
         }
-
     }
 
     private void logout() {

@@ -2,13 +2,10 @@ package com.example.java;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.github.barteksc.pdfviewer.PDFView;
 
 public class RetrivepdfAdaptorhomeadmin extends RecyclerView.ViewHolder implements View.OnClickListener {
     public com.example.java.recyculer.itemClickListener itemClickListener;
