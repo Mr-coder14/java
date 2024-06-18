@@ -27,16 +27,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.java.Fileinmodel;
-import com.example.java.OrdrerdDetailsadminactivity;
-import com.example.java.R;
-import com.example.java.RetrivepdfAdaptorhomeadmin;
-import com.example.java.User;
-import com.example.java.loginactivity;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

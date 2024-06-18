@@ -43,7 +43,7 @@ public class suceesanimation extends AppCompatActivity {
 
 
         lottieAnimationView1.addValueCallback(
-                new KeyPath("**"),
+                new KeyPath("**"),  
                 LottieProperty.COLOR_FILTER,
                 new LottieValueCallback<ColorFilter>(colorFilter)
         );

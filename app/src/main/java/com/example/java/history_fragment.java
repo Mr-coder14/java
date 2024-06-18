@@ -1,23 +1,21 @@
 package com.example.java;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.TypedValue;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,11 +40,11 @@ public class history_fragment extends Fragment {
     private Query query;
     private ProgressBar progressBar;
     private FirebaseUser user;
-    private EditText searchView;
+
     private User userData;
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
-    private Handler debounceHandler = new Handler(Looper.getMainLooper());
-    private Runnable searchRunnable;
+
+
 
     @Nullable
     @Override
@@ -60,7 +58,6 @@ public class history_fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         progressBar = view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
-        searchView = view.findViewById(R.id.search_edit_text);
         usersRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
 
 
@@ -109,69 +106,10 @@ public class history_fragment extends Fragment {
         });
 
 
-        searchView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-
-                if (searchRunnable != null) {
-                    debounceHandler.removeCallbacks(searchRunnable);
-                }
-                searchRunnable = () -> {
-                    String searchText = charSequence.toString().trim();
-                    if (!searchText.isEmpty()) {
-                        searchPDFs(searchText);
-                    } else {
-
-                        displaypdfs(query);
-                    }
-                };
-                debounceHandler.postDelayed(searchRunnable, 300);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-
-        Drawable drawable = ContextCompat.getDrawable(getContext(), com.android.car.ui.R.drawable.car_ui_icon_search);
-        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 31, getResources().getDisplayMetrics());
-        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 31, getResources().getDisplayMetrics());
-        drawable.setBounds(0, 0, width, height);
-        searchView.setCompoundDrawables(drawable, null, null, null);
-
         return view;
     }
 
-    private void searchPDFs(String searchText) {
-        Query searchQuery = databaseReference.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
 
-
-        searchQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    progressBar.setVisibility(View.GONE);
-                    displaypdfs(searchQuery);
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "No PDFs found", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void displaypdfs(Query query) {
         FirebaseRecyclerOptions<Fileinmodel> options =
@@ -240,8 +178,6 @@ public class history_fragment extends Fragment {
         recyclerView.setAdapter(adapter);
         adapter.startListening();
     }
-
-
 
 
 }

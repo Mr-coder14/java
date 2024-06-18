@@ -200,10 +200,8 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
         } else if (itemid == R.id.nav_history) {
             ((MainActivity) getActivity()).selectBottomNavItem(R.id.Historybottom);
             return true;
-        } else {
-            Toast.makeText(context, "About Clicked", Toast.LENGTH_SHORT).show();
-            return true;
         }
+        return false;
     }
 
     private void logout() {

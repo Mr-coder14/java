@@ -42,7 +42,7 @@ public class OrderdDetailsuser extends AppCompatActivity {
     private static final String TAG = "OrderDetailsUser";
     private TextView fileNameTextViewauser, pguser, amt1user, finalamtuser, qtynouser, qtytxt1user, perpageamtuser, deliveryamtuser, colortxtuser, formatuser, ratiouser, sheetuser;
     private String orderiduser;
-    private LottieAnimationView lottieAnimationView;
+
     private ImageButton backbtn;
     private StorageReference storageRef;
     private DatabaseReference databaseReference;
@@ -72,7 +72,7 @@ public class OrderdDetailsuser extends AppCompatActivity {
         finalamtuser = findViewById(R.id.finalamtuser);
         pdfView = findViewById(R.id.pdfViewuser);
         formatuser = findViewById(R.id.formatuser);
-        lottieAnimationView=findViewById(R.id.lottie);
+
         ratiouser = findViewById(R.id.ratiouser);
         sheetuser = findViewById(R.id.sheetuser);
 
@@ -80,23 +80,7 @@ public class OrderdDetailsuser extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs").child(orderiduser);
 
-        lottieAnimationView.setAnimation(R.raw.lineloading);
-        lottieAnimationView.setSpeed(4.0f);
-        lottieAnimationView.playAnimation();
-        int color = getResources().getColor(R.color.green);
-        ColorFilter colorFilter = new LightingColorFilter(color, color);
 
-
-        lottieAnimationView.addValueCallback(
-                new KeyPath("**"),
-                LottieProperty.COLOR_FILTER,
-                new LottieValueCallback<ColorFilter>(colorFilter)
-        );
-        lottieAnimationView.loop(true);
-        lottieAnimationView.setScaleType(LottieAnimationView.ScaleType.CENTER_INSIDE);
-
-        lottieAnimationView.setScaleX(1.0f); // No horizontal flip
-        lottieAnimationView.setScaleY(-1.0f);
 
         pdfuri=getIntent().getData();
         preview=findViewById(R.id.previewuser);
