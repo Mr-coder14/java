@@ -1,24 +1,23 @@
 package com.example.java;
 
-import java.security.SecureRandom;
-
 public class Fileinmodel {
     String uri;
     String userID,orderid;
     String name;
-    String amt,ratio,format,sheet,qty,color,pages;
+    String finalamt,ratio,format,sheet,qty,color,pages,perqtyamt;
 
     public Fileinmodel(){
 
     }
-    public Fileinmodel(String name,String uri,String userID,String amt,String ratio,String format,String sheet,String color,String qty,String pages,String orderid){
+    public Fileinmodel(String name,String uri,String userID,String amt,String ratio,String format,String sheet,String color,String qty,String pages,String orderid,String perqtyamt){
         this.name=name;
         this.uri=uri;
         this.userID=userID;
-        this.amt=amt;
+        this.finalamt =amt;
         this.orderid=orderid;
         this.ratio=ratio;
         this.color=color;
+        this.perqtyamt=perqtyamt;
         this.format=format;
         this.sheet=sheet;
         this.qty=qty;
@@ -31,8 +30,17 @@ public class Fileinmodel {
     public String getuserID(){
         return userID;
     }
-    public String getAmt(){
-        return amt;
+
+    public String getPerqtyamt() {
+        return perqtyamt;
+    }
+
+    public void setPerqtyamt(String perqtyamt) {
+        this.perqtyamt = perqtyamt;
+    }
+
+    public String getFinalamt(){
+        return finalamt;
     }
 
     public String getOrderid() {
@@ -43,8 +51,8 @@ public class Fileinmodel {
         this.orderid = orderid;
     }
 
-    public void setAmt(String amt){
-        this.amt=amt;
+    public void setFinalamt(String finalamt){
+        this.finalamt = finalamt;
     }
     public String getName(){
         return this.name;

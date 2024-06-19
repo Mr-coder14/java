@@ -10,8 +10,6 @@ import android.app.ProgressDialog;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,10 +21,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieProperty;
-import com.airbnb.lottie.model.KeyPath;
-import com.airbnb.lottie.value.LottieValueCallback;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,7 +34,7 @@ public class OrderdDetailsuser extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 100;
 
     private static final String TAG = "OrderDetailsUser";
-    private TextView fileNameTextViewauser, pguser, amt1user, finalamtuser, qtynouser, qtytxt1user, perpageamtuser, deliveryamtuser, colortxtuser, formatuser, ratiouser, sheetuser;
+    private TextView fileNameTextViewauser, pguser, amt1user, finalamtuser, qtynouser, qtytxt1user, perpageamtuser, deliveryamtuser, colortxtuser, formatuser, ratiouser, sheetuser,perqtyamtuser;
     private String orderiduser;
 
     private ImageButton backbtn;
@@ -72,6 +66,7 @@ public class OrderdDetailsuser extends AppCompatActivity {
         finalamtuser = findViewById(R.id.finalamtuser);
         pdfView = findViewById(R.id.pdfViewuser);
         formatuser = findViewById(R.id.formatuser);
+
 
         ratiouser = findViewById(R.id.ratiouser);
         sheetuser = findViewById(R.id.sheetuser);
@@ -123,8 +118,9 @@ public class OrderdDetailsuser extends AppCompatActivity {
                         pguser.setText(fileinmodel.getPages());
                         qtynouser.setText(fileinmodel.getQty());
                         qtytxt1user.setText(fileinmodel.getQty());
+                        amt1user.setText("₹ "+fileinmodel.getPerqtyamt());
                         colortxtuser.setText(fileinmodel.getColor());
-                        finalamtuser.setText("₹ "+fileinmodel.getAmt());
+                        finalamtuser.setText("₹ "+fileinmodel.getFinalamt());
                         formatuser.setText(fileinmodel.getFormat());
                         sheetuser.setText(fileinmodel.getSheet());
                         ratiouser.setText(fileinmodel.getRatio());

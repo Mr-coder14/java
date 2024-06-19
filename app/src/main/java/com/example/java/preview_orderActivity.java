@@ -55,7 +55,7 @@ public class preview_orderActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Button btn, preview;
     private PDFView pdfView;
-    private String formats="Front & Back",ratios="1:1",sheet="A4",Color="Black";
+    private String formats="Front & Back",ratios="1:1",sheet="A4",Color="Black",amtperqty;
     private int pgsam;
     private ImageButton plus, minus;
     private Uri pdf;
@@ -361,6 +361,7 @@ public class preview_orderActivity extends AppCompatActivity {
                         float a = pgsam * perpage+delivercharge;
                         perpageamt.setText(String.valueOf(perpage));
                         amt1.setText("₹ " + String.valueOf(a));
+                        amtperqty=String.valueOf(a);
                         finalamt.setText("₹ " + String.valueOf(a));
                     }
                 })
@@ -418,7 +419,7 @@ public class preview_orderActivity extends AppCompatActivity {
                                         orderid = generateOrderId();
 
 
-                                        Fileinmodel fileinmodel = new Fileinmodel(name, uri.toString(), currentUserId, amount,ratios,formats,sheet,Color,String.valueOf(count),String.valueOf(pgsam),orderid);
+                                        Fileinmodel fileinmodel = new Fileinmodel(name, uri.toString(), currentUserId, amount,ratios,formats,sheet,Color,String.valueOf(count),String.valueOf(pgsam),orderid,amtperqty);
                                         databaseReference.child(orderid).setValue(fileinmodel);
 
                                         Toast.makeText(preview_orderActivity.this, "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();

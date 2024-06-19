@@ -66,13 +66,14 @@ public class orders_fragment_admin extends Fragment {
                         .setQuery(query, Fileinmodel.class)
                         .build();
 
-        FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptoradmin> adapter =
-                new FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptoradmin>(options) {
+        FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter =
+                new FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull RetrivepdfAdaptoradmin holder, int position, @NonNull Fileinmodel model) {
+                    protected void onBindViewHolder(@NonNull RetrivepdfAdaptorhomeadmin holder, int position, @NonNull Fileinmodel model) {
                         progressBar.setVisibility(View.GONE);
-                        holder.pdffilename.setText(model.getName());
-                        holder.amt.setText(model.getAmt());
+                        holder.pdffilename1.setText(model.getName());
+                        String orderids= model.getOrderid().toString();
+                        holder.orderid.setText(model.getOrderid());
 
 
                         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(model.getuserID());
@@ -82,8 +83,7 @@ public class orders_fragment_admin extends Fragment {
                                 if (snapshot.exists()) {
                                     User user = snapshot.getValue(User.class);
                                     if (user != null) {
-                                        holder.email.setText(user.getEmail());
-                                        holder.UserName.setText(user.getName());
+                                        holder.UserName1.setText(user.getName());
                                     }
                                 }
                             }
@@ -97,23 +97,29 @@ public class orders_fragment_admin extends Fragment {
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if (model.getUri() != null && !model.getUri().isEmpty()) {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setType("application/pdf");
-                                    intent.setData(Uri.parse(model.getUri()));
+                                String pdfUri = model.getUri();
+
+                                if (pdfUri != null && !pdfUri.isEmpty()) {
+                                    Intent intent=new Intent(getActivity(), OrdrerdDetailsadminactivity.class);
+                                    intent.setData(Uri.parse(pdfUri));
+                                    intent.putExtra("orderid",orderids);
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(getContext(), "PDF URI is not valid", Toast.LENGTH_SHORT).show();
                                 }
                             }
+
                         });
+
                     }
+
+
 
                     @NonNull
                     @Override
-                    public RetrivepdfAdaptoradmin onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pdf_item_layout_admin, parent, false);
-                        return new RetrivepdfAdaptoradmin(view);
+                    public RetrivepdfAdaptorhomeadmin onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.orders_template, parent, false);
+                        return new RetrivepdfAdaptorhomeadmin(view);
                     }
                 };
 

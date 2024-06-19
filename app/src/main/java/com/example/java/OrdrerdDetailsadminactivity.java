@@ -126,10 +126,11 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
                         filename = fileNameTextViewadmin.getText().toString();
                         orderidadmin = fileinmodel.getOrderid();
                         pgadmin.setText(fileinmodel.getPages());
+                        amt1admin.setText(fileinmodel.getPerqtyamt());
                         qtynoadmin.setText(fileinmodel.getQty());
                         qtytxt1admin.setText(fileinmodel.getQty());
                         colortxtadmin.setText(fileinmodel.getColor());
-                        finalamtadmin.setText("₹ " + fileinmodel.getAmt());
+                        finalamtadmin.setText("₹ " + fileinmodel.getFinalamt());
                         formatadmin.setText(fileinmodel.getFormat());
                         sheetadmin.setText(fileinmodel.getSheet());
                         ratioadmin.setText(fileinmodel.getRatio());
