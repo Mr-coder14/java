@@ -1,6 +1,5 @@
 package com.example.java;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;

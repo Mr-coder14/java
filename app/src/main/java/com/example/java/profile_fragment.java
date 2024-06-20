@@ -1,5 +1,6 @@
 package com.example.java;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,8 +13,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,10 +27,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class profile_fragment extends Fragment {
     ImageButton constraintLayout;
     ImageButton btnlout;
     FirebaseAuth auth;
+    private CircleImageView circleImageView;
     TextView email, name, email1, name1, phno1;
 
     ProgressBar progressBar;
@@ -41,6 +49,7 @@ public class profile_fragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         name = view.findViewById(R.id.profilename);
+        circleImageView=view.findViewById(R.id.shapeableImageViewq);
         progressBar=view.findViewById(R.id.progressprofile);
         scrollView=view.findViewById(R.id.profilevisible);
         phno1 = view.findViewById(R.id.phno11);
@@ -62,6 +71,20 @@ public class profile_fragment extends Fragment {
                         name1.setText(userData.getName());
                         phno1.setText(userData.getPhno());
                         email.setText(userData.getEmail());
+                        usersRef.child("profileImageUrl").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (task.isSuccessful()){
+                                    String uri=task.getResult().getValue(String.class);
+                                    if(getContext()!=null){
+                                        Glide.with(getContext())
+                                                .load(uri)
+                                                .into(circleImageView);
+                                    }
+
+                                }
+                            }
+                        });
                         email1.setText(userData.getEmail());
                     }
                     progressBar.setVisibility(View.GONE);
@@ -79,12 +102,7 @@ public class profile_fragment extends Fragment {
         btnlout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (user != null) {
-                    auth.signOut();
-                    Intent intent = new Intent(getContext(), loginactivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
-                }
+                showLogoutDialog();
             }
         });
 
@@ -96,5 +114,31 @@ public class profile_fragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure you want to logout?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if (user != null) {
+                    auth.signOut();
+                    Intent intent = new Intent(getContext(), loginactivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Dismiss dialog, do nothing
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 }

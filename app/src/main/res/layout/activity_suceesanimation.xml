@@ -41,7 +41,7 @@
         android:id="@+id/ordertxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ordered Confirmed"
+        android:text="Order Confirmed"
         android:layout_marginTop="50dp"
         android:textColor="@color/green"
         android:textStyle="bold"

@@ -4,16 +4,53 @@ public class Fileinmodel {
     String uri;
     String userID,orderid;
     String name;
-    String finalamt,ratio,format,sheet,qty,color,pages,perqtyamt;
+    String finalamt,ratio,format,sheet,qty,color,pages,perqtyamt,orderDate,perpage,deliveyamt;
+    long timestamp;
+
+    public String getPerpage() {
+        return perpage;
+    }
+
+    public void setPerpage(String perpage) {
+        this.perpage = perpage;
+    }
 
     public Fileinmodel(){
 
     }
-    public Fileinmodel(String name,String uri,String userID,String amt,String ratio,String format,String sheet,String color,String qty,String pages,String orderid,String perqtyamt){
+
+    public String getDeliveyamt() {
+        return deliveyamt;
+    }
+
+    public void setDeliveyamt(String deliveyamt) {
+        this.deliveyamt = deliveyamt;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public Fileinmodel(String name, String uri, String userID, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid, String perqtyamt,String orderDate,String perpage,String deliveyamt){
         this.name=name;
         this.uri=uri;
+        this.deliveyamt=deliveyamt;
         this.userID=userID;
+        this.orderDate=orderDate;
         this.finalamt =amt;
+        this.perpage=perpage;
         this.orderid=orderid;
         this.ratio=ratio;
         this.color=color;

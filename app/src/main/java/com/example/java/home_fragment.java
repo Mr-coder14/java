@@ -3,6 +3,7 @@ package com.example.java;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,6 +31,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,19 +44,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class home_fragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
     private static final int PICK_PDF_REQUEST = 1;
     private Context context;
     private EditText filename;
     private DrawerLayout drawerLayout;
+    private ConstraintLayout constraintLayout;
     private FirebaseAuth auth;
+    private Button button;
     private ProgressBar progressBarf;
     private FirebaseUser user;
     private Toolbar toolbar;
     private TextView username, email;
+    private CircleImageView circleImageView;
     private LinearLayout linearLayout;
     private DatabaseReference usersRef;
+    private List<String> filenames;
+    private List<Uri> files;
 
     @Nullable
     @Override
@@ -58,25 +73,39 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         initializeViews(view);
         setupListeners();
+
         return view;
     }
 
     private void initializeViews(View view) {
         filename = view.findViewById(R.id.selectpdf);
+        constraintLayout = view.findViewById(R.id.constrainthomeuser);
         drawerLayout = view.findViewById(R.id.drawer_layout);
+        button = view.findViewById(R.id.selectimage);
         NavigationView navigationView = view.findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
+        circleImageView = headerView.findViewById(R.id.circleImageViewhead);
         progressBarf = headerView.findViewById(R.id.progressBarhfragment);
         linearLayout = headerView.findViewById(R.id.userInfoLayout);
         username = headerView.findViewById(R.id.header_username);
         email = headerView.findViewById(R.id.headeremail);
         context = getContext();
+
+        files = new ArrayList<>();
+        filenames = new ArrayList<>();
     }
 
     private void setupListeners() {
-        filename.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                openfile();
+            }
+        });
+
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 openfile();
             }
         });
@@ -128,6 +157,19 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
                         if (userData != null) {
                             username.setText(userData.getName());
                             email.setText(userData.getEmail());
+                            usersRef.child("profileImageUrl").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        String uri = task.getResult().getValue(String.class);
+                                        if (getContext() != null) {
+                                            Glide.with(getContext())
+                                                    .load(uri)
+                                                    .into(circleImageView);
+                                        }
+                                    }
+                                }
+                            });
                         }
                         progressBarf.setVisibility(View.GONE);
                         linearLayout.setVisibility(View.VISIBLE);
@@ -146,22 +188,35 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
     private void openfile() {
         Intent intent = new Intent();
         intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_PDF_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select Files"), PICK_PDF_REQUEST);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            handleFileSelection(data.getData());
+        if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null) {
+            files.clear();
+            filenames.clear();
+            if (data.getClipData() != null) {
+                int count = data.getClipData().getItemCount();
+                for (int i = 0; i < count; i++) {
+                    Uri fileUri = data.getClipData().getItemAt(i).getUri();
+                    handleFileSelection(fileUri);
+                }
+            } else if (data.getData() != null) {
+                handleFileSelection(data.getData());
+            }
+            openPreviewActivity(files, filenames);
         }
     }
 
     private void handleFileSelection(Uri uri) {
         String displayName = getFileName(uri);
+        files.add(uri);
+        filenames.add(displayName);
         filename.setText(displayName);
-        openPreviewActivity(uri, displayName);
     }
 
     private String getFileName(Uri uri) {
@@ -178,11 +233,12 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
         return displayName;
     }
 
-    private void openPreviewActivity(Uri uri, String fileName) {
+    private void openPreviewActivity(List<Uri> uris, List<String> names) {
         Intent intent = new Intent(getActivity(), preview_orderActivity.class);
-        intent.setData(uri);
-        intent.putExtra("fileName", fileName);
+        intent.putParcelableArrayListExtra("uris", new ArrayList<>(uris));
+        intent.putStringArrayListExtra("fileNames", new ArrayList<>(names));
         startActivity(intent);
+        filename.setText("");
     }
 
     @Override
@@ -205,11 +261,30 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
     }
 
     private void logout() {
-        if (user != null) {
-            auth.signOut();
-            Intent intent = new Intent(getActivity(), loginactivity.class);
-            startActivity(intent);
-            getActivity().finish();
-        }
+        showLogoutDialog();
+    }
+
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure you want to logout?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (user != null) {
+                    auth.signOut();
+                    Intent intent = new Intent(getContext(), loginactivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 }

@@ -108,6 +108,7 @@
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
+                                android:id="@+id/constrainthomeuser"
                                 android:layout_height="match_parent">
 
                                 <ImageView
@@ -173,6 +174,24 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:id="@+id/selectimage"
+                        android:backgroundTint="#EDB819"
+                        android:text="Select PDF"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:padding="10dp"
+                        android:fontFamily="@font/lato"
+                        android:ems="10"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center"/>
+
+
+
+
                     <EditText
                         android:id="@+id/selectpdf"
                         android:layout_width="match_parent"
@@ -180,6 +199,7 @@
                         android:textSize="18sp"
                         android:textColorHint="@color/black"
                         android:layout_marginTop="12dp"
+                        android:visibility="gone"
                         android:backgroundTint="#EDB819"
                         android:textColor="#000000"
                         android:textStyle="bold"

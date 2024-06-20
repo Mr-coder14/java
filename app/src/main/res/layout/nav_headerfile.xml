@@ -38,11 +38,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleImageView"
+                android:id="@+id/circleImageViewhead"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/person1" />
+                android:layout_marginTop="33dp"
+                android:src="@drawable/person3" />
 
             <TextView
                 android:id="@+id/header_username"
