@@ -81,14 +81,10 @@
                     android:id="@+id/recyclerpreviewactivity"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/orderpreviewactivitytemplate"
                     />
 
 
             </LinearLayout>
-
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
