@@ -28,20 +28,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
 import com.example.java.R;
-import com.example.java.suceesanimation;
+
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
+
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -54,8 +50,13 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
     private Uri[] uris;
     private String[] fileNames;
-    private String orderid;
+    private String orderid,ratios1,Color1,formats1,pgsam1,count1,delivercharge1,perpage1,amtperqty1,sheet1;
     private Context context;
+    private DatabaseReference databaseReference;
+    private boolean isUploading = false;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private boolean[] uploaded;
+
     private Activity activity;
     private UploadProgressListener uploadProgressListener;
 
@@ -70,12 +71,107 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         this.uris =  uris ;
         this.fileNames = fileNames ;
         this.orderid = generateOrderId();
+        this.uploaded=new boolean[uris.length];
+    }
+    private String sanitizeFileName(String fileName) {
+
+        return fileName.replaceAll("[.#$\\[\\]]", "_");
     }
 
     private String generateOrderId() {
         UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString().replaceAll("-", "");
         return uuidString.substring(0, Math.min(uuidString.length(), 10));
+    }
+    public void uploadPdf() {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Uploading");
+        progressDialog.setMessage("Please wait");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        isUploading = true;
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
+
+        for (int i = 0; i < uris.length; i++) {
+            String path = "pdfs/" + orderid + "/" + fileNames[i];
+            String sanitizedFileName = sanitizeFileName(fileNames[i]);
+            StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(path);
+
+            int finalI = i;
+
+            UploadTask uploadTask = fileRef.putFile(uris[i]);
+            uploadTask.addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String downloadUrl = uri.toString();
+                        String currentUserId = mAuth.getCurrentUser().getUid();
+                        String amount = "89";
+                        HashMap<String, Object> timestamp = new HashMap<>();
+                        timestamp.put("timestamp", ServerValue.TIMESTAMP);
+
+                        Fileinmodel fileinmodel = new Fileinmodel(fileNames[finalI], downloadUrl, currentUserId, amount,
+                                ratios1, formats1, sheet1, Color1, String.valueOf(count1), String.valueOf(pgsam1), orderid,
+                                String.valueOf(amtperqty1), timestamp.get("timestamp").toString(), String.valueOf(perpage1),
+                                String.valueOf(delivercharge1));
+
+                        databaseReference.child(orderid).child(sanitizedFileName).setValue(fileinmodel)
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        uploaded[finalI] = true;
+                                    } else {
+                                        uploaded[finalI] = false;
+                                    }
+
+                                    if (finalI == uris.length - 1) {
+                                        isUploading = false;
+                                        progressDialog.dismiss();
+
+                                        boolean allSuccessful = true;
+                                        for (boolean status : uploaded) {
+                                            if (!status) {
+                                                allSuccessful = false;
+                                                break;
+                                            }
+                                        }
+
+                                        if (allSuccessful) {
+                                            Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    });
+                } else {
+                    uploaded[finalI] = false;
+                    Toast.makeText(context, "Upload failed for " + fileNames[finalI], Toast.LENGTH_SHORT).show();
+
+
+                    if (finalI == uris.length - 1) {
+                        isUploading = false;
+                        progressDialog.dismiss();
+
+
+
+
+                        boolean allSuccessful = true;
+                        for (boolean status : uploaded) {
+                            if (!status) {
+                                allSuccessful = false;
+                                break;
+                            }
+                        }
+
+                        if (allSuccessful) {
+                            Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "Upload failed for some files", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+        }
     }
 
 
@@ -270,16 +366,16 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         private TextView fileNameTextView;
         private PDFView pdfView;
         private TextView  pg, amt1, qtyno, qtytxt1, perpageamt, deliveryamt, colortxt;
-        private StorageReference storageRef;
+
         private EditText qty;
         private int currentPdfIndex = 0;
         private Spinner spinner, spinner1, spinner3;
 
         private int count = 1;
         private float perpage = 0.75f;
-        private DatabaseReference databaseReference;
+
         private CircleImageView black, gradient;
-        private ProgressDialog progressDialog;
+
         private Button preview;
         private String formats = "Front & Back", ratios = "1:1", sheet = "A4", Color = "Black";
         private int pgsam;
@@ -290,9 +386,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         private float currentProgress = 0, finalamount;
         private float delivercharge = 10.0f, amtperqty;
         private Activity activity;
-
-
-
 
         public ViewHolder(@NonNull View itemView, Activity activity) {
             super(itemView);
@@ -320,10 +413,15 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             minus = itemView.findViewById(R.id.minusqtyadmin);
             pdfView = itemView.findViewById(R.id.pdfViewadmin);
             colortxt = itemView.findViewById(R.id.colorfontadmin);
-
-            mAuth = FirebaseAuth.getInstance();
-            storageRef = FirebaseStorage.getInstance().getReference();
-
+            ratios1=ratios;
+            formats1=formats;
+            count1=String.valueOf(count);
+            sheet1=sheet;
+            perpage1=String.valueOf(perpage);
+            pgsam1=String.valueOf(pgsam);
+            Color1= Color;
+            delivercharge1=String.valueOf(delivercharge);
+            amtperqty1=String.valueOf(amtperqty);
 
         }
 
@@ -386,64 +484,10 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
         }
 
-        private String sanitizeFileName(String fileName) {
-
-            return fileName.replaceAll("[.#$\\[\\]]", "_");
-        }
 
 
-        public void uploadPdf() {
-            if (isUploading) {
-                Toast.makeText(context, "Upload in progress", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
-            isUploading = true;
 
-            String userId = mAuth.getCurrentUser().getUid();
-            String path = "pdfs/" + orderid + "/" + fileNames[currentPdfIndex];
-            String sanitizedFileName = sanitizeFileName(fileNames[currentPdfIndex]);
-            StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(path);
-            databaseReference=FirebaseDatabase.getInstance().getReference().child("pdfs");
-
-            UploadTask uploadTask = fileRef.putFile(uris[currentPdfIndex]);
-            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                }
-            }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    isUploading = false;
-                    if (task.isSuccessful()) {
-                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String downloadUrl = uri.toString();
-                                String currentUserId = mAuth.getCurrentUser().getUid();
-                                String amount = "89";//finalamt.getText().toString().replace("₹ ", "");
-                                HashMap<String, Object> timestamp = new HashMap<>();
-                                timestamp.put("timestamp", ServerValue.TIMESTAMP);
-
-                                Fileinmodel fileinmodel = new Fileinmodel(fileNames[currentPdfIndex], downloadUrl, currentUserId, amount, ratios, formats, sheet, Color, String.valueOf(count), String.valueOf(pgsam), orderid, String.valueOf(amtperqty), timestamp.get("timestamp").toString(), String.valueOf(perpage), String.valueOf(delivercharge));
-                                databaseReference.child(orderid).child(sanitizedFileName).setValue(fileinmodel);
-                            }
-                        });
-
-                        Toast.makeText(context, "Upload successful", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Upload failed", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    isUploading = false;
-                    Toast.makeText(context, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
 
         private void displayPdfFromUri(Uri uri, String name) {
             pdf = uri;

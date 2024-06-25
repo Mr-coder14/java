@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.recyculer.PreviewAdapter;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +35,7 @@ public class preview_orderActivity extends AppCompatActivity implements PreviewA
 
     private RecyclerView recyclerView;
     private PreviewAdapter adapter;
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class preview_orderActivity extends AppCompatActivity implements PreviewA
         recyclerView = findViewById(R.id.recyclerpreviewactivity);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         btn=findViewById(R.id.orderbtnadmin);
+        activity=preview_orderActivity.this;
 
 
 
@@ -80,17 +83,14 @@ public class preview_orderActivity extends AppCompatActivity implements PreviewA
 
     private void uploadPdfFiles() {
 
-
-        for (int i = 0; i < adapter.getItemCount(); i++) {
-            PreviewAdapter.ViewHolder viewHolder = (PreviewAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-            if (viewHolder != null) {
-                viewHolder.uploadPdf();
+            if (adapter!= null) {
+                adapter.uploadPdf();
             }
         }
 
 
 
-    }
+
 
     private void showExitConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
