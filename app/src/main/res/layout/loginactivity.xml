@@ -94,27 +94,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forget Password? Click to reset"
-            android:textSize="15sp"
+            android:text="Forget Password?"
+            android:textSize="17sp"
             android:textColor="@color/black"
             android:clickable="true"
             android:id="@+id/forget_password"
             android:focusable="true"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="13dp"
             />
 
-        <TextView
-            android:id="@+id/rgbuttontxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create an Account"
-            android:textSize="18sp"
-            android:focusable="true"
-            android:textColor="@color/black"
-            android:clickable="true"
-            android:textAlignment="center"
-            android:layout_marginTop="22dp"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -172,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="8dp"
-                    app:srcCompat="@drawable/google" />
+                     />
 
                 <TextView
                     android:id="@+id/textView8"
@@ -200,6 +190,31 @@
             android:textColor="#ffffff"
             android:textSize="25dp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rgbuttontxdsdst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Or"
+            android:textSize="18sp"
+            android:focusable="true"
+            android:textColor="@color/black"
+            android:clickable="true"
+            android:textAlignment="center"
+            android:layout_marginTop="22dp"/>
+
+        <TextView
+            android:id="@+id/rgbuttontxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create an Account"
+            android:textSize="20sp"
+            android:focusable="true"
+            android:textColor="@color/black"
+            android:clickable="true"
+            android:fontFamily="@font/lato"
+            android:textAlignment="center"
+            android:layout_marginTop="22dp"/>
 
     </LinearLayout>
 

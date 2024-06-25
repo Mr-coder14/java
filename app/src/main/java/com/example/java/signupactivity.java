@@ -39,7 +39,7 @@ public class signupactivity extends AppCompatActivity {
         }
     }
 
-    EditText email, pass, confirmPass, name, phone;
+    EditText email, pass, confirmPass, name, phone,collegename;
     Button register;
     FirebaseAuth auth;
     DatabaseReference usersRef;
@@ -49,6 +49,7 @@ public class signupactivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signupactivity);
 
+        collegename=findViewById(R.id.clgname);
         email = findViewById(R.id.editTextemail);
         pass = findViewById(R.id.editTextpassword);
         phone = findViewById(R.id.phno);
@@ -67,23 +68,24 @@ public class signupactivity extends AppCompatActivity {
                 String userPass = pass.getText().toString();
                 String userPhone = phone.getText().toString();
                 String userConfirmPass = confirmPass.getText().toString();
+                String clgname=collegename.getText().toString();
 
-                if (TextUtils.isEmpty(userEmail) || TextUtils.isEmpty(userPass) || TextUtils.isEmpty(userConfirmPass) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(userPhone)) {
+                if (TextUtils.isEmpty(userEmail) || TextUtils.isEmpty(userPass) || TextUtils.isEmpty(userConfirmPass) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(userPhone) || TextUtils.isEmpty(clgname)) {
                     Toast.makeText(signupactivity.this, "Enter all details", Toast.LENGTH_SHORT).show();
                 } else if (userPass.length() < 6) {
                     Toast.makeText(signupactivity.this, "Password should be minimum 6 characters", Toast.LENGTH_SHORT).show();
                 } else if (!userPass.equals(userConfirmPass)) {
                     Toast.makeText(signupactivity.this, "Enter same passwords", Toast.LENGTH_SHORT).show();
                 } else if (userEmail.equals(adminEmail)) {
-                    createUser(adminEmail, userPass, userName, userPhone, true);
+                    createUser(adminEmail, userPass, userName, userPhone, true,clgname);
                 } else {
-                    createUser(userEmail, userPass, userName, userPhone, false);
+                    createUser(userEmail, userPass, userName, userPhone, false,clgname);
                 }
             }
         });
     }
 
-    private void createUser(final String email, String password, final String name, final String phone, final boolean isAdmin) {
+    private void createUser(final String email, String password, final String name, final String phone, final boolean isAdmin,String clganme) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(signupactivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -91,7 +93,7 @@ public class signupactivity extends AppCompatActivity {
                     FirebaseUser user = auth.getCurrentUser();
                     if (user != null) {
                         String userId = user.getUid();
-                        User newUser = new User(name, email, phone);
+                        User newUser = new User(name, email, phone,clganme);
                         usersRef.child(userId).setValue(newUser);
                     }
                     Toast.makeText(signupactivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
