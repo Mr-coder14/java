@@ -1,12 +1,10 @@
 package com.example.java;
 
-import android.net.Uri;
-
 public class User {
     private String name;
     private String email;
     private String phno,collegename;
-
+    private String profileuri;
 
 
     public User() {
@@ -20,6 +18,14 @@ public class User {
         this.email = email;
         this.phno=phno;
         this.collegename=Collegename;
+    }
+
+    public String getProfileuri() {
+        return profileuri;
+    }
+
+    public void setProfileuri(String profileuri) {
+        this.profileuri = profileuri;
     }
 
     public String getName() {

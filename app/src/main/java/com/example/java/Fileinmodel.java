@@ -14,6 +14,12 @@ public class Fileinmodel {
     public void setPerpage(String perpage) {
         this.perpage = perpage;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
     public Fileinmodel(){
 
@@ -139,6 +145,7 @@ public class Fileinmodel {
     public void setColor(String color) {
         this.color = color;
     }
+
 
     public String getPages() {
         return pages;

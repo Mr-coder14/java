@@ -29,12 +29,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class preview_orderActivity extends AppCompatActivity implements PreviewAdapter.UploadProgressListener  {
+public class preview_orderActivity extends AppCompatActivity   {
     private ImageButton backbtn;
     private Button btn;
 
     private RecyclerView recyclerView;
+    private  ArrayList<Uri> uris;
     private PreviewAdapter adapter;
+    private ArrayList<String> fileNames;
     private Activity activity;
 
     @Override
@@ -51,8 +53,8 @@ public class preview_orderActivity extends AppCompatActivity implements PreviewA
 
 
 
-        ArrayList<Uri> uris = getIntent().getParcelableArrayListExtra("uris");
-        ArrayList<String> fileNames = getIntent().getStringArrayListExtra("fileNames");
+        uris = getIntent().getParcelableArrayListExtra("uris");
+        fileNames = getIntent().getStringArrayListExtra("fileNames");
 
         if (uris != null && fileNames != null) {
             Uri[] uriArray = uris.toArray(new Uri[0]);
@@ -83,9 +85,16 @@ public class preview_orderActivity extends AppCompatActivity implements PreviewA
 
     private void uploadPdfFiles() {
 
-            if (adapter!= null) {
-                adapter.uploadPdf();
+        for (int i = 0; i < uris.size(); i++) {
+            // Get the ViewHolder for the current item
+            RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
+            if (holder instanceof PreviewAdapter.ViewHolder) {
+                // Cast to your custom ViewHolder class
+                PreviewAdapter.ViewHolder viewHolder = (PreviewAdapter.ViewHolder) holder;
+                // Call the uploadPdf method
+                viewHolder.uploadPdf();
             }
+        }
         }
 
 
@@ -119,14 +128,5 @@ public class preview_orderActivity extends AppCompatActivity implements PreviewA
     }
 
 
-    @Override
-    public void onProgressUpdate(int progress) {
 
-
-    }
-
-    @Override
-    public void onAllFilesUploaded() {
-        //Toast.makeText(this, "All files uploaded successfully", Toast.LENGTH_SHORT).show();
-    }
 }

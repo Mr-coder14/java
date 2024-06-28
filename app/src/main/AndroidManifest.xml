@@ -17,22 +17,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
-
-
+        <activity
+            android:name=".searchadminactivity"
+            android:exported="false" />
         <activity
             android:name=".Splahactivity"
             android:exported="false"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".OrderdDetailsuser"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".OrdrerdDetailsadminactivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".suceesanimation"
             android:exported="false"
@@ -72,9 +71,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts"
             android:screenOrientation="portrait" />
-
     </application>
-
-
 
 </manifest>
