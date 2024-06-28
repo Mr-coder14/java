@@ -154,7 +154,7 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         User userData = dataSnapshot.getValue(User.class);
-                        if (userData != null) {
+                        if (userData != null && getContext()!=null) {
                             username.setText(userData.getName());
                             email.setText(userData.getEmail());
                             usersRef.child("profileImageUrl").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -162,9 +162,13 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
                                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                                     if (task.isSuccessful()) {
                                         String uri = task.getResult().getValue(String.class);
-                                        if (getContext() != null) {
+                                        if(uri!=null){
                                             Glide.with(getContext())
                                                     .load(uri)
+                                                    .into(circleImageView);
+                                        }else {
+                                            Glide.with(getContext())
+                                                    .load(R.drawable.person3)
                                                     .into(circleImageView);
                                         }
                                     }

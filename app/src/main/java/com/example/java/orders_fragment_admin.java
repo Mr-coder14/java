@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ public class orders_fragment_admin extends Fragment {
     private DatabaseReference databaseReference;
     private Query query;
     private ProgressBar progressBar;
+    Button button;
 
     @Nullable
     @Override
@@ -46,8 +48,16 @@ public class orders_fragment_admin extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         progressBar = view.findViewById(R.id.progress_baradmin);
+        button=view.findViewById(R.id.btnsearchadmin);
         progressBar.setVisibility(View.VISIBLE);
         query = databaseReference.orderByChild("timestamp");
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), searchadminactivity.class));
+            }
+        });
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -37,7 +37,4 @@
             android:textColor="@color/black"
             android:id="@+id/admin_email"/>
     </LinearLayout>
-
-
-
 </LinearLayout>

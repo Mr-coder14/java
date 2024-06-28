@@ -5,13 +5,9 @@ public class User {
     private String email;
     private String phno,collegename;
     private String profileuri;
-
-
     public User() {
 
     }
-
-
 
     public User(String name, String email, String phno,String Collegename) {
         this.name = name;

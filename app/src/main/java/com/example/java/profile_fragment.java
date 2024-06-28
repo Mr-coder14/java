@@ -77,9 +77,16 @@ public class profile_fragment extends Fragment {
                                 if (task.isSuccessful()){
                                     String uri=task.getResult().getValue(String.class);
                                     if(getContext()!=null){
-                                        Glide.with(getContext())
-                                                .load(uri)
-                                                .into(circleImageView);
+                                        if(uri!=null){
+                                            Glide.with(getContext())
+                                                    .load(uri)
+                                                    .into(circleImageView);
+                                        }else {
+                                            Glide.with(getContext())
+                                                    .load(R.drawable.person3)
+                                                    .into(circleImageView);
+                                        }
+
                                     }
 
                                 }
@@ -135,7 +142,7 @@ public class profile_fragment extends Fragment {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                // Dismiss dialog, do nothing
+
                 dialogInterface.dismiss();
             }
         });

@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".searchadminactivity">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressadminsearch"/>
     <RelativeLayout
         android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
@@ -31,25 +37,37 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/baseline_arrow_back_24"
             app:tint="@color/white" />
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:id="@+id/addadmin"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/baseline_person_add_alt_1_24"
+            android:layout_alignParentEnd="true"
+            />
+
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/search_user_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_toolbar"
-        android:layout_margin="10dp"
-        android:id="@+id/search_user_layout">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp">
 
         <EditText
             android:id="@+id/searchadmin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_toLeftOf="@+id/search_admin_btn"
-            android:background="@drawable/whitebg_profile"
+            android:background="@drawable/edittext_background_wh"
             android:elevation="4dp"
             android:hint="Username"
             android:imeOptions="actionSearch"

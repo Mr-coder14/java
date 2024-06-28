@@ -85,7 +85,7 @@ public class homeadmin extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     progressBar.setVisibility(View.GONE);
-                    displaypdfs(query);
+                    //displaypdfs(query);
                 } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "No PDFs found", Toast.LENGTH_SHORT).show();
@@ -119,7 +119,7 @@ public class homeadmin extends Fragment {
                     if (!searchText.isEmpty()) {
                         searchPDFs(searchText);
                     } else {
-                        displaypdfs(query);
+                        //displaypdfs(query);
                     }
                 };
                 debounceHandler.postDelayed(searchRunnable, 300);
@@ -140,7 +140,7 @@ public class homeadmin extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     progressBar.setVisibility(View.GONE);
-                    displaypdfs(searchQuery);
+                    //displaypdfs(searchQuery);
                 } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "No PDFs found", Toast.LENGTH_SHORT).show();
@@ -155,7 +155,7 @@ public class homeadmin extends Fragment {
         });
     }
 
-    private void displaypdfs(Query query) {
+    //private void displaypdfs(Query query) {
         FirebaseRecyclerOptions<Fileinmodel> options =
                 new FirebaseRecyclerOptions.Builder<Fileinmodel>()
                         .setQuery(query, Fileinmodel.class)
@@ -214,10 +214,11 @@ public class homeadmin extends Fragment {
                     }
                 };
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        /*recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-        adapter.startListening();
+        adapter.startListening();*/
     }
+    //}
 
 
-}
+

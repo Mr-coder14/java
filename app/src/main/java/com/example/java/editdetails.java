@@ -52,6 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class editdetails extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private EditText editTextName, editTextPhno;
+    private CircleImageView circleImageView;
     private CircleImageView profileimage;
     private Button buttonSave;
     private Uri imageUri;
@@ -71,6 +72,7 @@ public class editdetails extends AppCompatActivity {
         buttonSave=findViewById(R.id.savechanges);
         progressBar=findViewById(R.id.progressedit);
         constraintLayout=findViewById(R.id.constraintedit);
+        circleImageView=findViewById(R.id.profileImageView);
 
         progressBar.setVisibility(View.VISIBLE);
         constraintLayout.setVisibility(View.GONE);
@@ -117,9 +119,15 @@ public class editdetails extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()){
                     String uri=task.getResult().getValue(String.class);
-                    Glide.with(editdetails.this)
-                            .load(uri)
-                            .into(profileimage);
+                    if(uri!=null){
+                        Glide.with(editdetails.this)
+                                .load(uri)
+                                .into(circleImageView);
+                    }else {
+                        Glide.with(editdetails.this)
+                                .load(R.drawable.person3)
+                                .into(circleImageView);
+                    }
                 }
             }
         });
