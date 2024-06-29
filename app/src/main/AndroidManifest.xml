@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".viewAdminProfile"
+            android:exported="false" />
+        <activity
             android:name=".addadminactivity"
             android:exported="false" />
         <activity

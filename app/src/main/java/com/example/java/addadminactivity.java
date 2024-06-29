@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class addadminactivity extends AppCompatActivity {
-    private EditText editText,phone,clg;
+    private EditText editText, Username,clg;
     private Button btn;
     private DatabaseReference firebaseDatabase;
     private ProgressDialog progressDialog;
@@ -25,7 +25,7 @@ public class addadminactivity extends AppCompatActivity {
         setContentView(R.layout.activity_addadminactivity);
 
         editText= findViewById(R.id.adminemailadd);
-        phone=findViewById(R.id.phoneaddadmin);
+        Username =findViewById(R.id.usernameaddadmin);
         clg=findViewById(R.id.collegeaddadmin);btn=findViewById(R.id.btnadd);
 
         firebaseDatabase=FirebaseDatabase.getInstance().getReference().child("admin");
@@ -34,9 +34,9 @@ public class addadminactivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = editText.getText().toString().trim();
-                String phone1= phone.getText().toString();
+                String username1= Username.getText().toString();
                 String college1=clg.getText().toString();
-                if (!email.isEmpty() && !phone1.isEmpty() && !college1.isEmpty()) {
+                if (!email.isEmpty() && !username1.isEmpty() && !college1.isEmpty()) {
                     progressDialog = new ProgressDialog(addadminactivity.this);
                     progressDialog.setMessage("Adding...");
                     progressDialog.setCancelable(false);
@@ -46,7 +46,7 @@ public class addadminactivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             firebaseDatabase.child(email.replace(".", ",")).child("email").setValue(email);
-                            firebaseDatabase.child(email.replace(".", ",")).child("phoneno").setValue(phone1);
+                            firebaseDatabase.child(email.replace(".", ",")).child("name").setValue(username1);
                             firebaseDatabase.child(email.replace(".", ",")).child("college").setValue(college1);
                             progressDialog.dismiss();
                             editText.setText("");
