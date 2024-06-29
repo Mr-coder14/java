@@ -2,6 +2,7 @@ package com.example.java.recyculer;
 
 import static java.security.AccessController.getContext;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -96,17 +97,20 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PreviewAdapter.ViewHolder holder, int position) {
-        holder.bind(uris[position], fileNames[position],position);
+    public void onBindViewHolder(@NonNull PreviewAdapter.ViewHolder holder,  int position) {
+        int p=position;
+        holder.currentPdfIndex=position;
+        holder.bind(uris[p], fileNames[p],p);
 
-        PDFDetails pdfDetails = pdfDetailsList.get(position);
+        PDFDetails pdfDetails = pdfDetailsList.get(p);
 
         holder.black.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.colortxt.setText("Black");
                 holder.Color="Black";
-                holder.updateamt();
+                pdfDetailsList.get(p).setColor("Black");
+                holder.updateamt(p);
             }
         });
 
@@ -117,7 +121,8 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             public void onClick(View v) {
                 holder.colortxt.setText("Gradient");
                 holder.Color="Gradient";
-                holder.updateamt();
+                pdfDetailsList.get(p).setColor("Gradient");
+                holder.updateamt(p);
             }
         });
 
@@ -130,9 +135,11 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
         holder.spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                holder.sheet=parent.getItemAtPosition(position).toString();
-                holder.updateamt();
+            public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
+                holder.sheet=parent.getItemAtPosition(position1).toString();
+                String a=parent.getItemAtPosition(position1).toString();
+                pdfDetailsList.get(p).setSheet(a);
+                holder.updateamt(p);
             }
 
             @Override
@@ -154,9 +161,11 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         holder.spinner.setAdapter(Adaptor1);
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                holder.formats = parent.getItemAtPosition(position).toString();
-                holder.updateamt();
+            public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
+                holder.formats = parent.getItemAtPosition(position2).toString();
+                String a =parent.getItemAtPosition(position2).toString();
+                pdfDetailsList.get(p).setFormats(a);
+                holder.updateamt(p);
                 Toast.makeText(context, holder.formats, Toast.LENGTH_SHORT).show();
             }
 
@@ -178,10 +187,11 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         holder.spinner1.setAdapter(Adaptor2);
         holder.spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                holder.ratios=parent.getItemAtPosition(position).toString();
-
-                holder.updateamt();
+            public void onItemSelected(AdapterView<?> parent, View view, int position3, long id) {
+                holder.ratios=parent.getItemAtPosition(position3).toString();
+                String a=parent.getItemAtPosition(position3).toString();
+                pdfDetailsList.get(p).setRatios(a);
+                holder.updateamt(p);
                 Toast.makeText(context, holder.ratios, Toast.LENGTH_SHORT).show();
             }
 
@@ -206,13 +216,15 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 String a = s.toString();
                 if (!a.isEmpty()) {
                     holder.count = Integer.parseInt(a);
+                    pdfDetailsList.get(p).setCount(Integer.parseInt(a));
                     holder.qtytxt1.setText(a);
                     holder.qtyno.setText(a);
 
-                    holder.updateamt();
+                    holder.updateamt(p);
                 } else {
 
                     holder.count = 1;
+                    pdfDetailsList.get(p).setCount(Integer.parseInt("1"));
 
                     holder.qtytxt1.setText(String.valueOf(holder.count));
                     holder.qtyno.setText(String.valueOf(holder.count));
@@ -227,13 +239,15 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             public void onClick(View v) {
                 if (holder.count <= 1) {
                     holder.count = 1;
+                    pdfDetailsList.get(p).setCount(Integer.parseInt("1"));
 
                 } else {
                     holder.count--;
+                    pdfDetailsList.get(p).setCount(holder.count);
                     holder.qty.setText(String.valueOf(holder.count));
                     holder.qtytxt1.setText(String.valueOf(holder.count));
                     holder.qtyno.setText(String.valueOf(holder.count));
-                    holder.updateamt();
+                    holder.updateamt(p);
                 }
             }
         });
@@ -244,10 +258,11 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             public void onClick(View v) {
 
                 holder.count++;
+                pdfDetailsList.get(p).setCount(holder.count);
                 holder.qty.setText(String.valueOf(holder.count));
                 holder.qtytxt1.setText(String.valueOf(holder.count));
                 holder.qtyno.setText(String.valueOf(holder.count));
-                holder.updateamt();
+                holder.updateamt(p);
             }
         });
 
@@ -279,7 +294,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView fileNameTextView;
         private PDFView pdfView;
-        private TextView  pg, amt1, qtyno, qtytxt1, perpageamt, deliveryamt, colortxt;
+        private TextView  pg, amt1, qtyno, qtytxt1, perpageamt, deliveryamt, colortxt,finalamt;
 
         private EditText qty;
         private int currentPdfIndex = 0;
@@ -315,7 +330,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             spinner= itemView.findViewById(R.id.spinneradmin);
             amt1 = itemView.findViewById(R.id.amt1admin);
             spinner1 = itemView.findViewById(R.id.spinner1admin);
-            //finalamt = itemView.findViewById(R.id.finalamtadmin);
+            finalamt = itemView.findViewById(R.id.finaladmin12);
             qty = itemView.findViewById(R.id.qtytxtadmin);
             preview = itemView.findViewById(R.id.preview);
             perpageamt = itemView.findViewById(R.id.perpageamtadmin);
@@ -331,30 +346,32 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
         }
 
-        private void updateamt() {
-            if(sheet.equals("A4")){
+        private void updateamt(int position) {
+            if(pdfDetailsList.get(position).getSheet().toString().equals("A4")){
                 try {
                     String amt1Text = amt1.getText().toString().replaceAll("[^\\d.]", "");
 
-                    if(Color=="Gradient"){
+                    if(pdfDetailsList.get(position).getColor().toString().equals("Gradient")){
                         perpage=10.0f;
                     }
                     else {
-                        switch (ratios) {
+                        switch (pdfDetailsList.get(position).getRatios()) {
                             case "1:1":
                                 perpage = 0.75f;
+                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.75));
                                 break;
                             case "1:2":
                             case "1:4":
                                 perpage = 0.85f;
-
+                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.85));
                                 break;
                         }
 
                     }
 
                     amtperqty= perpage * pgsam + delivercharge;
-
+                    pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
+                    pdfDetailsList.get(position).setDeliverycharge(String.valueOf(delivercharge));
 
 
 
@@ -377,12 +394,15 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
-            }else if (sheet.equals("OHP")) {
+            }else if (pdfDetailsList.get(position).getSheet().toString().equals("OHP")) {
                 String amt1Text = amt1.getText().toString().replaceAll("[^\\d.]", "");
                 perpage=15.0f;
+                pdfDetailsList.get(position).setPerpage(String.valueOf(15.0));
                 amtperqty=perpage * pgsam + delivercharge;
                 finalamount = perpage * pgsam * count;
                 finalamount += delivercharge;
+                pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
+                pdfDetailsList.get(position).setDeliverycharge(String.valueOf(delivercharge));
                 setamt();
 
 
@@ -419,7 +439,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                         fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                             String downloadUrl = uri.toString();
                             String currentUserId = mAuth.getCurrentUser().getUid();
-                            String amount = "89";
                             HashMap<String, Object> timestamp = new HashMap<>();
                             timestamp.put("timestamp", ServerValue.TIMESTAMP);
 
@@ -468,7 +487,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                                             if (allSuccessful) {
                                                 Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
                                             } else {
-                                                Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(context, "Upload unsuccessful for some files", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
@@ -520,12 +539,13 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                         public void loadComplete(int nbPages) {
                             pg.setText(String.valueOf(nbPages));
                             pgsam = nbPages;
-                            updateamt();
+                            pdfDetailsList.get(currentPdfIndex).setPages(String.valueOf(pgsam));
+                            updateamt(currentPdfIndex);
                             float a = pgsam * perpage+delivercharge;
                             perpageamt.setText(String.valueOf(perpage));
                             amt1.setText("₹ " + String.valueOf(a));
                             amtperqty=a;
-                            //finalamt.setText("₹ " + String.valueOf(a));
+                            finalamt.setText("₹ " + String.valueOf(a));
 
                         }
                     })
@@ -549,8 +569,13 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         private void setamt() {
             deliveryamt.setText(String.format("₹ %.2f", delivercharge));
             perpageamt.setText(String.format("%.2f", perpage));
-            //finalamt.setText(String.format("₹ %.2f", finalamount));
+            pdfDetailsList.get(currentPdfIndex).setDeliverycharge(String.valueOf(delivercharge));
+            pdfDetailsList.get(currentPdfIndex).setPerpage(String.valueOf(perpage));
+            finalamt.setText(String.format("₹ %.2f", finalamount));
             amt1.setText(String.format("₹ %.2f", amtperqty));
+            pdfDetailsList.get(currentPdfIndex).setPerqtyamt(String.valueOf(amtperqty));
+            pdfDetailsList.get(currentPdfIndex).setFinalmat(String.valueOf(finalamount));
+
         }
 
 
@@ -578,6 +603,8 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         public String getUerid() {
             return uerid;
         }
+
+
 
         public void setUerid(String uerid) {
             this.uerid = uerid;
@@ -692,7 +719,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             return "";
         }
 
-        private boolean isInRange(int a, int b, int c) {
+        private boolean isInRange(int a, int b, int c){
             return b > a ? c >= a && c <= b : c >= b && c <= a;
         }
     }
