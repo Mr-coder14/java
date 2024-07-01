@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class orders_fragment_admin extends Fragment {
+public class ordersfragment_adminmain extends Fragment {
 
     private RecyclerView recyclerView;
     FirebaseAuth auth;
@@ -40,7 +40,7 @@ public class orders_fragment_admin extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.oders_activity_admin, container, false);
+        View view = inflater.inflate(R.layout.oders_activity_adminadmin, container, false);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         recyclerView = view.findViewById(R.id.recyclerVieworders);
         auth = FirebaseAuth.getInstance();

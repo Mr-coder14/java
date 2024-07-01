@@ -27,7 +27,7 @@ public class Adminactivity extends AppCompatActivity {
         user=auth.getCurrentUser();
 
         bottomNavigationView=findViewById(R.id.bottomappbaradmin);
-        fragment=new homeadmin();
+        fragment=new homeadminmain();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containeradmin,fragment).commit();
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -35,12 +35,15 @@ public class Adminactivity extends AppCompatActivity {
 
                 int id=item.getItemId();
                 if(id==R.id.Homebottomadmin){
-                    fragment=new homeadmin();
+                    fragment=new homeadminmain();
 
                 }
                 if(id==R.id.ordersadmin){
-                    fragment=new orders_fragment_admin();
+                    fragment=new ordersfragment_adminmain();
 
+                }
+                if(id==R.id.profileadmin){
+                    fragment=new profileadminfragment();
                 }
                 if(fragment!=null)
                 {

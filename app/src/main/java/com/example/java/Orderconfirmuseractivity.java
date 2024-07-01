@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,7 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +54,19 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         recyclerView1.setAdapter(apadtor);
         gt= apadtor.getGrandtotal();
         grandamt.setText("₹ "+String.valueOf(gt));
+
         Confirmorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 uploadPdfFiles();
+
+
             }
         });
     }
+
+
+
     public void uploadPdfFiles() {
 
 
@@ -71,6 +79,7 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
 
 
                 viewHolder.uploadPdf();
+
             }
         }
     }

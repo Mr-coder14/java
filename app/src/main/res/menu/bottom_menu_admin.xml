@@ -11,4 +11,9 @@
         android:title="Orders"
         android:id="@+id/ordersadmin"
         android:icon="@drawable/baseline_history_24"/>
+    <item
+        android:title="Profile"
+        android:id="@+id/profileadmin"
+        android:icon="@drawable/baseline_person_24"
+        android:iconTint="@color/green"/>
 </menu>

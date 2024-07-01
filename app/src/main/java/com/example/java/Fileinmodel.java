@@ -1,5 +1,7 @@
 package com.example.java;
 
+import java.util.Map;
+
 public class Fileinmodel {
     String uri;
     String userID,orderid;
@@ -37,8 +39,8 @@ public class Fileinmodel {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setTimestamp(Map<String, String> timestamp) {
+        this.timestamp = timestamp.size();
     }
 
     public String getOrderDate() {

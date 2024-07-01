@@ -3,6 +3,7 @@ package com.example.java.recyculer;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
+import com.example.java.Orderconfirmuseractivity;
 import com.example.java.PDFDetails;
 import com.example.java.R;
+import com.example.java.suceesanimation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -80,11 +83,11 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
         PDFDetails pdfDetails1=pdfDetails.get(position);
         String filename=fileNames.get(position);
         holder.pages.setText(pdfDetails1.getPages());
-        holder.finalamt.setText(pdfDetails1.getFinalmat());
+        holder.finalamt.setText("₹ "+pdfDetails1.getFinalmat());
         holder.qty.setText(String.valueOf(pdfDetails1.getCount()));
         holder.filename.setText(filename.toString());
-        holder.amtperqty.setText(pdfDetails1.getPerqtyamt());
-        holder.perpage.setText(pdfDetails1.getPerpage());
+        holder.amtperqty.setText("₹ "+pdfDetails1.getPerqtyamt());
+        holder.perpage.setText("₹ "+pdfDetails1.getPerpage());
 
 
 
@@ -127,7 +130,10 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
             isUploading = true;
             databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
 
-            for (int i = 0; i < uris.size(); i++) {
+            int totalFiles = uris.size();
+            int[] uploadedCount = {0};
+
+            for (int i = 0; i < totalFiles; i++) {
                 String path = "pdfs/" + orderid + "/" + fileNames.get(i);
                 String sanitizedFileName = sanitizeFileName(fileNames.get(i));
                 StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(path);
@@ -150,7 +156,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             fileModel.setName(fileNames.get(finalI));
                             fileModel.setUri(downloadUrl);
                             fileModel.setOrderid(orderid);
-                            fileModel.setTimestamp(ServerValue.TIMESTAMP.size());
+                            fileModel.setTimestamp(ServerValue.TIMESTAMP);
                             fileModel.setColor(details.getColor());
                             fileModel.setQty(String.valueOf(details.getCount()));
                             fileModel.setFormat(details.getFormats());
@@ -164,7 +170,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             fileModel.setFinalamt(details.getFinalmat());
                             fileModel.setUserID(details.getUerid());
 
-
+                            databaseReference.child(orderid).child("Grandtotal").setValue(grandtotal);
                             databaseReference.child(orderid).child(sanitizedFileName).setValue(fileModel)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
@@ -173,7 +179,9 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                                             uploaded[finalI] = false;
                                         }
 
-                                        if (finalI == uris.size() - 1) {
+                                        uploadedCount[0]++;
+
+                                        if (uploadedCount[0] == totalFiles) {
                                             isUploading = false;
                                             progressDialog.dismiss();
 
@@ -187,6 +195,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
 
                                             if (allSuccessful) {
                                                 Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
+
                                             } else {
                                                 Toast.makeText(context, "Upload unsuccessful for some files", Toast.LENGTH_SHORT).show();
                                             }
@@ -197,13 +206,11 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                         uploaded[finalI] = false;
                         Toast.makeText(context, "Upload failed for " + fileNames.get(finalI), Toast.LENGTH_SHORT).show();
 
+                        uploadedCount[0]++;
 
-                        if (finalI == uris.size() - 1) {
+                        if (uploadedCount[0] == totalFiles) {
                             isUploading = false;
                             progressDialog.dismiss();
-
-
-
 
                             boolean allSuccessful = true;
                             for (boolean status : uploaded) {
@@ -215,6 +222,8 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
 
                             if (allSuccessful) {
                                 Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
+                                activity.startActivity(new Intent(activity, suceesanimation.class));
+                                activity.finish();
                             } else {
                                 Toast.makeText(context, "Upload failed for some files", Toast.LENGTH_SHORT).show();
                             }
@@ -223,5 +232,6 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                 });
             }
         }
+
     }
 }

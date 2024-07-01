@@ -1,10 +1,12 @@
 package com.example.java;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.java.recyculer.searchadminadaptor;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -115,6 +118,34 @@ public class searchadminactivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull searchadminadaptor holder, int position, @NonNull User model) {
                 progressBar.setVisibility(View.GONE);
+
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        String emailKey=model.getEmail().replace(".", ",");
+
+                        new AlertDialog.Builder(searchadminactivity.this)
+                                .setTitle("Delete Admin")
+                                .setMessage("Are you sure you want to delete this admin?")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        databaseReference.child(emailKey).removeValue().addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(searchadminactivity.this, "Admin deleted successfully", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(searchadminactivity.this, "Failed to delete admin", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+
+                        return true;
+                    }
+                });
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -38,7 +38,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class homeadmin extends Fragment {
+public class homeadminmain extends Fragment {
     private static final String TAG = "homeadmin";
 
     private RecyclerView recyclerView;
@@ -54,7 +54,7 @@ public class homeadmin extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_homeadmin, container, false);
+        View view = inflater.inflate(R.layout.fragment_homeadminmain, container, false);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         recyclerView = view.findViewById(R.id.recyclerhomeadmin);
