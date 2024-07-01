@@ -52,17 +52,9 @@
                         android:textColor="@color/white"
                         android:textSize="25sp"
                         android:textStyle="bold" />
+
                 </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/linearLayout00"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:background="#000000"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/uioad"
-                    android:orientation="horizontal">
-                </LinearLayout>
+
 
 
                 <LinearLayout
@@ -73,7 +65,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout00">
+                    app:layout_constraintTop_toBottomOf="@+id/uioad">
                     >
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -92,20 +84,10 @@
                         android:orientation="horizontal"
                         android:padding="10dp">
 
-                        <TextView
-                            android:id="@+id/finalamtadmin"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/lato"
-                            android:text="₹30"
-                            android:textColor="@color/black"
-                            android:textSize="36sp"
-                            android:textStyle="bold" />
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/orderbtnadmin"
-                            android:layout_width="190dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:background="@drawable/button_background"

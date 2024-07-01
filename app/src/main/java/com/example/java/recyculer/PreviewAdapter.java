@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
+import com.example.java.PDFDetails;
 import com.example.java.R;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -53,10 +54,9 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
     private String[] fileNames;
     private String orderid;
     private Context context;
-    private DatabaseReference databaseReference;
-    private boolean isUploading = false;
 
-    private boolean[] uploaded;
+
+
 
     private Activity activity;
 
@@ -70,12 +70,23 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         this.uris =  uris ;
         this.fileNames = fileNames ;
         this.orderid = generateOrderId();
-        this.uploaded=new boolean[uris.length];
+
         this.pdfDetailsList = new ArrayList<>();
+
 
         for (int i = 0; i < uris.length; i++) {
             pdfDetailsList.add(new PDFDetails());
         }
+    }
+
+
+
+
+    public  String getOrderid(){
+        return orderid;
+    }
+    public ArrayList<PDFDetails> getPdfDetailsList(){
+        return new ArrayList<>(pdfDetailsList);
     }
 
 
@@ -228,7 +239,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
                     holder.qtytxt1.setText(String.valueOf(holder.count));
                     holder.qtyno.setText(String.valueOf(holder.count));
-                   // holder.finalamt.setText(holder.amt1.getText());
+
 
                 }
             }
@@ -308,8 +319,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         private int pgsam;
         private ImageButton plus, minus;
         private Uri pdf;
-        private FirebaseAuth mAuth;
-        private boolean isUploading = false;
         private float currentProgress = 0, finalamount;
         private float delivercharge = 10.0f, amtperqty;
         private Activity activity;
@@ -341,7 +350,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             pdfView = itemView.findViewById(R.id.pdfViewadmin);
             colortxt = itemView.findViewById(R.id.colorfontadmin);
 
-            mAuth=FirebaseAuth.getInstance();
 
 
         }
@@ -411,117 +419,8 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
         }
 
-        private String sanitizeFileName(String fileName) {
-
-            return fileName.replaceAll("[.#$\\[\\]]", "_");
-        }
-
-        public void uploadPdf() {
-            ProgressDialog progressDialog = new ProgressDialog(context);
-            progressDialog.setTitle("Uploading");
-            progressDialog.setMessage("Please wait");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-
-            isUploading = true;
-            databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
-
-            for (int i = 0; i < uris.length; i++) {
-                String path = "pdfs/" + orderid + "/" + fileNames[i];
-                String sanitizedFileName = sanitizeFileName(fileNames[i]);
-                StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(path);
-
-                int finalI = i;
-
-                UploadTask uploadTask = fileRef.putFile(uris[i]);
-                uploadTask.addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            String downloadUrl = uri.toString();
-                            String currentUserId = mAuth.getCurrentUser().getUid();
-                            HashMap<String, Object> timestamp = new HashMap<>();
-                            timestamp.put("timestamp", ServerValue.TIMESTAMP);
-
-                            PDFDetails pdfDetails = pdfDetailsList.get(finalI);
-
-                            Fileinmodel fileModel = new Fileinmodel();
-
-                            fileModel.setName(fileNames[finalI]);
-                            fileModel.setUri(downloadUrl);
-                            fileModel.setOrderid(orderid);
-                            fileModel.setTimestamp(ServerValue.TIMESTAMP.size());
-                            fileModel.setColor(pdfDetails.getColor());
-                            fileModel.setQty(String.valueOf(pdfDetails.getCount()));
-                            fileModel.setFormat(pdfDetails.getFormats());
-                            fileModel.setRatio(pdfDetails.getRatios());
-                            fileModel.setSheet(pdfDetails.getSheet());
-                            fileModel.setDeliveyamt(pdfDetails.getDeliverycharge());
-                            fileModel.setPages(pdfDetails.getPages());
-                            fileModel.setPerpage(pdfDetails.getPerpage());
-                            fileModel.setPerqtyamt(pdfDetails.getPerqtyamt());
-                            fileModel.setOrderDate(pdfDetails.getOrderdate());
-                            fileModel.setFinalamt(pdfDetails.getFinalmat());
-                            fileModel.setUserID(pdfDetails.getUerid());
 
 
-                            databaseReference.child(orderid).child(sanitizedFileName).setValue(fileModel)
-                                    .addOnCompleteListener(task1 -> {
-                                        if (task1.isSuccessful()) {
-                                            uploaded[finalI] = true;
-                                        } else {
-                                            uploaded[finalI] = false;
-                                        }
-
-                                        if (finalI == uris.length - 1) {
-                                            isUploading = false;
-                                            progressDialog.dismiss();
-
-                                            boolean allSuccessful = true;
-                                            for (boolean status : uploaded) {
-                                                if (!status) {
-                                                    allSuccessful = false;
-                                                    break;
-                                                }
-                                            }
-
-                                            if (allSuccessful) {
-                                                Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                Toast.makeText(context, "Upload unsuccessful for some files", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                        });
-                    } else {
-                        uploaded[finalI] = false;
-                        Toast.makeText(context, "Upload failed for " + fileNames[finalI], Toast.LENGTH_SHORT).show();
-
-
-                        if (finalI == uris.length - 1) {
-                            isUploading = false;
-                            progressDialog.dismiss();
-
-
-
-
-                            boolean allSuccessful = true;
-                            for (boolean status : uploaded) {
-                                if (!status) {
-                                    allSuccessful = false;
-                                    break;
-                                }
-                            }
-
-                            if (allSuccessful) {
-                                Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(context, "Upload failed for some files", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
-            }
-        }
 
 
 
@@ -562,8 +461,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                     .enableDoubletap(false)
                     .enableAnnotationRendering(false)
                     .pageSnap(false)
-                    .pageFling(false)
-                    .load();
+                    .pageFling(false).load();
         }
 
         private void setamt() {
@@ -588,116 +486,13 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             currentPdfIndex = position;
         }
 
-        
+
+
     }
 
 
 
-    class PDFDetails {
-        private int count = 1;
-        private String color = "Black",deliverycharge="10.0",pages="0",perqtyamt="10",perpage="0.75",uerid,finalmat="89",orderdate;
-        private String formats = "Front & Back";
-        private String ratios = "1:1";
-        private String sheet = "A4";
 
-        public String getUerid() {
-            return uerid;
-        }
-
-
-
-        public void setUerid(String uerid) {
-            this.uerid = uerid;
-        }
-
-        public String getFinalmat() {
-            return finalmat;
-        }
-
-        public void setFinalmat(String finalmat) {
-            this.finalmat = finalmat;
-        }
-
-        public String getOrderdate() {
-            return orderdate;
-        }
-
-        public void setOrderdate(String orderdate) {
-            this.orderdate = orderdate;
-        }
-
-        public String getDeliverycharge() {
-            return deliverycharge;
-        }
-
-        public void setDeliverycharge(String deliverycharge) {
-            this.deliverycharge = deliverycharge;
-        }
-
-        public String getPages() {
-            return pages;
-        }
-
-        public void setPages(String pages) {
-            this.pages = pages;
-        }
-
-        public String getPerqtyamt() {
-            return perqtyamt;
-        }
-
-        public void setPerqtyamt(String perqtyamt) {
-            this.perqtyamt = perqtyamt;
-        }
-
-        public String getPerpage() {
-            return perpage;
-        }
-
-        public void setPerpage(String perpage) {
-            this.perpage = perpage;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public void setCount(int count) {
-            this.count = count;
-        }
-
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
-        }
-
-        public String getFormats() {
-            return formats;
-        }
-
-        public void setFormats(String formats) {
-            this.formats = formats;
-        }
-
-        public String getRatios() {
-            return ratios;
-        }
-
-        public void setRatios(String ratios) {
-            this.ratios = ratios;
-        }
-
-        public String getSheet() {
-            return sheet;
-        }
-
-        public void setSheet(String sheet) {
-            this.sheet = sheet;
-        }
-    }
 
 
         class InputFilterMinMax implements InputFilter {
