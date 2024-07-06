@@ -28,7 +28,7 @@ public class addadminactivity extends AppCompatActivity {
         Username =findViewById(R.id.usernameaddadmin);
         clg=findViewById(R.id.collegeaddadmin);btn=findViewById(R.id.btnadd);
 
-        firebaseDatabase=FirebaseDatabase.getInstance().getReference().child("admin");
+        firebaseDatabase=FirebaseDatabase.getInstance().getReference().child("tempadmin");
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

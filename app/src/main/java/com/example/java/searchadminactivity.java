@@ -47,7 +47,7 @@ public class searchadminactivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("admin");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("tempadmin1");
 
         addadmin.setOnClickListener(new View.OnClickListener() {
             @Override

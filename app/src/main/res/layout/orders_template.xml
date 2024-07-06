@@ -43,11 +43,12 @@
                 android:orientation="vertical"
                 >
                 <TextView
-                    android:id="@+id/filenameadmin"
+                    android:id="@+id/orderidadmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
                     android:fontFamily="@font/lato"
                     android:lines="1"
@@ -109,11 +110,11 @@
                         android:gravity="start"
                         android:textColor="@color/white"
                         android:fontFamily="@font/plus"
-                        android:text="Order ID"/>
+                        android:text="Grand Total"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/orderidadmin"
+                        android:id="@+id/Grandtotaladmin"
                         android:layout_weight="1"
                         android:textSize="13dp"
                         android:gravity="end"

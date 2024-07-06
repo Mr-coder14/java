@@ -163,11 +163,11 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
                                     if (task.isSuccessful()) {
                                         String uri = task.getResult().getValue(String.class);
                                         if(uri!=null){
-                                            Glide.with(getContext())
+                                            Glide.with(context)
                                                     .load(uri)
                                                     .into(circleImageView);
                                         }else {
-                                            Glide.with(getContext())
+                                            Glide.with(context)
                                                     .load(R.drawable.person3)
                                                     .into(circleImageView);
                                         }

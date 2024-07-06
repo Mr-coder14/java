@@ -7,10 +7,46 @@ import androidx.annotation.NonNull;
 
 public class PDFDetails implements Parcelable {
     private int count = 1;
-    private String color = "Black",deliverycharge="10.0",pages="0",perqtyamt="10",perpage="0.75",uerid,finalmat="89",orderdate;
+    private String color = "Black";
+    private String deliverycharge="10.0";
+    private String pages="0";
+    private String perqtyamt="10";
+    private String perpage="0.75";
+    private String userid;
+    private String finalmat="89";
+    private String orderdate;
+    private String Grandtotal;
+    private String orderid;
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    private String uri;
     private String formats = "Front & Back";
     private String ratios = "1:1";
     private String sheet = "A4";
+
+    public String getOrderid1() {
+        return orderid;
+    }
+
+    public void setOrderid1(String orderid) {
+        this.orderid = orderid;
+    }
+
+    public String getGrandtotal() {
+        return Grandtotal;
+    }
+
+    public void setGrandtotal(String grandtotal) {
+        Grandtotal = grandtotal;
+    }
+
     public PDFDetails(){
 
     }
@@ -27,14 +63,14 @@ public class PDFDetails implements Parcelable {
         }
     };
 
-    public String getUerid() {
-        return uerid;
+    public String getUserid() {
+        return userid;
     }
 
 
 
-    public void setUerid(String uerid) {
-        this.uerid = uerid;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public String getFinalmat() {
@@ -133,7 +169,7 @@ public class PDFDetails implements Parcelable {
         pages=in.readString();
         perqtyamt=in.readString();
         perpage=in.readString();
-        uerid=in.readString();
+        userid =in.readString();
         orderdate=in.readString();
         formats=in.readString();
         ratios=in.readString();
@@ -156,7 +192,7 @@ public class PDFDetails implements Parcelable {
         dest.writeString(pages);
         dest.writeString(perqtyamt);
         dest.writeString(perpage);
-        dest.writeString(uerid);
+        dest.writeString(userid);
         dest.writeString(finalmat);
         dest.writeString(orderdate);
         dest.writeString(formats);

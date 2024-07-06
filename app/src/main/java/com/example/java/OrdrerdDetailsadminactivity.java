@@ -122,20 +122,20 @@ public class OrdrerdDetailsadminactivity extends AppCompatActivity {
                     DataSnapshot dataSnapshot = task.getResult();
                     if (dataSnapshot.exists()) {
                         Fileinmodel fileinmodel = dataSnapshot.getValue(Fileinmodel.class);
-                        fileNameTextViewadmin.setText(fileinmodel.getName());
+                        fileNameTextViewadmin.setText(fileinmodel.getName0());
                         filename = fileNameTextViewadmin.getText().toString();
-                        orderidadmin = fileinmodel.getOrderid();
-                        pgadmin.setText(fileinmodel.getPages());
-                        perpageamtadmin.setText("₹ "+fileinmodel.getPerpage());
-                        amt1admin.setText(fileinmodel.getPerqtyamt());
-                        qtynoadmin.setText(fileinmodel.getQty());
-                        qtytxt1admin.setText(fileinmodel.getQty());
-                        deliveryamtadmin.setText("₹ "+fileinmodel.getDeliveyamt());
-                        colortxtadmin.setText(fileinmodel.getColor());
-                        finalamtadmin.setText("₹ " + fileinmodel.getFinalamt());
-                        formatadmin.setText(fileinmodel.getFormat());
-                        sheetadmin.setText(fileinmodel.getSheet());
-                        ratioadmin.setText(fileinmodel.getRatio());
+                        orderidadmin = fileinmodel.getOrderid0();
+                        pgadmin.setText(fileinmodel.getPages0());
+                        perpageamtadmin.setText("₹ "+fileinmodel.getPerpage0());
+                        amt1admin.setText(fileinmodel.getPerqtyamt0());
+                        qtynoadmin.setText(fileinmodel.getQty0());
+                        qtytxt1admin.setText(fileinmodel.getQty0());
+                        deliveryamtadmin.setText("₹ "+fileinmodel.getDeliveyamt0());
+                        colortxtadmin.setText(fileinmodel.getColor0());
+                        finalamtadmin.setText("₹ " + fileinmodel.getFinalamt0());
+                        formatadmin.setText(fileinmodel.getFormat0());
+                        sheetadmin.setText(fileinmodel.getSheet0());
+                        ratioadmin.setText(fileinmodel.getRatio0());
                         progressBar.setVisibility(View.GONE);
                         scrollView.setVisibility(View.VISIBLE);
                     } else {

@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
-import com.example.java.Orderconfirmuseractivity;
 import com.example.java.PDFDetails;
 import com.example.java.R;
 import com.example.java.suceesanimation;
@@ -26,8 +25,6 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,6 +100,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
         private boolean isUploading = false;
         private FirebaseAuth mAuth;
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             pages=itemView.findViewById(R.id.pagestxt1);
@@ -113,6 +111,8 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
 
             amtperqty=itemView.findViewById(R.id.amtperqtytxt1);
             mAuth=FirebaseAuth.getInstance();
+
+
 
         }
         private String sanitizeFileName(String fileName) {
@@ -145,33 +145,36 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                     if (task.isSuccessful()) {
                         fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                             String downloadUrl = uri.toString();
-                            String currentUserId = mAuth.getCurrentUser().getUid();
+                            String userid=mAuth.getCurrentUser().getUid();
                             HashMap<String, Object> timestamp = new HashMap<>();
                             timestamp.put("timestamp", ServerValue.TIMESTAMP);
 
                             PDFDetails details = pdfDetails.get(finalI);
+                            details.setGrandtotal(grandtotal.toString());
+                            details.setOrderid1(orderid);
+                            details.setUserid(userid);
+                            details.setUri(downloadUrl);
 
                             Fileinmodel fileModel = new Fileinmodel();
 
-                            fileModel.setName(fileNames.get(finalI));
-                            fileModel.setUri(downloadUrl);
-                            fileModel.setOrderid(orderid);
-                            fileModel.setTimestamp(ServerValue.TIMESTAMP);
-                            fileModel.setColor(details.getColor());
-                            fileModel.setQty(String.valueOf(details.getCount()));
-                            fileModel.setFormat(details.getFormats());
-                            fileModel.setRatio(details.getRatios());
-                            fileModel.setSheet(details.getSheet());
-                            fileModel.setDeliveyamt(details.getDeliverycharge());
-                            fileModel.setPages(details.getPages());
-                            fileModel.setPerpage(details.getPerpage());
-                            fileModel.setPerqtyamt(details.getPerqtyamt());
-                            fileModel.setOrderDate(details.getOrderdate());
-                            fileModel.setFinalamt(details.getFinalmat());
-                            fileModel.setUserID(details.getUerid());
+                            fileModel.setName0(fileNames.get(finalI));
+                            fileModel.setUri0(details.getUri());
+                            fileModel.setOrderid0(details.getOrderid1());
+                            fileModel.setColor0(details.getColor());
+                            fileModel.setGrandTotal0(details.getGrandtotal());
+                            fileModel.setQty0(String.valueOf(details.getCount()));
+                            fileModel.setFormat0(details.getFormats());
+                            fileModel.setRatio0(details.getRatios());
+                            fileModel.setSheet0(details.getSheet());
+                            fileModel.setDeliveyamt0(details.getDeliverycharge());
+                            fileModel.setPages0(details.getPages());
+                            fileModel.setPerpage0(details.getPerpage());
+                            fileModel.setPerqtyamt0(details.getPerqtyamt());
+                            fileModel.setOrderDate0(details.getOrderdate());
+                            fileModel.setFinalamt0(details.getFinalmat());
+                            fileModel.setuserid0(details.getUserid());
 
-                            databaseReference.child(orderid).child("Grandtotal").setValue(grandtotal);
-                            databaseReference.child(orderid).child(sanitizedFileName).setValue(fileModel)
+                            databaseReference.child(userid).child(orderid).child(sanitizedFileName).setValue(fileModel)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
                                             uploaded[finalI] = true;

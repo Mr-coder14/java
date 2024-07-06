@@ -61,7 +61,7 @@ public class viewAdminProfile extends AppCompatActivity {
             }
         });
 
-        usersRef = FirebaseDatabase.getInstance().getReference("admin").child(em);
+        usersRef = FirebaseDatabase.getInstance().getReference("tempadmin").child(em);
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

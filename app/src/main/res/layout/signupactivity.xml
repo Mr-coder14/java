@@ -81,22 +81,20 @@
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
-                <EditText
+                <Spinner
                     android:id="@+id/clgname"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/edittext_background"
-                    android:drawableLeft="@drawable/ic_baseline_person_24"
-                    android:drawablePadding="10dp"
-                    android:ems="10"
-                    android:hint="Enter Your College Name"
-                    android:inputType="textPersonName"
                     android:padding="12dp"
+                    android:hint="Enter Your College Name"
+                    android:spinnerMode="dropdown"
+                    android:textSize="18sp"
                     android:textColor="#707070"
                     android:textColorHint="@color/black"
-                    android:textSize="18sp" />
+                    android:entries="@array/college_names_array" />
+
                 <TextView
                     android:id="@+id/textView78"
                     android:layout_width="match_parent"

@@ -165,12 +165,11 @@ public class homeadminmain extends Fragment {
                 new FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull RetrivepdfAdaptorhomeadmin holder, int position, @NonNull Fileinmodel model) {
-                        holder.pdffilename1.setText(model.getName());
-                        String orderids= model.getOrderid().toString();
-                        holder.orderid.setText(model.getOrderid());
+                        String orderids= model.getOrderid0().toString();
+                        holder.orderid.setText(model.getOrderid0());
 
 
-                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(model.getuserID());
+                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(model.getuserid0());
                         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -191,7 +190,7 @@ public class homeadminmain extends Fragment {
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String pdfUri = model.getUri();
+                                String pdfUri = model.getUri0();
 
                                 if (pdfUri != null && !pdfUri.isEmpty()) {
                                     Intent intent=new Intent(getActivity(), OrdrerdDetailsadminactivity.class);

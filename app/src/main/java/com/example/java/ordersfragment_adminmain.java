@@ -118,12 +118,11 @@ public class ordersfragment_adminmain extends Fragment {
                     @Override
                     protected void onBindViewHolder(@NonNull RetrivepdfAdaptorhomeadmin holder, int position, @NonNull Fileinmodel model) {
                         progressBar.setVisibility(View.GONE);
-                        holder.pdffilename1.setText(model.getName());
-                        String orderids= model.getOrderid().toString();
-                        holder.orderid.setText(model.getOrderid());
+                        //String orderids= model.getOrderid0().toString();
+                        holder.orderid.setText(model.getOrderid0());
 
 
-                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(model.getuserID());
+                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
                         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -144,12 +143,12 @@ public class ordersfragment_adminmain extends Fragment {
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String pdfUri = model.getUri();
+                                String pdfUri = model.getUri0();
 
                                 if (pdfUri != null && !pdfUri.isEmpty()) {
                                     Intent intent=new Intent(getActivity(), OrdrerdDetailsadminactivity.class);
                                     intent.setData(Uri.parse(pdfUri));
-                                    intent.putExtra("orderid",orderids);
+                                    //intent.putExtra("orderid",orderids);
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(getContext(), "PDF URI is not valid", Toast.LENGTH_SHORT).show();

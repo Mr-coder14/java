@@ -1,62 +1,69 @@
 package com.example.java;
 
-import java.util.Map;
-
 public class Fileinmodel {
     String uri;
-    String userID,orderid;
+    String userid,orderid;
     String name;
-    String finalamt,ratio,format,sheet,qty,color,pages,perqtyamt,orderDate,perpage,deliveyamt;
-    long timestamp;
+    String finalamt,ratio,format,sheet,qty,color,pages,perqtyamt,orderDate,perpage,deliveyamt,GrandTotal;
 
-    public String getPerpage() {
+    public  Fileinmodel(String name,String uri,String GrandTotal,String orderid){
+        this.name=name;
+        this.uri=uri;
+        this.GrandTotal=GrandTotal;
+        this.orderid=orderid;
+    }
+
+
+    public String getPerpage0() {
         return perpage;
     }
 
-    public void setPerpage(String perpage) {
+    public void setPerpage0(String perpage) {
         this.perpage = perpage;
     }
-    public void setName(String name) {
+    public void setName0(String name) {
         this.name = name;
     }
-    public void setUri(String uri) {
+    public void setUri0(String uri) {
         this.uri = uri;
+    }
+
+    public String getGrandTotal0() {
+        return GrandTotal;
+    }
+
+    public void setGrandTotal0(String grandTotal) {
+        GrandTotal = grandTotal;
     }
 
     public Fileinmodel(){
 
     }
 
-    public String getDeliveyamt() {
+    public String getDeliveyamt0() {
         return deliveyamt;
     }
 
-    public void setDeliveyamt(String deliveyamt) {
+    public void setDeliveyamt0(String deliveyamt) {
         this.deliveyamt = deliveyamt;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
 
-    public void setTimestamp(Map<String, String> timestamp) {
-        this.timestamp = timestamp.size();
-    }
 
-    public String getOrderDate() {
+
+    public String getOrderDate0() {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
+    public void setOrderDate0(String orderDate) {
         this.orderDate = orderDate;
     }
 
-    public Fileinmodel(String name, String uri, String userID, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid, String perqtyamt,String orderDate,String perpage,String deliveyamt){
+    public Fileinmodel(String name, String uri, String userid, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid, String perqtyamt,String perpage,String deliveyamt){
         this.name=name;
         this.uri=uri;
         this.deliveyamt=deliveyamt;
-        this.userID=userID;
-        this.orderDate=orderDate;
+        this.userid =userid;
         this.finalamt =amt;
         this.perpage=perpage;
         this.orderid=orderid;
@@ -69,91 +76,91 @@ public class Fileinmodel {
         this.pages=pages;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setuserid0(String userid) {
+        this.userid = userid;
     }
-    public String getuserID(){
-        return userID;
+    public String getuserid0(){
+        return userid;
     }
 
-    public String getPerqtyamt() {
+    public String getPerqtyamt0() {
         return perqtyamt;
     }
 
-    public void setPerqtyamt(String perqtyamt) {
+    public void setPerqtyamt0(String perqtyamt) {
         this.perqtyamt = perqtyamt;
     }
 
-    public String getFinalamt(){
+    public String getFinalamt0(){
         return finalamt;
     }
 
-    public String getOrderid() {
+    public String getOrderid0() {
         return orderid;
     }
 
-    public void setOrderid(String orderid) {
+    public void setOrderid0(String orderid) {
         this.orderid = orderid;
     }
 
-    public void setFinalamt(String finalamt){
+    public void setFinalamt0(String finalamt){
         this.finalamt = finalamt;
     }
-    public String getName(){
+    public String getName0(){
         return this.name;
     }
 
-    public String getUri()
+    public String getUri0()
     {
         return this.uri;
     }
 
-    public String getRatio() {
+    public String getRatio0() {
         return ratio;
     }
 
-    public void setRatio(String ratio) {
+    public void setRatio0(String ratio) {
         this.ratio = ratio;
     }
 
-    public String getFormat() {
+    public String getFormat0() {
         return format;
     }
 
-    public void setFormat(String format) {
+    public void setFormat0(String format) {
         this.format = format;
     }
 
-    public String getSheet() {
+    public String getSheet0() {
         return sheet;
     }
 
-    public void setSheet(String sheet) {
+    public void setSheet0(String sheet) {
         this.sheet = sheet;
     }
 
-    public String getQty() {
+    public String getQty0() {
         return qty;
     }
 
-    public void setQty(String qty) {
+    public void setQty0(String qty) {
         this.qty = qty;
     }
 
-    public String getColor() {
+    public String getColor0() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor0(String color) {
         this.color = color;
     }
 
 
-    public String getPages() {
+    public String getPages0() {
         return pages;
     }
 
-    public void setPages(String pages) {
+    public void setPages0(String pages) {
         this.pages = pages;
     }
 }
