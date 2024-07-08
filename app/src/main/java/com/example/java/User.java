@@ -3,16 +3,27 @@ package com.example.java;
 public class User {
     private String name;
     private String email;
+    private String userid;
     private String phno,collegename;
     private String profileuri;
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
     public User() {
 
     }
 
-    public User(String name, String email, String phno,String Collegename) {
+    public User(String name, String email, String phno,String Collegename,String userid) {
         this.name = name;
         this.email = email;
         this.phno=phno;
+        this.userid=userid;
         this.collegename=Collegename;
     }
 

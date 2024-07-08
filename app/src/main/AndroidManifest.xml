@@ -48,10 +48,6 @@
             android:name=".searchadminactivity"
             android:exported="false" />
         <activity
-            android:name=".Splahactivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".OrderdDetailsuser"
             android:exported="false"
             android:screenOrientation="portrait" />

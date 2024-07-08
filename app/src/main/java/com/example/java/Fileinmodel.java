@@ -1,16 +1,16 @@
 package com.example.java;
 
 public class Fileinmodel {
-    String uri;
-    String userid,orderid;
-    String name;
-    String finalamt,ratio,format,sheet,qty,color,pages,perqtyamt,orderDate,perpage,deliveyamt,GrandTotal;
+    String uri0;
+    String userid0, orderid0;
+    String name0;
+    String finalamt,ratio,format,sheet,qty,color,pages,perqtyamt,orderDate,perpage,deliveyamt, grandTotal0;
 
-    public  Fileinmodel(String name,String uri,String GrandTotal,String orderid){
-        this.name=name;
-        this.uri=uri;
-        this.GrandTotal=GrandTotal;
-        this.orderid=orderid;
+    public  Fileinmodel(String name0, String uri0, String GrandTotal0, String orderid0){
+        this.name0 = name0;
+        this.uri0 = uri0;
+        this.grandTotal0 = GrandTotal0;
+        this.orderid0=orderid0;
     }
 
 
@@ -22,18 +22,18 @@ public class Fileinmodel {
         this.perpage = perpage;
     }
     public void setName0(String name) {
-        this.name = name;
+        this.name0 = name;
     }
     public void setUri0(String uri) {
-        this.uri = uri;
+        this.uri0 = uri;
     }
 
     public String getGrandTotal0() {
-        return GrandTotal;
+        return grandTotal0;
     }
 
-    public void setGrandTotal0(String grandTotal) {
-        GrandTotal = grandTotal;
+    public void setGrandTotal0(String grandTotal0) {
+        grandTotal0 = grandTotal0;
     }
 
     public Fileinmodel(){
@@ -59,14 +59,14 @@ public class Fileinmodel {
         this.orderDate = orderDate;
     }
 
-    public Fileinmodel(String name, String uri, String userid, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid, String perqtyamt,String perpage,String deliveyamt){
-        this.name=name;
-        this.uri=uri;
+    public Fileinmodel(String name0, String uri0, String userid0, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid0, String perqtyamt, String perpage, String deliveyamt){
+        this.name0 = name0;
+        this.uri0 = uri0;
         this.deliveyamt=deliveyamt;
-        this.userid =userid;
+        this.userid0 = userid0;
         this.finalamt =amt;
         this.perpage=perpage;
-        this.orderid=orderid;
+        this.orderid0 = orderid0;
         this.ratio=ratio;
         this.color=color;
         this.perqtyamt=perqtyamt;
@@ -77,10 +77,10 @@ public class Fileinmodel {
     }
 
     public void setuserid0(String userid) {
-        this.userid = userid;
+        this.userid0 = userid;
     }
     public String getuserid0(){
-        return userid;
+        return userid0;
     }
 
     public String getPerqtyamt0() {
@@ -96,23 +96,23 @@ public class Fileinmodel {
     }
 
     public String getOrderid0() {
-        return orderid;
+        return orderid0;
     }
 
     public void setOrderid0(String orderid) {
-        this.orderid = orderid;
+        this.orderid0 = orderid;
     }
 
     public void setFinalamt0(String finalamt){
         this.finalamt = finalamt;
     }
     public String getName0(){
-        return this.name;
+        return this.name0;
     }
 
     public String getUri0()
     {
-        return this.uri;
+        return this.uri0;
     }
 
     public String getRatio0() {

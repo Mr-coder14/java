@@ -22,9 +22,12 @@ import android.widget.Toast;
 import com.example.java.recyculer.searchadminadaptor;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class searchadminactivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -72,6 +75,7 @@ public class searchadminactivity extends AppCompatActivity {
 
             }
         });
+
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,9 +83,23 @@ public class searchadminactivity extends AppCompatActivity {
             }
         });
 
-        setupAdapter(databaseReference);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    setupAdapter(databaseReference);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(searchadminactivity.this, "No admins found", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        recyclerView.setAdapter(adapter);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(searchadminactivity.this, "Database error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -117,12 +135,13 @@ public class searchadminactivity extends AppCompatActivity {
         adapter = new FirebaseRecyclerAdapter<User, searchadminadaptor>(options) {
             @Override
             protected void onBindViewHolder(@NonNull searchadminadaptor holder, int position, @NonNull User model) {
-                progressBar.setVisibility(View.GONE);
+                holder.adminname.setText(model.getName());
+                holder.adminemail.setText(model.getEmail());
 
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        String emailKey=model.getEmail().replace(".", ",");
+                        String userid = model.getUserid();
 
                         new AlertDialog.Builder(searchadminactivity.this)
                                 .setTitle("Delete Admin")
@@ -130,7 +149,7 @@ public class searchadminactivity extends AppCompatActivity {
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
 
-                                        databaseReference.child(emailKey).removeValue().addOnCompleteListener(task -> {
+                                        databaseReference.child(userid).removeValue().addOnCompleteListener(task -> {
                                             if (task.isSuccessful()) {
                                                 Toast.makeText(searchadminactivity.this, "Admin deleted successfully", Toast.LENGTH_SHORT).show();
                                             } else {
@@ -146,17 +165,15 @@ public class searchadminactivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(searchadminactivity.this, viewAdminProfile.class);
-                        intent.putExtra("model",model.getEmail().replace(".", ","));
+                        Intent intent = new Intent(searchadminactivity.this, viewAdminProfile.class);
+                        intent.putExtra("model", model.getUserid());
                         startActivity(intent);
                     }
                 });
-
-                holder.adminname.setText(model.getName());
-                holder.adminemail.setText(model.getEmail());
             }
 
             @NonNull
@@ -167,13 +184,14 @@ public class searchadminactivity extends AppCompatActivity {
             }
         };
 
+        recyclerView.setAdapter(adapter);
         adapter.startListening();
+        progressBar.setVisibility(View.GONE);
     }
 
     private void searchAdmins(String searchText) {
         Query searchQuery = databaseReference.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
         setupAdapter(searchQuery);
         adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
     }
 }

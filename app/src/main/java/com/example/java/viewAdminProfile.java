@@ -3,7 +3,6 @@ package com.example.java;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -25,15 +24,15 @@ import com.google.firebase.database.ValueEventListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class viewAdminProfile extends AppCompatActivity {
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
     private CircleImageView circleImageView;
     private ImageButton backtbn;
-    TextView email, name, email1, name1, phno1;
+    private TextView email, name, email1, name1, phno1;
 
-    ProgressBar progressBar;
-    ScrollView scrollView;
-    FirebaseUser user;
-    DatabaseReference usersRef;
+    private ProgressBar progressBar;
+    private ScrollView scrollView;
+    private FirebaseUser user;
+    private DatabaseReference usersRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class viewAdminProfile extends AppCompatActivity {
             }
         });
 
-        usersRef = FirebaseDatabase.getInstance().getReference("tempadmin").child(em);
+        usersRef = FirebaseDatabase.getInstance().getReference("tempadmin1").child(em);
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -106,10 +105,6 @@ public class viewAdminProfile extends AppCompatActivity {
                 scrollView.setVisibility(View.VISIBLE);
             }
         });
-
-
-
-
     }
 
 }

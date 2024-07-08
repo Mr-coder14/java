@@ -31,53 +31,52 @@ import java.util.ArrayList;
 
 public class loginactivity extends AppCompatActivity {
     String adminemail = "abcd1234@gmail.com";
-    String tepadminemail;
-    private DatabaseReference tempadminsref;
-    private ArrayList<String> tempadmins =new ArrayList<>();
+    private final ArrayList<String> tempadmins = new ArrayList<>();
+    TextView rgbuttontxt;
+    EditText emaillg, passlg;
+    Button login;
+    TextView forgotPassword;
+    private DatabaseReference tempadminsref1;
+    FirebaseAuth auth;
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
-        tempadminsref = FirebaseDatabase.getInstance().getReference().child("tempadmin");
-        tempadminsref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        tempadminsref1 = FirebaseDatabase.getInstance().getReference().child("tempadmin1");
+        tempadminsref1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                        tepadminemail =dataSnapshot.child("email").getValue(String.class);
-                        tempadmins.add(tepadminemail);
+                tempadmins.clear();
+                if (snapshot.exists()) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        String tepadminemail = dataSnapshot.child("email").getValue(String.class);
+                        if (tepadminemail != null) {
+                            tempadmins.add(tepadminemail);
+                        }
                     }
+                }
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    String userEmail = user.getEmail();
+                    if (userEmail.equals(adminemail)) {
+                        startActivity(new Intent(loginactivity.this, Adminactivity.class));
+                    } else if (tempadmins.contains(userEmail)) {
+                        startActivity(new Intent(loginactivity.this, tempadminmainactivity.class));
+                    } else {
+                        startActivity(new Intent(loginactivity.this, MainActivity.class));
+                    }
+                    finish();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(loginactivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
             }
         });
-        FirebaseUser user = auth.getCurrentUser();
-        if (user != null) {
-            if (user.getEmail().equals(adminemail)) {
-                startActivity(new Intent(loginactivity.this, Adminactivity.class));
-                finish();
-            } else if(tempadmins.contains(user.getEmail())){
-                startActivity(new Intent(loginactivity.this,tempadminmainactivity.class));
-                finish();
-            }
-
-            else {
-                startActivity(new Intent(loginactivity.this, MainActivity.class));
-                finish();
-            }
-        }
     }
-
-    TextView rgbuttontxt;
-    EditText emaillg, passlg;
-    Button login;
-    TextView forgotPassword;
-    private boolean isButtonClickable = true;
-    FirebaseAuth auth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,84 +87,56 @@ public class loginactivity extends AppCompatActivity {
         passlg = findViewById(R.id.Password);
         auth = FirebaseAuth.getInstance();
         login = findViewById(R.id.btnlg);
-        tempadminsref = FirebaseDatabase.getInstance().getReference().child("tempadmin");
-
-        tempadminsref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                        tepadminemail=dataSnapshot.child("email").getValue(String.class);
-                        tempadmins.add(tepadminemail);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
         forgotPassword = findViewById(R.id.forget_password);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isButtonClickable) {
-                    login.setEnabled(false);
-                    String email1 = emaillg.getText().toString();
-                    String pass1 = passlg.getText().toString();
-                    if (TextUtils.isEmpty(email1) || TextUtils.isEmpty(pass1)) {
-                        Toast.makeText(loginactivity.this, "Enter All details", Toast.LENGTH_SHORT).show();
-                    } else if (pass1.length() < 6) {
-                        Toast.makeText(loginactivity.this, "Incorrect Password ", Toast.LENGTH_SHORT).show();
-                    } else if (emaillg.getText().toString().equals(adminemail)) {
-                        auth.signInWithEmailAndPassword(adminemail, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(loginactivity.this, Adminactivity.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                                }
+                String email1 = emaillg.getText().toString();
+                String pass1 = passlg.getText().toString();
+                if (TextUtils.isEmpty(email1) || TextUtils.isEmpty(pass1)) {
+                    Toast.makeText(loginactivity.this, "Enter All details", Toast.LENGTH_SHORT).show();
+                } else if (pass1.length() < 6) {
+                    Toast.makeText(loginactivity.this, "Incorrect Password ", Toast.LENGTH_SHORT).show();
+                } else if (email1.equals(adminemail)) {
+                    auth.signInWithEmailAndPassword(adminemail, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(loginactivity.this, Adminactivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                             }
-                        });
-                    } else if (tempadmins.contains(email1)) {
-                        auth.signInWithEmailAndPassword(email1, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(loginactivity.this, tempadminmainactivity.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-                    } else {
-                        auth.signInWithEmailAndPassword(email1, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(loginactivity.this, MainActivity.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
+                        }
+                    });
                 } else {
-                    Toast.makeText(loginactivity.this, "Please wait...", Toast.LENGTH_SHORT).show();
+                    auth.signInWithEmailAndPassword(email1, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                if (user != null) {
+                                    String userEmail = user.getEmail();
+                                    if (tempadmins.contains(userEmail)) {
+                                        Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(loginactivity.this, tempadminmainactivity.class));
+                                    } else {
+                                        Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(loginactivity.this, MainActivity.class));
+                                    }
+                                    finish();
+                                }
+                            } else {
+                                Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             }
         });
+
         rgbuttontxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

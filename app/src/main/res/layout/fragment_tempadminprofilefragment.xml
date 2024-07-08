@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="Tempadmin.tempadminprofilefragment">
     <ProgressBar
-        android:id="@+id/progressprofile11"
+        android:id="@+id/progressprofiletadmin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
@@ -23,8 +21,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-
-        android:id="@+id/profilevisible11"
+        android:id="@+id/profilevisibletadmin"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -44,7 +41,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/homeconstraint111"
+                        android:id="@+id/homeconstraint1tadmin"
                         android:layout_width="match_parent"
                         android:layout_height="360dp"
                         android:background="@drawable/profile_bg_green"
@@ -52,23 +49,10 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageButton
-                            android:id="@+id/back_btnadminadminprofile1"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerVertical="true"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/baseline_arrow_back_24"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="7dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/white" />
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/shapeableImageViewq11"
+                        android:id="@+id/shapeableImageViewqtadmin"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginTop="60dp"
@@ -76,30 +60,30 @@
                         android:src="@drawable/person3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/homeconstraint111"
+                        app:layout_constraintTop_toTopOf="@+id/homeconstraint1tadmin"
                         app:shapeAppearanceOverlay="@style/CircleImage"
                         app:strokeColor="#BFBFC0"
                         app:strokeWidth="3dp" />
 
                     <TextView
-                        android:id="@+id/profilename11"
+                        android:id="@+id/profilenametadmin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
                         android:text=""
                         android:textColor="#FFFFFF"
-                        android:textSize="23sp"
+                        android:textSize="23dp"
                         android:fontFamily="@font/plus"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/profilename11"
+                        app:layout_constraintBottom_toBottomOf="@id/profilenametadmin"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewq11"
+                        app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewqtadmin"
                         app:layout_constraintVertical_bias="0.096" />
 
 
                     <TextView
-                        android:id="@+id/emailprofile11"
+                        android:id="@+id/emailprofiletadmin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -107,18 +91,18 @@
                         android:textColor="#ffff"
                         android:textSize="16sp"
                         android:textStyle="italic"
-                        app:layout_constraintEnd_toEndOf="@+id/profilename11"
+                        app:layout_constraintEnd_toEndOf="@+id/profilenametadmin"
                         app:layout_constraintHorizontal_bias="0.509"
-                        app:layout_constraintStart_toStartOf="@+id/profilename11"
-                        app:layout_constraintTop_toBottomOf="@+id/profilename11" />
+                        app:layout_constraintStart_toStartOf="@+id/profilenametadmin"
+                        app:layout_constraintTop_toBottomOf="@+id/profilenametadmin" />
 
 
                     <ImageView
-                        android:id="@+id/imageView11"
+                        android:id="@+id/imageViewtadmin"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toBottomOf="@+id/homeconstraint111"
+                        app:layout_constraintBottom_toBottomOf="@+id/homeconstraint1tadmin"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -126,7 +110,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="400dp"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="60dp"
                         android:layout_marginEnd="24dp"
@@ -137,8 +121,101 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/emailprofile11">
+                        app:layout_constraintTop_toBottomOf="@+id/emailprofiletadmin">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:layout_weight="0.3333"
+                                android:background="@drawable/btnbackroundprofile"
+                                android:orientation="vertical">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_margin="12dp"
+                                    android:background="@drawable/whitebgcircleprofile">
+
+                                    <ImageButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@android:color/transparent"
+                                        android:scaleX="1.2"
+                                        android:id="@+id/editdetailstadmin"
+                                        android:scaleY="1.2"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:srcCompat="@drawable/baseline_edit_24" />
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <TextView
+                                    android:id="@+id/textViewedittadmin"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="8dp"
+                                    android:layout_weight="1"
+                                    android:text="Edit Details"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:layout_weight="0.3333"
+                                android:background="@drawable/btnbackroundprofile"
+                                android:orientation="vertical">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_margin="12dp"
+                                    android:background="@drawable/whitebgcircleprofile">
+
+                                    <ImageButton
+                                        android:id="@+id/imageButtonlogouttadmin"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@android:color/transparent"
+                                        android:scaleX="1.2"
+                                        android:scaleY="1.2"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:srcCompat="@drawable/baseline_logout_24" />
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <TextView
+                                    android:id="@+id/textViewlogouttadmin"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="8dp"
+                                    android:layout_weight="1"
+                                    android:text="Log Out"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -147,7 +224,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/textView77411"
+                                android:id="@+id/textView774tadmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -156,7 +233,7 @@
                                 android:text="Name" />
 
                             <TextView
-                                android:id="@+id/name1111"
+                                android:id="@+id/name11tadmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -168,7 +245,7 @@
                         </LinearLayout>
 
                         <View
-                            android:id="@+id/view30011"
+                            android:id="@+id/view300tadmin"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="#D9D9D9"
@@ -182,7 +259,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/textVi89ew411"
+                                android:id="@+id/textVi89ew4tadmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -191,7 +268,7 @@
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/phno1111"
+                                android:id="@+id/phno11tadmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -203,7 +280,7 @@
                         </LinearLayout>
 
                         <View
-                            android:id="@+id/view411"
+                            android:id="@+id/view4tadmin"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_margin="7dp"
@@ -216,7 +293,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/textVie7w411"
+                                android:id="@+id/textVie7w4tadmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -225,7 +302,7 @@
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/email1111"
+                                android:id="@+id/email11tadmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -237,7 +314,7 @@
                         </LinearLayout>
 
                         <View
-                            android:id="@+id/view511"
+                            android:id="@+id/view5tadmin"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_margin="7dp"
@@ -250,7 +327,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/textView998411"
+                                android:id="@+id/textView9984tadmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -259,7 +336,7 @@
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/textView109911"
+                                android:id="@+id/textView1099tadmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -280,4 +357,5 @@
 
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

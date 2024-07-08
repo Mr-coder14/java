@@ -1,17 +1,27 @@
 package com.example.java;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import Tempadmin.tempadminhistoryfragment;
+import Tempadmin.tempadminhomefragment;
+import Tempadmin.tempadminprofilefragment;
+
 public class tempadminmainactivity extends AppCompatActivity {
-    Button lgbtn;
+
     FirebaseAuth auth;
+    private BottomNavigationView bottomNavigationView;
+    private Fragment fragment;
     String userid;
 
     @Override
@@ -20,15 +30,32 @@ public class tempadminmainactivity extends AppCompatActivity {
         setContentView(R.layout.activity_tempadminmainactivity);
         auth=FirebaseAuth.getInstance();
         userid=auth.getCurrentUser().getUid();
-        lgbtn=findViewById(R.id.logoutbtntempadmin);
-        lgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(userid!=null){
-                    auth.signOut();
-                    startActivity(new Intent(tempadminmainactivity.this, loginactivity.class));
-                    finish();
+        bottomNavigationView=findViewById(R.id.tadminbottom);
+        fragment=new tempadminhomefragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcpntainertadmin,fragment).commit();
 
+
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id=item.getItemId();
+                if(id==R.id.tadminhome){
+                    fragment=new tempadminhomefragment();
+                }
+                if(id==R.id.tadminorders){
+                    fragment=new tempadminhistoryfragment();
+                }
+                if(id==R.id.tadminprofile)
+                {
+                    fragment = new tempadminprofilefragment();
+                }
+                if(fragment!=null)
+                {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcpntainertadmin,fragment).commit();
+                    return true;
+                }
+                else {
+                    return false;
                 }
             }
         });

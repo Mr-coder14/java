@@ -21,6 +21,7 @@
             android:id="@+id/forgotTitle"
             android:text="Forgot Password"
             android:padding="10dp"
+            android:backgroundTint="@color/green"
             android:textSize="17sp"
             android:background="@drawable/lavender_round"
             android:textColor="@color/white"
@@ -32,29 +33,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/desc"
+            android:textStyle="bold"
             android:text="Enter your email address:"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
-            android:textColor="@color/lavender"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/forgotTitle"
             app:layout_constraintBottom_toTopOf="@id/emailBox"/>
 
         <EditText
+            android:id="@+id/emailBox"
             android:layout_width="300dp"
             android:layout_height="32dp"
-            android:id="@+id/emailBox"
-            android:textColor="@color/lavender"
-            android:textSize="16sp"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="30dp"
-            android:maxLines="1"
             android:background="@drawable/edittext_background"
             android:inputType="textEmailAddress"
-            app:layout_constraintStart_toStartOf="parent"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forgotTitle"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/forgotTitle" />
 
         <Button
             android:layout_width="0dp"

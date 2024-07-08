@@ -94,7 +94,7 @@ public class signupactivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference("users");
         adminsref=FirebaseDatabase.getInstance().getReference().child("admins");
-         tempadminsref1=FirebaseDatabase.getInstance().getReference().child("tempadmin1");
+        tempadminsref1=FirebaseDatabase.getInstance().getReference().child("tempadmin1");
 
         collegename.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -144,7 +144,7 @@ public class signupactivity extends AppCompatActivity {
                     FirebaseUser user = auth.getCurrentUser();
                     if (user != null) {
                         String userId = user.getUid();
-                        User newUser = new User(name, email, phone, clganme);
+                        User newUser = new User(name, email, phone, clganme,userId);
                         Toast.makeText(signupactivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
                         Intent intent;
                         if (isAdmin) {
