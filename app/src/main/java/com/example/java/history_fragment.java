@@ -1,7 +1,6 @@
 package com.example.java;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,7 +123,7 @@ public class history_fragment extends Fragment {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(getContext(), OrderdDetailsuser.class);
+                            Intent intent=new Intent(getContext(), orderdetailsuser.class);
                             intent.putExtra("orderid",fg.getOrderid0());
                             intent.putExtra("gt",fg.getGrandTotal0());
                             startActivity(intent);

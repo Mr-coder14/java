@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp" android:visibility="visible"
+        android:layout_marginTop="0dp"
+        android:visibility="visible"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -97,8 +98,6 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
-
                     />
 
 

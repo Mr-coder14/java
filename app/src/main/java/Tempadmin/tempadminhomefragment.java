@@ -1,6 +1,5 @@
 package Tempadmin;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,12 +18,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.java.Fileinmodel;
-import com.example.java.OrderdDetailsuser;
 import com.example.java.R;
 import com.example.java.RetrivepdfAdaptorhomeadmin;
 import com.example.java.recyculer.orderadaptor;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.java.Fileinmodel;
-import com.example.java.OrderdDetailsuser;
+import com.example.java.orderdetailsuser;
 import com.example.java.R;
 import com.example.java.RetrivepdfAdaptorhomeadmin;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -138,7 +138,7 @@ public class tempadminhistoryfragment extends Fragment {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(getContext(), OrderdDetailsuser.class);
+                        Intent intent=new Intent(getContext(), orderdetailsuser.class);
                         intent.putExtra("orderid",fg.getOrderid0());
                         intent.putExtra("gt",fg.getGrandTotal0());
                         startActivity(intent);

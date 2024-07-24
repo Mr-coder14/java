@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
-import com.example.java.OrderdDetailsuser;
+import com.example.java.OrderDetialsadmin;
+import com.example.java.orderdetailsuser;
 import com.example.java.R;
 import com.example.java.RetrivepdfAdaptorhomeadmin;
 
@@ -39,7 +40,7 @@ public class orderadaptor extends RecyclerView.Adapter<RetrivepdfAdaptorhomeadmi
         holder.Grandtotal.setText("₹ " + fld.getGrandTotal0());
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, OrderdDetailsuser.class);
+            Intent intent = new Intent(context, OrderDetialsadmin.class);
             intent.putExtra("orderid", fld.getOrderid0());
             intent.putExtra("gt", fld.getGrandTotal0());
             context.startActivity(intent);

@@ -48,7 +48,7 @@
             android:name=".searchadminactivity"
             android:exported="false" />
         <activity
-            android:name=".OrderdDetailsuser"
+            android:name=".orderdetailsuser"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -59,6 +59,11 @@
             android:name=".suceesanimation"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".OrderDetialsadmin"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".preview_orderActivity"
             android:exported="false"
