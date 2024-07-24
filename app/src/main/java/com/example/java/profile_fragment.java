@@ -1,5 +1,4 @@
 package com.example.java;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +9,10 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,20 +23,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class profile_fragment extends Fragment {
-    ImageButton constraintLayout;
-    ImageButton btnlout;
-    FirebaseAuth auth;
+    private ImageButton constraintLayout;
+    private ImageButton btnlout;
+    private FirebaseAuth auth;
     private CircleImageView circleImageView;
-    TextView email, name, email1, name1, phno1;
-
-    ProgressBar progressBar;
-    ScrollView scrollView;
-    FirebaseUser user;
-    DatabaseReference usersRef;
+    private TextView email, name, email1, name1, phno1;
+    private ProgressBar progressBar;
+    private ScrollView scrollView;
+    private FirebaseUser user;
+    private DatabaseReference usersRef;
 
     @Nullable
     @Override
@@ -142,7 +137,6 @@ public class profile_fragment extends Fragment {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
                 dialogInterface.dismiss();
             }
         });

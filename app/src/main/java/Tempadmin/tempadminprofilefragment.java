@@ -1,13 +1,10 @@
 package Tempadmin;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.example.java.R;
 import com.example.java.User;
@@ -35,16 +31,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class tempadminprofilefragment extends Fragment {
-    ImageButton constraintLayout;
-    ImageButton btnlout;
-    FirebaseAuth auth;
+    private ImageButton constraintLayout;
+    private ImageButton btnlout;
+    private FirebaseAuth auth;
     private CircleImageView circleImageView;
-    TextView email, name, email1, name1, phno1;
+    private TextView email, name, email1, name1, phno1;
 
-    ProgressBar progressBar;
-    ScrollView scrollView;
-    FirebaseUser user;
-    DatabaseReference usersRef;
+    private ProgressBar progressBar;
+    private ScrollView scrollView;
+    private FirebaseUser user;
+    private DatabaseReference usersRef;
 
 
     public tempadminprofilefragment() {

@@ -4,7 +4,7 @@ public class Fileinmodel {
     String uri0;
     String userid0, orderid0;
     String name0;
-    String finalamt,ratio,format,sheet,qty,color,pages,perqtyamt,orderDate,perpage,deliveyamt, grandTotal0;
+    String finalamt0, ratio0, format0, sheet0, qty0, color0, pages0, perqtyamt0, orderDate0, perpage0, deliveyamt0, grandTotal0;
 
     public  Fileinmodel(String name0, String uri0, String GrandTotal0, String orderid0){
         this.name0 = name0;
@@ -15,11 +15,11 @@ public class Fileinmodel {
 
 
     public String getPerpage0() {
-        return perpage;
+        return perpage0;
     }
 
     public void setPerpage0(String perpage) {
-        this.perpage = perpage;
+        this.perpage0 = perpage;
     }
     public void setName0(String name) {
         this.name0 = name;
@@ -41,39 +41,39 @@ public class Fileinmodel {
     }
 
     public String getDeliveyamt0() {
-        return deliveyamt;
+        return deliveyamt0;
     }
 
     public void setDeliveyamt0(String deliveyamt) {
-        this.deliveyamt = deliveyamt;
+        this.deliveyamt0 = deliveyamt;
     }
 
 
 
 
     public String getOrderDate0() {
-        return orderDate;
+        return orderDate0;
     }
 
     public void setOrderDate0(String orderDate) {
-        this.orderDate = orderDate;
+        this.orderDate0 = orderDate;
     }
 
     public Fileinmodel(String name0, String uri0, String userid0, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid0, String perqtyamt, String perpage, String deliveyamt){
         this.name0 = name0;
         this.uri0 = uri0;
-        this.deliveyamt=deliveyamt;
+        this.deliveyamt0 =deliveyamt;
         this.userid0 = userid0;
-        this.finalamt =amt;
-        this.perpage=perpage;
+        this.finalamt0 =amt;
+        this.perpage0 =perpage;
         this.orderid0 = orderid0;
-        this.ratio=ratio;
-        this.color=color;
-        this.perqtyamt=perqtyamt;
-        this.format=format;
-        this.sheet=sheet;
-        this.qty=qty;
-        this.pages=pages;
+        this.ratio0 =ratio;
+        this.color0 =color;
+        this.perqtyamt0 =perqtyamt;
+        this.format0 =format;
+        this.sheet0 =sheet;
+        this.qty0 =qty;
+        this.pages0 =pages;
     }
 
     public void setuserid0(String userid) {
@@ -84,15 +84,15 @@ public class Fileinmodel {
     }
 
     public String getPerqtyamt0() {
-        return perqtyamt;
+        return perqtyamt0;
     }
 
     public void setPerqtyamt0(String perqtyamt) {
-        this.perqtyamt = perqtyamt;
+        this.perqtyamt0 = perqtyamt;
     }
 
     public String getFinalamt0(){
-        return finalamt;
+        return finalamt0;
     }
 
     public String getOrderid0() {
@@ -104,7 +104,7 @@ public class Fileinmodel {
     }
 
     public void setFinalamt0(String finalamt){
-        this.finalamt = finalamt;
+        this.finalamt0 = finalamt;
     }
     public String getName0(){
         return this.name0;
@@ -116,51 +116,51 @@ public class Fileinmodel {
     }
 
     public String getRatio0() {
-        return ratio;
+        return ratio0;
     }
 
     public void setRatio0(String ratio) {
-        this.ratio = ratio;
+        this.ratio0 = ratio;
     }
 
     public String getFormat0() {
-        return format;
+        return format0;
     }
 
     public void setFormat0(String format) {
-        this.format = format;
+        this.format0 = format;
     }
 
     public String getSheet0() {
-        return sheet;
+        return sheet0;
     }
 
     public void setSheet0(String sheet) {
-        this.sheet = sheet;
+        this.sheet0 = sheet;
     }
 
     public String getQty0() {
-        return qty;
+        return qty0;
     }
 
     public void setQty0(String qty) {
-        this.qty = qty;
+        this.qty0 = qty;
     }
 
     public String getColor0() {
-        return color;
+        return color0;
     }
 
     public void setColor0(String color) {
-        this.color = color;
+        this.color0 = color;
     }
 
 
     public String getPages0() {
-        return pages;
+        return pages0;
     }
 
     public void setPages0(String pages) {
-        this.pages = pages;
+        this.pages0 = pages;
     }
 }

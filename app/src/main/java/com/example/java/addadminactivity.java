@@ -16,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class addadminactivity extends AppCompatActivity {
     private EditText editText, Username,clg;
     private Button btn;
-    private DatabaseReference firebaseDatabase;
+    private DatabaseReference Databaserefrence;
     private ProgressDialog progressDialog;
 
     @Override
@@ -28,7 +28,7 @@ public class addadminactivity extends AppCompatActivity {
         Username =findViewById(R.id.usernameaddadmin);
         clg=findViewById(R.id.collegeaddadmin);btn=findViewById(R.id.btnadd);
 
-        firebaseDatabase=FirebaseDatabase.getInstance().getReference().child("tempadmin");
+        Databaserefrence=FirebaseDatabase.getInstance().getReference().child("tempadmin");
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,9 +45,9 @@ public class addadminactivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            firebaseDatabase.child(email.replace(".", ",")).child("email").setValue(email);
-                            firebaseDatabase.child(email.replace(".", ",")).child("name").setValue(username1);
-                            firebaseDatabase.child(email.replace(".", ",")).child("college").setValue(college1);
+                            Databaserefrence.child(email.replace(".", ",")).child("email").setValue(email);
+                            Databaserefrence.child(email.replace(".", ",")).child("name").setValue(username1);
+                            Databaserefrence.child(email.replace(".", ",")).child("college").setValue(college1);
                             progressDialog.dismiss();
                             editText.setText("");
                             Toast.makeText(addadminactivity.this, "Admin added successfully", Toast.LENGTH_SHORT).show();

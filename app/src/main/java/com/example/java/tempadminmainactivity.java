@@ -19,10 +19,10 @@ import Tempadmin.tempadminprofilefragment;
 
 public class tempadminmainactivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
     private BottomNavigationView bottomNavigationView;
     private Fragment fragment;
-    String userid;
+    private String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

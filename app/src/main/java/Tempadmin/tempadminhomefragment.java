@@ -22,6 +22,7 @@ import com.example.java.Fileinmodel;
 import com.example.java.OrderdDetailsuser;
 import com.example.java.R;
 import com.example.java.RetrivepdfAdaptorhomeadmin;
+import com.example.java.recyculer.orderadaptor;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +35,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class tempadminhomefragment extends Fragment {
 
@@ -45,7 +48,7 @@ public class tempadminhomefragment extends Fragment {
     private String orderid;
     private EditText editText;
     private DatabaseReference databaseReference;
-    private ArrayList<Fileinmodel> fl;
+    private HashMap<String, Fileinmodel> uniqueOrders = new HashMap<>();
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
     private Query query;
     private ProgressBar progressBar;
@@ -53,7 +56,7 @@ public class tempadminhomefragment extends Fragment {
     private Runnable searchRunnable;
 
     public tempadminhomefragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -67,7 +70,7 @@ public class tempadminhomefragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         editText = view.findViewById(R.id.search_edit_texttadmin);
 
-        fl = new ArrayList<>();
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         query = databaseReference;
@@ -75,7 +78,7 @@ public class tempadminhomefragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                fl.clear();
+                uniqueOrders.clear();
                 for (DataSnapshot uniqueIdSnapshot : snapshot.getChildren()) {
                     for (DataSnapshot ui : uniqueIdSnapshot.getChildren()) {
                         for (DataSnapshot fileSnapshot : ui.getChildren()) {
@@ -83,13 +86,17 @@ public class tempadminhomefragment extends Fragment {
                             String uri = fileSnapshot.child("uri0").getValue(String.class);
                             String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
                             orderid = fileSnapshot.child("orderid0").getValue(String.class);
-                            Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid);
-                            fl.add(pdfFile);
-                            Log.d(TAG, "Added PDF File: " + pdfFile.getOrderid0());
+
+
+                            if (!uniqueOrders.containsKey(orderid)) {
+                                Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid);
+                                uniqueOrders.put(orderid, pdfFile);
+                                Log.d(TAG, "Added unique PDF File: " + pdfFile.getOrderid0());
+                            }
                         }
                     }
                 }
-                Log.d(TAG, "Total PDFs: " + fl.size());
+                Log.d(TAG, "Total unique PDFs: " + uniqueOrders.size());
                 progressBar.setVisibility(View.GONE);
                 displaypdfs();
             }
@@ -105,38 +112,9 @@ public class tempadminhomefragment extends Fragment {
     }
 
     private void displaypdfs() {
-        FirebaseRecyclerOptions<Fileinmodel> options = new FirebaseRecyclerOptions.Builder<Fileinmodel>()
-                .setQuery(query, Fileinmodel.class)
-                .build();
-
-        adapter = new FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull RetrivepdfAdaptorhomeadmin holder, int position, @NonNull Fileinmodel model) {
-                Fileinmodel fld = fl.get(position);
-                holder.orderid.setText(fld.getOrderid0());
-                holder.Grandtotal.setText("₹ " + fld.getGrandTotal0());
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), OrderdDetailsuser.class);
-                        intent.putExtra("orderid", fld.getOrderid0());
-                        intent.putExtra("gt", fld.getGrandTotal0());
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            @NonNull
-            @Override
-            public RetrivepdfAdaptorhomeadmin onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.orders_template, parent, false);
-                return new RetrivepdfAdaptorhomeadmin(view);
-            }
-        };
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        List<Fileinmodel> uniqueOrdersList = new ArrayList<>(uniqueOrders.values());
+        orderadaptor adapter = new orderadaptor(uniqueOrdersList, getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        adapter.startListening();
     }
 }
