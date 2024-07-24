@@ -1,13 +1,12 @@
 package Tempadmin;
 
-import android.content.Intent;
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.java.Fileinmodel;
-import com.example.java.orderdetailsuser;
 import com.example.java.R;
 import com.example.java.RetrivepdfAdaptorhomeadmin;
+import com.example.java.orderdetailsuser;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,8 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class tempadminhistoryfragment extends Fragment {
-
+public class AllOrderstempadmin extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DatabaseReference databaseReference;
     private DatabaseReference pdfsRef;
@@ -46,25 +44,18 @@ public class tempadminhistoryfragment extends Fragment {
     private String userid;
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
 
-
-
-    public tempadminhistoryfragment() {
-
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_all_orderstempadmin);
 
-        View view=inflater.inflate(R.layout.fragment_tempadminhistoryfragment, container, false);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
-        recyclerView = view.findViewById(R.id.recyclerhometadminhis);
+        recyclerView = findViewById(R.id.recyclerhometadminhis);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        progressBar = view.findViewById(R.id.progressbarhometadminhis);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        progressBar = findViewById(R.id.progressbarhometadminhis);
         progressBar.setVisibility(View.VISIBLE);
         fl = new ArrayList<>();
         userid = user.getUid();
@@ -78,15 +69,15 @@ public class tempadminhistoryfragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot uniqueIdSnapshot : snapshot.getChildren()) {
                     for(DataSnapshot ui:uniqueIdSnapshot.getChildren()){
-                    for (DataSnapshot fileSnapshot : ui.getChildren()) {
-                        String name = fileSnapshot.child("name0").getValue(String.class);
-                        String uri = fileSnapshot.child("uri0").getValue(String.class);
-                        String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
-                        orderid = fileSnapshot.child("orderid0").getValue(String.class);
-                        Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid);
-                        fl.add(pdfFile);
-                    }
-                }}
+                        for (DataSnapshot fileSnapshot : ui.getChildren()) {
+                            String name = fileSnapshot.child("name0").getValue(String.class);
+                            String uri = fileSnapshot.child("uri0").getValue(String.class);
+                            String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
+                            orderid = fileSnapshot.child("orderid0").getValue(String.class);
+                            Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid);
+                            fl.add(pdfFile);
+                        }
+                    }}
 
 
 
@@ -95,7 +86,7 @@ public class tempadminhistoryfragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllOrderstempadmin.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -107,7 +98,7 @@ public class tempadminhistoryfragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
                 }
                 else {
-                    Toast.makeText(getContext(), "No pdf found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AllOrderstempadmin.this, "No pdf found", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -119,9 +110,8 @@ public class tempadminhistoryfragment extends Fragment {
         });
 
 
-        return view;
-    }
 
+    }
     private void setupAdapter() {
         FirebaseRecyclerOptions<Fileinmodel> options = new FirebaseRecyclerOptions.Builder<Fileinmodel>()
                 .setQuery(query, Fileinmodel.class)
@@ -138,7 +128,7 @@ public class tempadminhistoryfragment extends Fragment {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(getContext(), orderdetailsuser.class);
+                        Intent intent=new Intent(AllOrderstempadmin.this, orderdetailsuser.class);
                         intent.putExtra("orderid",fg.getOrderid0());
                         intent.putExtra("gt",fg.getGrandTotal0());
                         startActivity(intent);
@@ -157,7 +147,7 @@ public class tempadminhistoryfragment extends Fragment {
             }
         };
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(AllOrderstempadmin.this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         adapter.startListening();
     }

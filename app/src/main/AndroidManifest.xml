@@ -24,6 +24,9 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name="Tempadmin.AllOrderstempadmin"
+            android:exported="false" />
+        <activity
             android:name="Tempadmin.Processorderactivity"
             android:exported="false" />
 

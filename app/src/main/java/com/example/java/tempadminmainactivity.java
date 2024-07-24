@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import Tempadmin.tempadminhistoryfragment;
+import Tempadmin.Myorderstempadminfragment;
 import Tempadmin.tempadminhomefragment;
 import Tempadmin.tempadminprofilefragment;
 
@@ -43,7 +43,7 @@ public class tempadminmainactivity extends AppCompatActivity {
                     fragment=new tempadminhomefragment();
                 }
                 if(id==R.id.tadminorders){
-                    fragment=new tempadminhistoryfragment();
+                    fragment=new Myorderstempadminfragment();
                 }
                 if(id==R.id.tadminprofile)
                 {
