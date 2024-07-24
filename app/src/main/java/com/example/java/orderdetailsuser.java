@@ -56,7 +56,7 @@ public class orderdetailsuser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orderd_detailsuser);
+        setContentView(R.layout.activity_orderd_detailsadmin);
         backbtn = findViewById(R.id.backuser);
         dbtn=findViewById(R.id.downloadbtnuser);
         mAuth=FirebaseAuth.getInstance();

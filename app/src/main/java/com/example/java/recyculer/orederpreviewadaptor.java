@@ -1,5 +1,6 @@
 package com.example.java.recyculer;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
 import com.example.java.R;
-
+import com.github.barteksc.pdfviewer.PDFView;
 import java.util.ArrayList;
 
 public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadaptor.ViewHolder> {
@@ -29,6 +30,8 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        holder.pdfView.setVisibility(View.GONE);
         Fileinmodel fileinmodel = fileinmodels.get(position);
         holder.fileNameTextViewauser.setText(fileinmodel.getName0());
         holder.colortxtuser.setText(fileinmodel.getColor0());
@@ -41,7 +44,9 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
         holder.deliveryamtuser.setText(fileinmodel.getDeliveyamt0());
         holder.qtynouser.setText(fileinmodel.getQty0());
         holder.pguser.setText(fileinmodel.getPages0());
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -50,9 +55,13 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView fileNameTextViewauser, colortxtuser, sheetuser, formatuser, perpageamtuser, perqtyamtuser, ratiouser, finalamtuser, deliveryamtuser, qtynouser, pguser;
+        PDFView pdfView;
+
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             fileNameTextViewauser = itemView.findViewById(R.id.filenametxt1user);
             colortxtuser = itemView.findViewById(R.id.colorfontuser);
             sheetuser = itemView.findViewById(R.id.sheetuser);
@@ -64,6 +73,8 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
             deliveryamtuser = itemView.findViewById(R.id.deliveryamtuser);
             qtynouser = itemView.findViewById(R.id.qtynouser);
             pguser = itemView.findViewById(R.id.pagenouser);
+            pdfView=itemView.findViewById(R.id.pdfViewuser);
         }
+
     }
 }

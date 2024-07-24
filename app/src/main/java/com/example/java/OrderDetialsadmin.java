@@ -40,6 +40,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+import Tempadmin.Processorderactivity;
+
 public class OrderDetialsadmin extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 100;
@@ -49,12 +51,11 @@ public class OrderDetialsadmin extends AppCompatActivity {
     private int downloadedPdfs;
     private static final String TAG = "OrderDetailsUser";
     private RecyclerView recyclerView;
-    private ImageButton backbtn;
+    private ImageButton backbtn,orderinfo;
     private String orderid,userid;
     private StorageReference storageRef;
     private DatabaseReference databaseReference,pdfsRef;
 
-    private String name,uri,amtperqty,delverycharge,ratio,sheet,format,perpgae,pages,color,qty,finalmat;
     private String grandtotal;
     private Button dbtn;
     private ProgressBar progressBar;
@@ -63,13 +64,11 @@ public class OrderDetialsadmin extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Query query;
 
-    private BroadcastReceiver downloadReceiver;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orderd_detailsuser);
+        setContentView(R.layout.activity_orderd_detailsadmin);
         backbtn = findViewById(R.id.backuser);
         dbtn=findViewById(R.id.downloadbtnuser);
         mAuth=FirebaseAuth.getInstance();
@@ -78,6 +77,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
         progressBar=findViewById(R.id.progressadmin11);
         progressBar.setVisibility(View.VISIBLE);
         gt=findViewById(R.id.gtuser);
+        orderinfo=findViewById(R.id.orderinfouser);
         fileinmodels=new ArrayList<>();
 
         recyclerView.setHasFixedSize(true);
@@ -89,6 +89,16 @@ public class OrderDetialsadmin extends AppCompatActivity {
         databaseReference=FirebaseDatabase.getInstance().getReference().child("pdfs");
 
         query=databaseReference;
+
+        orderinfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(OrderDetialsadmin.this, Processorderactivity.class);
+                intent.putExtra("orderid2",orderid);
+                intent.putExtra("gt2",grandtotal);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -160,41 +170,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
 
     }
 
-    /*private void loadPdfFromUri(String toString) {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading PDF");
-        progressDialog.setMessage("Please wait...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
 
-        new Thread(() -> {
-            try {
-                URL url = new URL(toString);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream inputStream = connection.getInputStream();
-                runOnUiThread(() -> {
-                    pdfView.fromStream(inputStream)
-                            .enableAnnotationRendering(true)
-                            .spacing(10)
-                            .onLoad(new OnLoadCompleteListener() {
-                                @Override
-                                public void loadComplete(int nbPages) {
-                                    progressDialog.dismiss();
-                                }
-                            })
-                            .load();
-                });
-            } catch (Exception e) {
-                Log.e(TAG, "Error loading PDF", e);
-                runOnUiThread(() -> {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "Failed to load PDF", Toast.LENGTH_SHORT).show();
-                });
-            }
-        }).start();
-    }*/
 
     private void colse() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
