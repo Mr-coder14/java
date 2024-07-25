@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -43,13 +44,13 @@ public class AllOrderstempadmin extends AppCompatActivity {
     private String orderid;
     private boolean delevireid;
     private String userid;
+    private EditText searchEditText;
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_orderstempadmin);
-
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         recyclerView = findViewById(R.id.recyclerhometadminhis);
         auth = FirebaseAuth.getInstance();
@@ -58,6 +59,7 @@ public class AllOrderstempadmin extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         progressBar = findViewById(R.id.progressbarhometadminhis);
         progressBar.setVisibility(View.VISIBLE);
+        searchEditText=findViewById(R.id.search_edit_texttadminhish);
         fl = new ArrayList<>();
         userid = user.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
@@ -153,4 +155,5 @@ public class AllOrderstempadmin extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         adapter.startListening();
     }
+
 }

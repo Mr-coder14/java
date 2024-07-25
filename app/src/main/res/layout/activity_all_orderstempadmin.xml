@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="Tempadmin.AllOrderstempadmin">
     <EditText
-        android:id="@+id/search_edit_texttadminhis"
+        android:id="@+id/search_edit_texttadminhish"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/edittext_background_wh"
@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_edit_texttadminhis" />
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_texttadminhish" />
 
     <ProgressBar
         android:id="@+id/progressbarhometadminhis"
