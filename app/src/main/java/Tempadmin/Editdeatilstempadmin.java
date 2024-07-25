@@ -7,7 +7,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -34,7 +33,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.java.R;
-import com.example.java.editdetails;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
