@@ -196,7 +196,6 @@ public class Editdeatilstempadmin extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
-        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(null);
@@ -261,7 +260,10 @@ public class Editdeatilstempadmin extends AppCompatActivity {
         usersRef.child("name").setValue(name);
         usersRef.child("phno").setValue(phno);
 
+        if (ok){
             Toast.makeText(Editdeatilstempadmin.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+        }
+
 
 
     }

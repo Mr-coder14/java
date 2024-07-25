@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="Tempadmin.AllOrderstempadmin">
+
     <EditText
         android:id="@+id/search_edit_texttadminhish"
         android:layout_width="match_parent"
@@ -40,5 +41,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/allordersempadmin123"
+        android:text="No Orders Found"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:fontFamily="@font/lato"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

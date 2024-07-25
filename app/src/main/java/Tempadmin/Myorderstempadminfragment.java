@@ -20,8 +20,7 @@ import android.widget.TextView;
 import com.example.java.Fileinmodel;
 import com.example.java.R;
 import com.example.java.RetrivepdfAdaptorhomeadmin;
-import com.example.java.recyculer.orderadaptortadmin;
-import com.example.java.recyculer.orderadaptoruser;
+import com.example.java.recyculer.orderadaptormyorders;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -143,7 +142,7 @@ public class Myorderstempadminfragment extends Fragment {
 
     private void setupAdapter() {
         List<Fileinmodel> uniqueOrdersList = new ArrayList<>(uniqueOrders.values());
-        orderadaptoruser adapter = new orderadaptoruser(uniqueOrdersList, getContext());
+        orderadaptormyorders adapter = new orderadaptormyorders(uniqueOrdersList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }

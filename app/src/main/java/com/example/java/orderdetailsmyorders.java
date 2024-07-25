@@ -1,7 +1,6 @@
 package com.example.java;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,7 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class orderdetailsuser extends AppCompatActivity {
+public class orderdetailsmyorders extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 100;
     private ProgressDialog progressDialog;
@@ -122,14 +121,14 @@ public class orderdetailsuser extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-                Toast.makeText(orderdetailsuser.this, "No files", Toast.LENGTH_SHORT).show();
+                Toast.makeText(orderdetailsmyorders.this, "No files", Toast.LENGTH_SHORT).show();
             }
         });
 
         orderinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(orderdetailsuser.this, Processactivityuser.class);
+                Intent intent=new Intent(orderdetailsmyorders.this, Processactivitymyorders.class);
                 intent.putExtra("orderid2",orderid);
                 intent.putExtra("gt2",grandtotal);
                 startActivity(intent);

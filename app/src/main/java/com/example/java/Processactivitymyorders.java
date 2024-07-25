@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Processactivityuser extends AppCompatActivity {
+public class Processactivitymyorders extends AppCompatActivity {
     private TextView gt,note;
     private String orderid,grandtotal;
     private List<Fileinmodel> fileinmodels;

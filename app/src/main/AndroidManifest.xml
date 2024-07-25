@@ -27,7 +27,7 @@
             android:name="Tempadmin.Editdeatilstempadmin"
             android:exported="false" />
         <activity
-            android:name=".Processactivityuser"
+            android:name=".Processactivitymyorders"
             android:exported="false" />
         <activity
             android:name="Tempadmin.AllOrderstempadmin"
@@ -62,7 +62,7 @@
             android:name=".searchadminactivity"
             android:exported="false" />
         <activity
-            android:name=".orderdetailsuser"
+            android:name=".orderdetailsmyorders"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

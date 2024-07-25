@@ -136,7 +136,7 @@ public class history_fragment extends Fragment {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(getContext(), orderdetailsuser.class);
+                            Intent intent=new Intent(getContext(), orderdetailsmyorders.class);
                             intent.putExtra("orderid",fg.getOrderid0());
                             intent.putExtra("gt",fg.getGrandTotal0());
                             startActivity(intent);
