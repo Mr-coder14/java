@@ -3,7 +3,7 @@ package com.example.java;
 public class Fileinmodel {
     String uri0;
     String userid0, orderid0;
-    String name0;
+    String name0,username;
 
     public String getNotes() {
         return notes;
@@ -15,13 +15,34 @@ public class Fileinmodel {
 
     String notes;
     boolean orderd,delivered;
-    String finalamt0, ratio0, format0, sheet0, qty0, color0, pages0, perqtyamt0, orderDate0, perpage0, deliveyamt0, grandTotal0;
+    String finalamt0;
+    String ratio0;
+    String format0;
+    String sheet0;
+    String qty0;
+    String color0;
+    String pages0;
+    String perqtyamt0;
+    String orderDate0;
+    String perpage0;
 
-    public  Fileinmodel(String name0, String uri0, String GrandTotal0, String orderid0,boolean delivered){
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    String deliveyamt0;
+    String grandTotal0;
+
+    public  Fileinmodel(String name0, String uri0, String GrandTotal0, String orderid0,boolean delivered,String username){
         this.name0 = name0;
         this.uri0 = uri0;
         this.delivered=delivered;
         this.grandTotal0 = GrandTotal0;
+        this.username=username;
         this.orderid0=orderid0;
     }
 
@@ -61,7 +82,7 @@ public class Fileinmodel {
     }
 
     public void setGrandTotal0(String grandTotal0) {
-        grandTotal0 = grandTotal0;
+        this.grandTotal0=grandTotal0;
     }
 
     public Fileinmodel(){
@@ -87,7 +108,7 @@ public class Fileinmodel {
         this.orderDate0 = orderDate;
     }
 
-    public Fileinmodel(String name0, String uri0, String userid0, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid0, String perqtyamt, String perpage, String deliveyamt,boolean orderd,boolean delivered,String notes){
+    public Fileinmodel(String name0, String uri0, String userid0, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid0, String perqtyamt, String perpage, String deliveyamt,boolean orderd,boolean delivered,String notes,String username){
         this.name0 = name0;
         this.uri0 = uri0;
         this.deliveyamt0 =deliveyamt;
@@ -96,6 +117,7 @@ public class Fileinmodel {
         this.perpage0 =perpage;
         this.notes=notes;
         this.orderid0 = orderid0;
+        this.username=username;
         this.ratio0 =ratio;
         this.orderd=orderd;
         this.delivered=delivered;

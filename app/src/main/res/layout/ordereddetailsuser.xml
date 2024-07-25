@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OrdrerdDetailsadminactivity">
+    <ProgressBar
+        android:id="@+id/progressadmin11user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:visibility="visible"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+            android:background="@color/green"
+            android:id="@+id/uioad134"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageButton
+                android:id="@+id/backuser1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/green"
+                android:scaleX="1.5"
+                android:backgroundTint="@color/green"
+                android:layout_marginLeft="20dp"
+                android:scaleY="1.5"
+                app:srcCompat="@drawable/baseline_arrow_back_24"
+                />
+
+            <TextView
+                android:id="@+id/FDFEFEFE1ER"
+                android:layout_width="175dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="22dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/plus"
+                android:gravity="center"
+                android:text="Orderd Details"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/orderinfouser1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/green"
+                android:scaleX="1.3"
+                android:backgroundTint="@color/green"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="14dp"
+                android:scaleY="1.3"
+                app:srcCompat="@drawable/about_us"
+                app:tint="@color/white" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout00341"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/uioad134"
+            android:orientation="horizontal">
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fghj1"
+            android:layout_marginTop="65dp"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout00341"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyculerviewuser1"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/gtuser1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato"
+                    android:text="₹30"
+                    android:textColor="@color/black"
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/downloadbtnuser1"
+                    android:layout_width="190dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_background"
+                    android:fontFamily="@font/plus"
+                    android:text="Download PDF"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

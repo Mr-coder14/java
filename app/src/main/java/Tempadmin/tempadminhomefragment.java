@@ -1,26 +1,28 @@
 package Tempadmin;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.java.Fileinmodel;
 import com.example.java.R;
 import com.example.java.RetrivepdfAdaptorhomeadmin;
-import com.example.java.recyculer.orderadaptor;
+import com.example.java.recyculer.orderadaptortadmin;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,6 +47,7 @@ public class tempadminhomefragment extends Fragment {
     private String orderid;
     private boolean ordered,delivered;
     private EditText editText;
+    private TextView txt;
     private DatabaseReference databaseReference;
     private HashMap<String, Fileinmodel> uniqueOrders = new HashMap<>();
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
@@ -65,13 +68,23 @@ public class tempadminhomefragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerhometadmin);
         recyclerView.setHasFixedSize(true);
         progressBar = view.findViewById(R.id.progressbarhometadmin);
-        progressBar.setVisibility(View.VISIBLE);
+        txt=view.findViewById(R.id.homefragmentempadmin123);
+
         editText = view.findViewById(R.id.search_edit_texttadmin);
+
+        Drawable searchIcon = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_search_24);
+        if (searchIcon != null) {
+            int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 34, getResources().getDisplayMetrics());
+            searchIcon.setBounds(0, 0, size, size);
+            editText.setCompoundDrawables(searchIcon, null, null, null);
+        }
 
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         query = databaseReference;
+        progressBar.setVisibility(View.VISIBLE);
+        txt.setVisibility(View.INVISIBLE);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -84,34 +97,47 @@ public class tempadminhomefragment extends Fragment {
                             String uri = fileSnapshot.child("uri0").getValue(String.class);
                             String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
                             orderid = fileSnapshot.child("orderid0").getValue(String.class);
-                            ordered=fileSnapshot.child("orderd").getValue(boolean.class);
-                            delivered=fileSnapshot.child("delivered").getValue(boolean.class);
+                            ordered = fileSnapshot.child("orderd").getValue(boolean.class);
+                            delivered = fileSnapshot.child("delivered").getValue(boolean.class);
+                            String username=fileSnapshot.child("username").getValue(String.class);
 
-
-                            if (!uniqueOrders.containsKey(orderid) && !delivered) {
-                                Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid, delivered);
+                            if (!delivered && !uniqueOrders.containsKey(orderid)) {
+                                Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid, delivered,username);
                                 uniqueOrders.put(orderid, pdfFile);
                             }
                         }
                     }
                 }
-                progressBar.setVisibility(View.GONE);
-                displaypdfs();
+                updateUI();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                txt.setVisibility(View.VISIBLE);
+                txt.setText("Error Loading Orders");
             }
         });
 
         return view;
     }
 
+    private void updateUI() {
+        progressBar.setVisibility(View.GONE);
+
+        if (uniqueOrders.isEmpty()) {
+            txt.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            txt.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            displaypdfs();
+        }
+    }
+
     private void displaypdfs() {
         List<Fileinmodel> uniqueOrdersList = new ArrayList<>(uniqueOrders.values());
-        orderadaptor adapter = new orderadaptor(uniqueOrdersList, getContext());
+        orderadaptortadmin adapter = new orderadaptortadmin(uniqueOrdersList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

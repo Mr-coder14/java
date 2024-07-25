@@ -18,10 +18,15 @@ import com.example.java.Fileinmodel;
 import com.example.java.PDFDetails;
 import com.example.java.R;
 import com.example.java.suceesanimation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -37,8 +42,10 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
     ArrayList<PDFDetails> pdfDetails;
     private boolean orderd,delevried;
     private Activity activity;
+    private String username;
     private boolean[] uploaded;
     private String orderid;
+    String userid;
     public Float grandtotal=0.0f;
     private String notes;
 
@@ -102,6 +109,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
         private TextView pages,perpage,amtperqty,finalamt,filename,qty;
         private boolean isUploading = false;
         private FirebaseAuth mAuth;
+        private DatabaseReference df;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -114,6 +122,18 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
 
             amtperqty=itemView.findViewById(R.id.amtperqtytxt1);
             mAuth=FirebaseAuth.getInstance();
+            userid=mAuth.getCurrentUser().getUid();
+            df=FirebaseDatabase.getInstance().getReference().child("users").child(userid);
+
+            df.child("name").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if(task.isSuccessful()){
+                        username=task.getResult().getValue(String.class);
+                    }
+                }
+            });
+
 
 
 
@@ -131,8 +151,8 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
             progressDialog.show();
 
             isUploading = true;
-            orderd=true;
-            delevried=false;
+            orderd = true;
+            delevried = false;
             databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
 
             int totalFiles = uris.size();
@@ -150,7 +170,6 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                     if (task.isSuccessful()) {
                         fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                             String downloadUrl = uri.toString();
-                            String userid=mAuth.getCurrentUser().getUid();
                             HashMap<String, Object> timestamp = new HashMap<>();
                             timestamp.put("timestamp", ServerValue.TIMESTAMP);
 
@@ -161,7 +180,6 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             details.setUri(downloadUrl);
 
                             Fileinmodel fileModel = new Fileinmodel();
-
                             fileModel.setName0(fileNames.get(finalI));
                             fileModel.setUri0(details.getUri());
                             fileModel.setOrderid0(details.getOrderid1());
@@ -181,7 +199,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             fileModel.setOrderd(orderd);
                             fileModel.setDelivered(delevried);
                             fileModel.setNotes(notes);
-
+                            fileModel.setUsername(username);
                             databaseReference.child(userid).child(orderid).child(sanitizedFileName).setValue(fileModel)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
@@ -194,50 +212,75 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
 
                                         if (uploadedCount[0] == totalFiles) {
                                             isUploading = false;
-                                            progressDialog.dismiss();
 
-                                            boolean allSuccessful = true;
-                                            for (boolean status : uploaded) {
-                                                if (!status) {
-                                                    allSuccessful = false;
-                                                    break;
-                                                }
+                                            if (activity != null && !activity.isFinishing()) {
+                                                activity.runOnUiThread(() -> {
+                                                    try {
+                                                        if (progressDialog != null && progressDialog.isShowing()) {
+                                                            progressDialog.dismiss();
+                                                        }
+
+                                                        boolean allSuccessful = true;
+                                                        for (boolean status : uploaded) {
+                                                            if (!status) {
+                                                                allSuccessful = false;
+                                                                break;
+                                                            }
+                                                        }
+
+                                                        if (allSuccessful) {
+                                                            Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
+                                                            activity.startActivity(new Intent(activity, suceesanimation.class));
+                                                            activity.finish();
+                                                        } else {
+                                                            Toast.makeText(context, "Upload unsuccessful for some files", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                });
                                             }
-
-                                            if (allSuccessful) {
-                                                Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
-
-                                            } else {
-                                                Toast.makeText(context, "Upload unsuccessful for some files", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            // Update progress
+                                            if (activity != null && !activity.isFinishing()) {
+                                                activity.runOnUiThread(() -> {
+                                                    try {
+                                                        if (progressDialog != null && progressDialog.isShowing()) {
+                                                            progressDialog.setMessage("Uploading file " + (uploadedCount[0] + 1) + " of " + totalFiles);
+                                                        }
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                });
                                             }
                                         }
                                     });
                         });
                     } else {
                         uploaded[finalI] = false;
-                        Toast.makeText(context, "Upload failed for " + fileNames.get(finalI), Toast.LENGTH_SHORT).show();
-
                         uploadedCount[0]++;
 
-                        if (uploadedCount[0] == totalFiles) {
-                            isUploading = false;
-                            progressDialog.dismiss();
+                        if (activity != null && !activity.isFinishing()) {
+                            activity.runOnUiThread(() -> {
+                                try {
+                                    Toast.makeText(context, "Upload failed for " + fileNames.get(finalI), Toast.LENGTH_SHORT).show();
 
-                            boolean allSuccessful = true;
-                            for (boolean status : uploaded) {
-                                if (!status) {
-                                    allSuccessful = false;
-                                    break;
+                                    if (uploadedCount[0] == totalFiles) {
+                                        isUploading = false;
+                                        if (progressDialog != null && progressDialog.isShowing()) {
+                                            progressDialog.dismiss();
+                                        }
+                                        Toast.makeText(context, "Upload failed for some files", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Update progress
+                                        if (progressDialog != null && progressDialog.isShowing()) {
+                                            progressDialog.setMessage("Uploading file " + (uploadedCount[0] + 1) + " of " + totalFiles);
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
-                            }
-
-                            if (allSuccessful) {
-                                Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
-                                activity.startActivity(new Intent(activity, suceesanimation.class));
-                                activity.finish();
-                            } else {
-                                Toast.makeText(context, "Upload failed for some files", Toast.LENGTH_SHORT).show();
-                            }
+                            });
                         }
                     }
                 });

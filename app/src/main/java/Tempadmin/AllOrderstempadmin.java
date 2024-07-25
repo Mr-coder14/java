@@ -1,12 +1,17 @@
 package Tempadmin;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +59,7 @@ public class AllOrderstempadmin extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         recyclerView = findViewById(R.id.recyclerhometadminhis);
         auth = FirebaseAuth.getInstance();
+
         user = auth.getCurrentUser();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -64,6 +70,13 @@ public class AllOrderstempadmin extends AppCompatActivity {
         userid = user.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         query = databaseReference;
+
+        Drawable searchIcon = ContextCompat.getDrawable(this, R.drawable.baseline_search_24);
+        if (searchIcon != null) {
+            int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 34, getResources().getDisplayMetrics());
+            searchIcon.setBounds(0, 0, size, size);
+            searchEditText.setCompoundDrawables(searchIcon, null, null, null);
+        }
 
 
         pdfsRef = FirebaseDatabase.getInstance().getReference().child("pdfs");
@@ -78,7 +91,8 @@ public class AllOrderstempadmin extends AppCompatActivity {
                             String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
                             orderid = fileSnapshot.child("orderid0").getValue(String.class);
                             delevireid=fileSnapshot.child("delivered").getValue(boolean.class);
-                            Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,delevireid);
+                            String username=fileSnapshot.child("username").getValue(String.class);
+                            Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,delevireid,username);
                             fl.add(pdfFile);
                         }
                     }}

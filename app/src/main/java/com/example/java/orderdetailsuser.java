@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 
 import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.java.recyculer.orederpreviewadaptor;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +33,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+import Tempadmin.Processorderactivity;
+
 public class orderdetailsuser extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 100;
@@ -38,11 +43,8 @@ public class orderdetailsuser extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageButton backbtn;
     private String orderid,userid;
-    private StorageReference storageRef;
     private DatabaseReference databaseReference,pdfsRef;
-    private ProgressDialog progressDialog;
-    private String name,uri,amtperqty,delverycharge,ratio,sheet,format,perpgae,pages,color,qty,finalmat,notes;
-    private boolean orderd,delivered;
+
     private String grandtotal;
     private Button dbtn;
     private ProgressBar progressBar;
@@ -50,23 +52,28 @@ public class orderdetailsuser extends AppCompatActivity {
     private  TextView gt;
     private FirebaseAuth mAuth;
     private Query query;
-
-    private BroadcastReceiver downloadReceiver;
+    private ImageButton orderinfo;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orderd_detailsadmin);
-        backbtn = findViewById(R.id.backuser);
-        dbtn=findViewById(R.id.downloadbtnuser);
+        setContentView(R.layout.ordereddetailsuser);
+        backbtn = findViewById(R.id.backuser1);
+        dbtn=findViewById(R.id.downloadbtnuser1);
+        orderinfo=findViewById(R.id.orderinfouser1);
         mAuth=FirebaseAuth.getInstance();
         userid=mAuth.getCurrentUser().getUid();
-        recyclerView=findViewById(R.id.recyculerviewuser);
-        progressBar=findViewById(R.id.progressadmin11);
+
+        recyclerView=findViewById(R.id.recyculerviewuser1);
+        progressBar=findViewById(R.id.progressadmin11user);
         progressBar.setVisibility(View.VISIBLE);
-        gt=findViewById(R.id.gtuser);
+        gt=findViewById(R.id.gtuser1);
         fileinmodels=new ArrayList<>();
+        userid=mAuth.getCurrentUser().getUid();
+
+
+
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -74,67 +81,56 @@ public class orderdetailsuser extends AppCompatActivity {
         grandtotal=getIntent().getStringExtra("gt");
         gt.setText("₹ "+grandtotal);
 
-        databaseReference=FirebaseDatabase.getInstance().getReference().child("pdfs").child(userid).child(orderid);
+
+
+        databaseReference=FirebaseDatabase.getInstance().getReference().child("pdfs");
 
         query=databaseReference;
 
 
 
-        pdfsRef = FirebaseDatabase.getInstance().getReference().child("pdfs").child(userid).child(orderid);
+        pdfsRef = FirebaseDatabase.getInstance().getReference().child("pdfs");
         pdfsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-                    name = fileSnapshot.child("name0").getValue(String.class);
-                    uri = fileSnapshot.child("uri0").getValue(String.class);
-                    ratio=fileSnapshot.child("ratio0").getValue(String.class);
-                    sheet=fileSnapshot.child("sheet0").getValue(String.class);
-                    pages=fileSnapshot.child("pages0").getValue(String.class);
-                    format=fileSnapshot.child("format0").getValue(String.class);
-                    finalmat=fileSnapshot.child("finalamt0").getValue(String.class);
-                    perpgae=fileSnapshot.child("perpage0").getValue(String.class);
-                    qty=fileSnapshot.child("qty0").getValue(String.class);
-                    amtperqty=fileSnapshot.child("perqtyamt0").getValue(String.class);
-                    delverycharge=fileSnapshot.child("deliveyamt0").getValue(String.class);
-                    color=fileSnapshot.child("color0").getValue(String.class);
-                    orderd=fileSnapshot.child("orderd").getValue(boolean.class);
-                    delivered=fileSnapshot.child("delivered").getValue(boolean.class);
-                    notes=fileSnapshot.child("notes").getValue(String.class);
-
-                    Fileinmodel pdfFile = new Fileinmodel(name,uri,userid,finalmat,ratio,format,sheet,color,qty,pages,orderid,amtperqty,perpgae,delverycharge,orderd,delivered,notes);
-                    fileinmodels.add(pdfFile);
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot orderSnapshot : userSnapshot.getChildren()) {
+                        if (orderSnapshot.getKey().equals(orderid)) {
+                            for (DataSnapshot fileSnapshot : orderSnapshot.getChildren()) {
+                                Fileinmodel pdfFile = fileSnapshot.getValue(Fileinmodel.class);
+                                if (pdfFile != null) {
+                                    fileinmodels.add(pdfFile);
+                                }
+                            }
+                            break;
+                        }}
                 }
-            }
+                displaypdfs();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-                Toast.makeText(orderdetailsuser.this, "no files", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-
-                    displaypdfs();
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(orderdetailsuser.this, "No pdfs", Toast.LENGTH_SHORT).show();
+                recyclerView.setVisibility(View.VISIBLE);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                Toast.makeText(orderdetailsuser.this, "No files", Toast.LENGTH_SHORT).show();
             }
         });
+
+        orderinfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(orderdetailsuser.this, Processactivityuser.class);
+                intent.putExtra("orderid2",orderid);
+                intent.putExtra("gt2",grandtotal);
+                startActivity(intent);
+            }
+        });
+
+
 
 
 
@@ -152,7 +148,7 @@ public class orderdetailsuser extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                colse();
+                finish();
             }
         });
 
@@ -162,122 +158,18 @@ public class orderdetailsuser extends AppCompatActivity {
     }
 
     private void displaypdfs() {
-        orederpreviewadaptor adapter = new orederpreviewadaptor(fileinmodels);
-        recyclerView.setAdapter(adapter);
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
+        if(fileinmodels==null){
+            Toast.makeText(this, "No files", Toast.LENGTH_SHORT).show();
+
+        }else {
+            orederpreviewadaptor adapter = new orederpreviewadaptor(fileinmodels,this);
+            recyclerView.setAdapter(adapter);
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
-    /*private void loadPdfFromUri(String toString) {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading PDF");
-        progressDialog.setMessage("Please wait...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        new Thread(() -> {
-            try {
-                URL url = new URL(toString);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream inputStream = connection.getInputStream();
-                runOnUiThread(() -> {
-                    pdfView.fromStream(inputStream)
-                            .enableAnnotationRendering(true)
-                            .spacing(10)
-                            .onLoad(new OnLoadCompleteListener() {
-                                @Override
-                                public void loadComplete(int nbPages) {
-                                    progressDialog.dismiss();
-                                }
-                            })
-                            .load();
-                });
-            } catch (Exception e) {
-                Log.e(TAG, "Error loading PDF", e);
-                runOnUiThread(() -> {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "Failed to load PDF", Toast.LENGTH_SHORT).show();
-                });
-            }
-        }).start();
-    }*/
-
-    private void colse() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Exit");
-        builder.setMessage("Are you sure you want to quit?");
-        builder.setCancelable(false);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-            }
-        });
 
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
 
-    /*private void downloadPdf(String uri) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl(uri);
-
-        final ProgressDialog progressDialog = new ProgressDialog(OrderdDetailsuser.this);
-        progressDialog.setTitle("Downloading PDF");
-        progressDialog.setMessage("Please wait...");
-        progressDialog.setIndeterminate(true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(uri));
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-        final long downloadId = downloadManager.enqueue(request);
-
-        downloadReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == downloadId) {
-                    progressDialog.dismiss();
-                }
-            }
-        };
-
-        registerReceiver(downloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-    }*/
-
-   /* @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (downloadReceiver != null) {
-            unregisterReceiver(downloadReceiver);
-        }
-    }*/
-
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                downloadPdf(pdfuri.toString());
-            } else {
-                Toast.makeText(this, "Permission denied to write to storage", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 }

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,14 +31,14 @@ import java.util.List;
 public class history_fragment extends Fragment {
     private RecyclerView recyclerView;
     private DatabaseReference databaseReference;
-    private DatabaseReference pdfsRef;
+    private DatabaseReference pdfsRef,df;
     private FirebaseAuth auth;
     private Query query;
     private ProgressBar progressBar;
     private FirebaseUser user;
     private List<Fileinmodel> fl;
     private String orderid;
-    private String userid;
+    private String userid,username;
     private boolean delevired;
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
 
@@ -61,6 +63,15 @@ public class history_fragment extends Fragment {
         query = databaseReference;
 
         pdfsRef = FirebaseDatabase.getInstance().getReference().child("pdfs").child(userid);
+        df=FirebaseDatabase.getInstance().getReference().child("users").child(userid);
+        df.child("name").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(task.isSuccessful()){
+                    username=task.getResult().getValue(String.class);
+                }
+            }
+        });
         pdfsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -71,7 +82,7 @@ public class history_fragment extends Fragment {
                         String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
                         orderid = fileSnapshot.child("orderid0").getValue(String.class);
                         delevired=fileSnapshot.child("delivered").getValue(boolean.class);
-                        Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,delevired);
+                        Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,delevired,username);
                         fl.add(pdfFile);
                     }
                 }

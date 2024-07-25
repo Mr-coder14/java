@@ -147,7 +147,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                colse();
+                finish();
             }
         });
 
@@ -161,7 +161,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
             Toast.makeText(this, "No files", Toast.LENGTH_SHORT).show();
 
         }else {
-            orederpreviewadaptor adapter = new orederpreviewadaptor(fileinmodels);
+            orederpreviewadaptor adapter = new orederpreviewadaptor(fileinmodels,this);
             recyclerView.setAdapter(adapter);
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
@@ -171,7 +171,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
 
 
 
-    private void colse() {
+    /*private void colse() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Exit");
         builder.setMessage("Are you sure you want to quit?");
@@ -195,7 +195,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }
+    }*/
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         return result == PackageManager.PERMISSION_GRANTED;

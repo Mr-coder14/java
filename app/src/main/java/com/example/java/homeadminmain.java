@@ -187,7 +187,7 @@ public class homeadminmain extends Fragment {
                             }
                         });
 
-                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 String pdfUri = model.getUri0();
@@ -202,7 +202,7 @@ public class homeadminmain extends Fragment {
                                 }
                             }
 
-                        });
+                        });*/
                     }
 
                     @NonNull

@@ -11,17 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
 import com.example.java.OrderDetialsadmin;
-import com.example.java.orderdetailsuser;
 import com.example.java.R;
 import com.example.java.RetrivepdfAdaptorhomeadmin;
 
 import java.util.List;
 
-public class orderadaptor extends RecyclerView.Adapter<RetrivepdfAdaptorhomeadmin> {
+public class orderadaptortadmin extends RecyclerView.Adapter<RetrivepdfAdaptorhomeadmin> {
     private List<Fileinmodel> orderList;
     private Context context;
 
-    public orderadaptor(List<Fileinmodel> orderList, Context context) {
+    public orderadaptortadmin(List<Fileinmodel> orderList, Context context) {
         this.orderList = orderList;
         this.context = context;
     }
@@ -38,6 +37,7 @@ public class orderadaptor extends RecyclerView.Adapter<RetrivepdfAdaptorhomeadmi
         Fileinmodel fld = orderList.get(position);
         holder.orderid.setText(fld.getOrderid0());
         holder.Grandtotal.setText("₹ " + fld.getGrandTotal0());
+        holder.UserName1.setText(fld.getUsername());
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, OrderDetialsadmin.class);

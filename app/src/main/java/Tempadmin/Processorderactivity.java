@@ -27,7 +27,7 @@ public class Processorderactivity extends AppCompatActivity {
     private String orderid,grandtotal;
     private List<Fileinmodel> fileinmodels;
     private Button btn;
-    private boolean delivered;
+    private boolean delivered,isDelivered;
     private ImageButton backbtn;
     DatabaseReference databaseReference,newchild;
 
@@ -44,7 +44,12 @@ public class Processorderactivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         newchild = FirebaseDatabase.getInstance().getReference().child("orderstempadmin");
         grandtotal=getIntent().getStringExtra("gt2");
+        isDelivered= Boolean.parseBoolean(getIntent().getStringExtra("delivered"));
         gt.setText("₹ "+grandtotal);
+        if(isDelivered){
+            btn.setEnabled(false);
+            btn.setVisibility(View.GONE);
+        }
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
