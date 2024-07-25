@@ -24,6 +24,9 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name="Tempadmin.Editdeatilstempadmin"
+            android:exported="false" />
+        <activity
             android:name=".Processactivityuser"
             android:exported="false" />
         <activity

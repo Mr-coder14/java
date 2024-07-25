@@ -2,9 +2,8 @@ package com.example.java.recyculer;
 
 import static java.security.AccessController.getContext;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -27,24 +26,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.java.Fileinmodel;
 import com.example.java.PDFDetails;
 import com.example.java.R;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.storage.FirebaseStorage;
 
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -328,7 +318,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             this.activity=activity;
 
             fileNameTextView = itemView.findViewById(R.id.filenametxt1admin);
-            pdfView = itemView.findViewById(R.id.pdfViewadmin);
             qtytxt1 = itemView.findViewById(R.id.qtytxt1admin);
             qtyno = itemView.findViewById(R.id.qtynoadmin);
             fileNameTextView = itemView.findViewById(R.id.filenametxt1admin);
@@ -489,12 +478,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
 
     }
-
-
-
-
-
-
         class InputFilterMinMax implements InputFilter {
         private int min, max;
 

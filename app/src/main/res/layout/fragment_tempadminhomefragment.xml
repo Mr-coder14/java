@@ -46,20 +46,22 @@
         app:layout_constraintTop_toBottomOf="@id/linearLayout3tad"  />
 
     <TextView
-        android:layout_width="match_parent"
-        android:textSize="25sp"
-        android:layout_height="wrap_content"
         android:id="@+id/txt123"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="25dp"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/search_edit_texttadmin"
+        android:fontFamily="@font/lato"
+        android:text="New Orders"
+        android:background="@drawable/backround_btn_profile"
+        android:backgroundTint="@color/green"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.065"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="New Orders"
-        android:textStyle="bold"
-        android:fontFamily="@font/lato"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_texttadmin" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerhometadmin"

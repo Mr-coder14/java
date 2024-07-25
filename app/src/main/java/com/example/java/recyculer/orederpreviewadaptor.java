@@ -37,7 +37,7 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.pdfView.setVisibility(View.GONE);
+
         Fileinmodel fileinmodel = fileinmodels.get(position);
         holder.fileNameTextViewauser.setText(fileinmodel.getName0());
         holder.colortxtuser.setText(fileinmodel.getColor0());
@@ -71,7 +71,6 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView fileNameTextViewauser, colortxtuser, sheetuser, formatuser, perpageamtuser, perqtyamtuser, ratiouser, finalamtuser, deliveryamtuser, qtynouser, pguser;
-        PDFView pdfView;
         Button preview;
 
 
@@ -91,7 +90,6 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
             qtynouser = itemView.findViewById(R.id.qtynouser);
             preview=itemView.findViewById(R.id.previewuser);
             pguser = itemView.findViewById(R.id.pagenouser);
-            pdfView=itemView.findViewById(R.id.pdfViewuser);
         }
 
     }

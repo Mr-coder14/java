@@ -149,7 +149,7 @@ public class tempadminprofilefragment extends Fragment {
         constraintbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), editdetails.class));
+                startActivity(new Intent(getContext(), Editdeatilstempadmin.class));
             }
         });
 

@@ -3,6 +3,7 @@ package Tempadmin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.java.Fileinmodel;
+import com.example.java.MainActivity;
 import com.example.java.R;
+import com.example.java.tempadminmainactivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -99,10 +102,12 @@ public class Processorderactivity extends AppCompatActivity {
                                                 .child("delivered")
                                                 .setValue(true)
                                                 .addOnSuccessListener(aVoid -> {
-                                                    Toast.makeText(Processorderactivity.this, "yes", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Processorderactivity.this, "Order Successfully Added", Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(Processorderactivity.this,tempadminmainactivity.class));
+                                                    finishAffinity();
                                                 })
                                                 .addOnFailureListener(e -> {
-                                                    Toast.makeText(Processorderactivity.this, "no", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Processorderactivity.this, "Failed To Add", Toast.LENGTH_SHORT).show();
                                                 });
 
                                         Fileinmodel pdfFile = fileSnapshot.getValue(Fileinmodel.class);

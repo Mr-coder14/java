@@ -72,18 +72,18 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="28dp"
-                android:background="@drawable/whiteblack_bg"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.github.barteksc.pdfviewer.PDFView
+                <ImageView
                     android:id="@+id/pdfViewuser"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
+                    android:src="@drawable/pngegg"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
