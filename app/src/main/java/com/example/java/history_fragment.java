@@ -37,6 +37,7 @@ public class history_fragment extends Fragment {
     private List<Fileinmodel> fl;
     private String orderid;
     private String userid;
+    private boolean delevired;
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
 
     public history_fragment() {
@@ -69,7 +70,8 @@ public class history_fragment extends Fragment {
                         String uri = fileSnapshot.child("uri0").getValue(String.class);
                         String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
                         orderid = fileSnapshot.child("orderid0").getValue(String.class);
-                        Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid);
+                        delevired=fileSnapshot.child("delivered").getValue(boolean.class);
+                        Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,delevired);
                         fl.add(pdfFile);
                     }
                 }

@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -31,9 +33,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class tempadminprofilefragment extends Fragment {
-    private ImageButton constraintLayout;
-    private ImageButton btnlout;
+    private LinearLayout constraintLayout;
+    private LinearLayout btnlout,allorders;
     private FirebaseAuth auth;
+    private ImageButton btnlt,allordersbtn,constraintbtn;
     private CircleImageView circleImageView;
     private TextView email, name, email1, name1, phno1;
 
@@ -59,11 +62,15 @@ public class tempadminprofilefragment extends Fragment {
         name = view.findViewById(R.id.profilenametadmin);
         circleImageView=view.findViewById(R.id.shapeableImageViewqtadmin);
         progressBar=view.findViewById(R.id.progressprofiletadmin);
+        btnlt=view.findViewById(R.id.logouttbtnadmin);
+        allordersbtn=view.findViewById(R.id.alldetailsbtnadmin);
+        constraintbtn=view.findViewById(R.id.editdetailsbtnadmin);
         scrollView=view.findViewById(R.id.profilevisibletadmin);
         phno1 = view.findViewById(R.id.phno11tadmin);
         constraintLayout = view.findViewById(R.id.editdetailstadmin);
         email1 = view.findViewById(R.id.email11tadmin);
         name1 = view.findViewById(R.id.name11tadmin);
+        allorders=view.findViewById(R.id.imageallordersadmin);
         email = view.findViewById(R.id.emailprofiletadmin);
         progressBar.setVisibility(View.VISIBLE);
         scrollView.setVisibility(View.GONE);
@@ -113,11 +120,36 @@ public class tempadminprofilefragment extends Fragment {
                 scrollView.setVisibility(View.VISIBLE);
             }
         });
+        allorders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), AllOrderstempadmin.class));
+            }
+        });
+
+        allordersbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), AllOrderstempadmin.class));
+            }
+        });
 
         btnlout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showLogoutDialog();
+            }
+        });
+        btnlt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLogoutDialog();
+            }
+        });
+        constraintbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), editdetails.class));
             }
         });
 

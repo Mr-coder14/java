@@ -41,7 +41,8 @@ public class orderdetailsuser extends AppCompatActivity {
     private StorageReference storageRef;
     private DatabaseReference databaseReference,pdfsRef;
     private ProgressDialog progressDialog;
-    private String name,uri,amtperqty,delverycharge,ratio,sheet,format,perpgae,pages,color,qty,finalmat;
+    private String name,uri,amtperqty,delverycharge,ratio,sheet,format,perpgae,pages,color,qty,finalmat,notes;
+    private boolean orderd,delivered;
     private String grandtotal;
     private Button dbtn;
     private ProgressBar progressBar;
@@ -97,8 +98,11 @@ public class orderdetailsuser extends AppCompatActivity {
                     amtperqty=fileSnapshot.child("perqtyamt0").getValue(String.class);
                     delverycharge=fileSnapshot.child("deliveyamt0").getValue(String.class);
                     color=fileSnapshot.child("color0").getValue(String.class);
+                    orderd=fileSnapshot.child("orderd").getValue(boolean.class);
+                    delivered=fileSnapshot.child("delivered").getValue(boolean.class);
+                    notes=fileSnapshot.child("notes").getValue(String.class);
 
-                    Fileinmodel pdfFile = new Fileinmodel(name,uri,userid,finalmat,ratio,format,sheet,color,qty,pages,orderid,amtperqty,perpgae,delverycharge);
+                    Fileinmodel pdfFile = new Fileinmodel(name,uri,userid,finalmat,ratio,format,sheet,color,qty,pages,orderid,amtperqty,perpgae,delverycharge,orderd,delivered,notes);
                     fileinmodels.add(pdfFile);
                 }
             }

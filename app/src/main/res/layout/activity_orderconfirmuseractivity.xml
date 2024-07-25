@@ -48,6 +48,16 @@
         android:layout_weight="1"
         android:layout_margin="10dp"
         />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:id="@+id/notesuser"
+        android:background="@drawable/whitebg_profile"
+        android:elevation="5dp"
+        android:hint="Add Some Notes"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:padding="5dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

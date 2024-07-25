@@ -103,7 +103,6 @@ public class OrderDetialsadmin extends AppCompatActivity {
 
 
         pdfsRef = FirebaseDatabase.getInstance().getReference().child("pdfs");
-        Toast.makeText(OrderDetialsadmin.this, "dsdsd", Toast.LENGTH_SHORT).show();
         pdfsRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

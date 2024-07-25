@@ -35,18 +35,21 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
     private ArrayList<String> fileNames;
     private DatabaseReference databaseReference;
     ArrayList<PDFDetails> pdfDetails;
+    private boolean orderd,delevried;
     private Activity activity;
     private boolean[] uploaded;
     private String orderid;
     public Float grandtotal=0.0f;
+    private String notes;
 
-    public  pdflratelistApadtor(Activity activity, ArrayList<Uri> uris1, ArrayList<String> fileNames1, String orderid, ArrayList<PDFDetails> pdfDetails){
+    public  pdflratelistApadtor(Activity activity, ArrayList<Uri> uris1, ArrayList<String> fileNames1, String orderid, ArrayList<PDFDetails> pdfDetails,String notes){
         this.uris=uris1;
         this.activity=activity;
         this.uploaded=new boolean[uris.size()];
         this.fileNames=fileNames1;
         this.orderid=orderid;
         this.pdfDetails=pdfDetails;
+        this.notes=notes;
         calculateGrandTotal();
 
     }
@@ -128,6 +131,8 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
             progressDialog.show();
 
             isUploading = true;
+            orderd=true;
+            delevried=false;
             databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
 
             int totalFiles = uris.size();
@@ -173,6 +178,9 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             fileModel.setOrderDate0(details.getOrderdate());
                             fileModel.setFinalamt0(details.getFinalmat());
                             fileModel.setuserid0(details.getUserid());
+                            fileModel.setOrderd(orderd);
+                            fileModel.setDelivered(delevried);
+                            fileModel.setNotes(notes);
 
                             databaseReference.child(userid).child(orderid).child(sanitizedFileName).setValue(fileModel)
                                     .addOnCompleteListener(task1 -> {

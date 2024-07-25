@@ -41,6 +41,7 @@ public class AllOrderstempadmin extends AppCompatActivity {
     private FirebaseUser user;
     private List<Fileinmodel> fl;
     private String orderid;
+    private boolean delevireid;
     private String userid;
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
 
@@ -74,7 +75,8 @@ public class AllOrderstempadmin extends AppCompatActivity {
                             String uri = fileSnapshot.child("uri0").getValue(String.class);
                             String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
                             orderid = fileSnapshot.child("orderid0").getValue(String.class);
-                            Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid);
+                            delevireid=fileSnapshot.child("delivered").getValue(boolean.class);
+                            Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,delevireid);
                             fl.add(pdfFile);
                         }
                     }}

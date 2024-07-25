@@ -43,6 +43,7 @@ public class Myorderstempadminfragment extends Fragment {
     private FirebaseUser user;
     private List<Fileinmodel> fl;
     private String orderid;
+    private boolean deleivired;
     private String userid;
     private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
 
@@ -83,7 +84,8 @@ public class Myorderstempadminfragment extends Fragment {
                         String uri = fileSnapshot.child("uri0").getValue(String.class);
                         String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
                         orderid = fileSnapshot.child("orderid0").getValue(String.class);
-                        Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid);
+                        deleivired=fileSnapshot.child("delivered").getValue(boolean.class);
+                        Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,deleivired);
                         fl.add(pdfFile);
                     }
                 }}

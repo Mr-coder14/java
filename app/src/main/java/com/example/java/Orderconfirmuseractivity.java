@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.java.recyculer.PreviewAdapter;
@@ -26,7 +27,9 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
     private preview_orderActivity activity1;
     private ArrayList<PDFDetails> pdfDetails;
     public  Float gt;
+    private String notesst;
     private String orderid;
+    private EditText notes;
     private Button Confirmorder;
     private TextView grandamt;
 
@@ -50,7 +53,9 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         fileNames = appData.getFileNames();
         orderid = appData.getOrderid();
         pdfDetails = appData.getPdfDetails();
-        apadtor=new pdflratelistApadtor(activity,uris,fileNames,orderid,pdfDetails);
+        notes=findViewById(R.id.notesuser);
+        notesst=notes.getText().toString();
+        apadtor=new pdflratelistApadtor(activity,uris,fileNames,orderid,pdfDetails,notesst);
         recyclerView1.setAdapter(apadtor);
         gt= apadtor.getGrandtotal();
         grandamt.setText("₹ "+String.valueOf(gt));

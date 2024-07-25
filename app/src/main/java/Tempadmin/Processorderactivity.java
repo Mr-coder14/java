@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ public class Processorderactivity extends AppCompatActivity {
     private String orderid,grandtotal;
     private List<Fileinmodel> fileinmodels;
     private Button btn;
+    private boolean delivered;
+    private ImageButton backbtn;
     DatabaseReference databaseReference,newchild;
 
     @Override
@@ -34,6 +37,7 @@ public class Processorderactivity extends AppCompatActivity {
         setContentView(R.layout.activity_processorderactivity);
         
         btn=findViewById(R.id.OrderConfirmedbtn);
+        backbtn=findViewById(R.id.back_btnadmin12);
         gt=findViewById(R.id.gtt);
         fileinmodels=new ArrayList<>();
         orderid=getIntent().getStringExtra("orderid2");
@@ -42,10 +46,18 @@ public class Processorderactivity extends AppCompatActivity {
         grandtotal=getIntent().getStringExtra("gt2");
         gt.setText("₹ "+grandtotal);
 
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                delivered=true;
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -55,6 +67,19 @@ public class Processorderactivity extends AppCompatActivity {
                             for (DataSnapshot orderSnapshot : userSnapshot.getChildren()) {
                                 if (orderSnapshot.getKey().equals(orderid)) {
                                     for (DataSnapshot fileSnapshot : orderSnapshot.getChildren()) {
+
+                                        databaseReference.child(userSnapshot.getKey())
+                                                .child(orderid)
+                                                .child(fileSnapshot.getKey())
+                                                .child("delivered")
+                                                .setValue(true)
+                                                .addOnSuccessListener(aVoid -> {
+                                                    Toast.makeText(Processorderactivity.this, "yes", Toast.LENGTH_SHORT).show();
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    Toast.makeText(Processorderactivity.this, "no", Toast.LENGTH_SHORT).show();
+                                                });
+
                                         Fileinmodel pdfFile = fileSnapshot.getValue(Fileinmodel.class);
                                         if (pdfFile != null) {
                                             fileinmodels.add(pdfFile);
@@ -62,6 +87,7 @@ public class Processorderactivity extends AppCompatActivity {
                                             newchild.child(orderid).child(fileSnapshot.getKey()).setValue(pdfFile)
                                                     .addOnSuccessListener(aVoid -> {
                                                         //Toast.makeText(Processorderactivity.this, "Added Successfully", Toast.LENGTH_SHORT).show();
+                                                        newchild.child(orderid).child(fileSnapshot.getKey()).child("delivered").setValue(true);
                                                     })
                                                     .addOnFailureListener(e -> {
                                                        // Toast.makeText(Processorderactivity.this, "Added Failed", Toast.LENGTH_SHORT).show();

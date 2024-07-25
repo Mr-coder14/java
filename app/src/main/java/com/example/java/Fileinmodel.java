@@ -4,11 +4,23 @@ public class Fileinmodel {
     String uri0;
     String userid0, orderid0;
     String name0;
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    String notes;
+    boolean orderd,delivered;
     String finalamt0, ratio0, format0, sheet0, qty0, color0, pages0, perqtyamt0, orderDate0, perpage0, deliveyamt0, grandTotal0;
 
-    public  Fileinmodel(String name0, String uri0, String GrandTotal0, String orderid0){
+    public  Fileinmodel(String name0, String uri0, String GrandTotal0, String orderid0,boolean delivered){
         this.name0 = name0;
         this.uri0 = uri0;
+        this.delivered=delivered;
         this.grandTotal0 = GrandTotal0;
         this.orderid0=orderid0;
     }
@@ -16,6 +28,22 @@ public class Fileinmodel {
 
     public String getPerpage0() {
         return perpage0;
+    }
+
+    public boolean isOrderd() {
+        return orderd;
+    }
+
+    public void setOrderd(boolean orderd) {
+        this.orderd = orderd;
+    }
+
+    public boolean isDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
     }
 
     public void setPerpage0(String perpage) {
@@ -59,15 +87,18 @@ public class Fileinmodel {
         this.orderDate0 = orderDate;
     }
 
-    public Fileinmodel(String name0, String uri0, String userid0, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid0, String perqtyamt, String perpage, String deliveyamt){
+    public Fileinmodel(String name0, String uri0, String userid0, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid0, String perqtyamt, String perpage, String deliveyamt,boolean orderd,boolean delivered,String notes){
         this.name0 = name0;
         this.uri0 = uri0;
         this.deliveyamt0 =deliveyamt;
         this.userid0 = userid0;
         this.finalamt0 =amt;
         this.perpage0 =perpage;
+        this.notes=notes;
         this.orderid0 = orderid0;
         this.ratio0 =ratio;
+        this.orderd=orderd;
+        this.delivered=delivered;
         this.color0 =color;
         this.perqtyamt0 =perqtyamt;
         this.format0 =format;

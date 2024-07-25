@@ -43,6 +43,7 @@ public class tempadminhomefragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser user;
     private String orderid;
+    private boolean ordered,delivered;
     private EditText editText;
     private DatabaseReference databaseReference;
     private HashMap<String, Fileinmodel> uniqueOrders = new HashMap<>();
@@ -83,17 +84,17 @@ public class tempadminhomefragment extends Fragment {
                             String uri = fileSnapshot.child("uri0").getValue(String.class);
                             String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
                             orderid = fileSnapshot.child("orderid0").getValue(String.class);
+                            ordered=fileSnapshot.child("orderd").getValue(boolean.class);
+                            delivered=fileSnapshot.child("delivered").getValue(boolean.class);
 
 
-                            if (!uniqueOrders.containsKey(orderid)) {
-                                Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid);
+                            if (!uniqueOrders.containsKey(orderid) && !delivered) {
+                                Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid, delivered);
                                 uniqueOrders.put(orderid, pdfFile);
-                                Log.d(TAG, "Added unique PDF File: " + pdfFile.getOrderid0());
                             }
                         }
                     }
                 }
-                Log.d(TAG, "Total unique PDFs: " + uniqueOrders.size());
                 progressBar.setVisibility(View.GONE);
                 displaypdfs();
             }

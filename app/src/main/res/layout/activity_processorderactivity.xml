@@ -16,16 +16,18 @@
         android:orientation="horizontal"
         android:padding="10dp">
         <ImageButton
-            android:id="@+id/back_btnadmin"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:id="@+id/back_btnadmin12"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
             android:layout_centerVertical="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/baseline_arrow_back_24"
             app:tint="@color/white" />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
             android:text="Order Progress"
@@ -40,7 +42,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="137dp"
         android:layout_margin="12dp"
         android:elevation="5dp"
         android:padding="5dp"
@@ -57,6 +59,43 @@
             android:textStyle="bold"
             android:fontFamily="@font/plus"
             android:text="Order Status" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/tick"
+                android:id="@+id/handleimageorder"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ordered"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/minus"
+            android:id="@+id/handleimagedelivered"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivered"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_weight="1"/>
+    </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
