@@ -26,6 +26,8 @@ public class Processorderactivity extends AppCompatActivity {
     private TextView gt;
     private String orderid,grandtotal;
     private List<Fileinmodel> fileinmodels;
+    TextView note;
+    String notes;
     private Button btn;
     private boolean delivered,isDelivered;
     private ImageButton backbtn;
@@ -39,6 +41,7 @@ public class Processorderactivity extends AppCompatActivity {
         btn=findViewById(R.id.OrderConfirmedbtn);
         backbtn=findViewById(R.id.back_btnadmin12);
         gt=findViewById(R.id.gtt);
+        note=findViewById(R.id.notesuserdisplay1);
         fileinmodels=new ArrayList<>();
         orderid=getIntent().getStringExtra("orderid2");
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
@@ -46,15 +49,31 @@ public class Processorderactivity extends AppCompatActivity {
         grandtotal=getIntent().getStringExtra("gt2");
         isDelivered= Boolean.parseBoolean(getIntent().getStringExtra("delivered"));
         gt.setText("₹ "+grandtotal);
-        if(isDelivered){
-            btn.setEnabled(false);
-            btn.setVisibility(View.GONE);
-        }
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot orderSnapshot : userSnapshot.getChildren()) {
+                        if (orderSnapshot.getKey().equals(orderid)) {
+                            for (DataSnapshot fileSnapshot : orderSnapshot.getChildren()) {
+                                notes = fileSnapshot.child("notes").getValue(String.class);
+                            }
+                        }
+                    }
+                }
+                note.setText(notes);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -72,6 +91,7 @@ public class Processorderactivity extends AppCompatActivity {
                             for (DataSnapshot orderSnapshot : userSnapshot.getChildren()) {
                                 if (orderSnapshot.getKey().equals(orderid)) {
                                     for (DataSnapshot fileSnapshot : orderSnapshot.getChildren()) {
+
 
                                         databaseReference.child(userSnapshot.getKey())
                                                 .child(orderid)

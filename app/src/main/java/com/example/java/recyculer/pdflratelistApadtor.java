@@ -56,9 +56,12 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
         this.fileNames=fileNames1;
         this.orderid=orderid;
         this.pdfDetails=pdfDetails;
-        this.notes=notes;
+        this.notes = notes != null ? notes : "";
         calculateGrandTotal();
 
+    }
+    public void updateNotes(String newNotes) {
+        this.notes = newNotes;
     }
 
 
@@ -198,7 +201,8 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             fileModel.setuserid0(details.getUserid());
                             fileModel.setOrderd(orderd);
                             fileModel.setDelivered(delevried);
-                            fileModel.setNotes(notes);
+                            fileModel.setNotes(notes != null ? notes : "");
+                            Toast.makeText(activity, fileModel.getNotes(), Toast.LENGTH_SHORT).show();
                             fileModel.setUsername(username);
                             databaseReference.child(userid).child(orderid).child(sanitizedFileName).setValue(fileModel)
                                     .addOnCompleteListener(task1 -> {

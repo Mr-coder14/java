@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,11 +56,34 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         orderid = appData.getOrderid();
         pdfDetails = appData.getPdfDetails();
         notes=findViewById(R.id.notesuser);
-        notesst=notes.getText().toString();
+        notes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                notesst=s.toString();
+                if(apadtor!=null){
+                    apadtor.updateNotes(notesst);
+                }
+            }
+        });
+
         apadtor=new pdflratelistApadtor(activity,uris,fileNames,orderid,pdfDetails,notesst);
         recyclerView1.setAdapter(apadtor);
         gt= apadtor.getGrandtotal();
         grandamt.setText("₹ "+String.valueOf(gt));
+
+
+
+
 
         Confirmorder.setOnClickListener(new View.OnClickListener() {
             @Override

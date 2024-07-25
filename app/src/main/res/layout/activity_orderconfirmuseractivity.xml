@@ -50,14 +50,15 @@
         />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:id="@+id/notesuser"
         android:background="@drawable/whitebg_profile"
         android:elevation="5dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:hint="Add Some Notes"
-        android:gravity="center"
         android:layout_margin="10dp"
-        android:padding="5dp"/>
+        android:padding="10dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
