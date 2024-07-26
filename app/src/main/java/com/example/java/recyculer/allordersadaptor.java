@@ -25,6 +25,10 @@ public class allordersadaptor extends RecyclerView.Adapter<RetrivepdfAdaptorhome
         this.orderList = orderList;
         this.context = context;
     }
+    public void updateList(List<Fileinmodel> newList) {
+        orderList = newList;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override

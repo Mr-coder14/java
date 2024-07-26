@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +58,7 @@ public class tempadminprofilefragment extends Fragment {
         btnlout = view.findViewById(R.id.imageButtonlogouttadmin);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+
         name = view.findViewById(R.id.profilenametadmin);
         circleImageView=view.findViewById(R.id.shapeableImageViewqtadmin);
         progressBar=view.findViewById(R.id.progressprofiletadmin);
@@ -74,6 +74,8 @@ public class tempadminprofilefragment extends Fragment {
         email = view.findViewById(R.id.emailprofiletadmin);
         progressBar.setVisibility(View.VISIBLE);
         scrollView.setVisibility(View.GONE);
+
+
 
         usersRef = FirebaseDatabase.getInstance().getReference("tempadmin1").child(user.getUid());
         usersRef.addValueEventListener(new ValueEventListener() {

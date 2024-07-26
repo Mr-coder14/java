@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.java.Fileinmodel;
 import com.example.java.R;
@@ -50,7 +53,7 @@ public class tempadminhomefragment extends Fragment {
     private TextView txt;
     private DatabaseReference databaseReference;
     private HashMap<String, Fileinmodel> uniqueOrders = new HashMap<>();
-    private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
+    private orderadaptortadmin adapter;
     private Query query;
     private ProgressBar progressBar;
     private Handler debounceHandler = new Handler(Looper.getMainLooper());
@@ -86,6 +89,7 @@ public class tempadminhomefragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         txt.setVisibility(View.INVISIBLE);
 
+
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -119,6 +123,25 @@ public class tempadminhomefragment extends Fragment {
             }
         });
 
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (debounceHandler != null && searchRunnable != null) {
+                    debounceHandler.removeCallbacks(searchRunnable);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchRunnable = () -> filterOrders(s.toString());
+                debounceHandler.postDelayed(searchRunnable, 300);
+            }
+        });
+
         return view;
     }
 
@@ -137,8 +160,28 @@ public class tempadminhomefragment extends Fragment {
 
     private void displaypdfs() {
         List<Fileinmodel> uniqueOrdersList = new ArrayList<>(uniqueOrders.values());
-        orderadaptortadmin adapter = new orderadaptortadmin(uniqueOrdersList, getContext());
+        adapter = new orderadaptortadmin(uniqueOrdersList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+    }
+
+    private void filterOrders(String searchText) {
+        List<Fileinmodel> filteredList = new ArrayList<>();
+        for (Fileinmodel order : uniqueOrders.values()) {
+            if (order.getOrderid0().toLowerCase().contains(searchText.toLowerCase())) {
+                filteredList.add(order);
+            }
+        }
+        if (filteredList.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            txt.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            txt.setVisibility(View.GONE);
+        }
+
+        adapter.updateList(filteredList);
+        adapter.updateList(filteredList);
+
     }
 }

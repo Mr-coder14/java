@@ -6,7 +6,10 @@ import android.app.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -19,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +38,7 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -167,7 +172,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 String a =parent.getItemAtPosition(position2).toString();
                 pdfDetailsList.get(p).setFormats(a);
                 holder.updateamt(p);
-                Toast.makeText(context, holder.formats, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -193,7 +197,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 String a=parent.getItemAtPosition(position3).toString();
                 pdfDetailsList.get(p).setRatios(a);
                 holder.updateamt(p);
-                Toast.makeText(context, holder.ratios, Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -292,9 +296,13 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
     }
 
+    public void cancelPendingTasks() {
+
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView fileNameTextView;
-        private PDFView pdfView;
+        private ImageView pdfThumbnail;
         private TextView  pg, amt1, qtyno, qtytxt1, perpageamt, deliveryamt, colortxt,finalamt;
 
         private EditText qty;
@@ -336,7 +344,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             qtyno = itemView.findViewById(R.id.qtynoadmin);
             deliveryamt = itemView.findViewById(R.id.deliveryamt1admin);
             minus = itemView.findViewById(R.id.minusqtyadmin);
-            pdfView = itemView.findViewById(R.id.pdfViewadmin);
+            pdfThumbnail = itemView.findViewById(R.id.pdfViewadmin);
             colortxt = itemView.findViewById(R.id.colorfontadmin);
 
 
@@ -408,51 +416,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
         }
 
-
-
-
-
-
-
-
-
-
-
-        private void displayPdfFromUri(Uri uri, String name) {
-            pdf = uri;
-            pdfView.fromUri(uri)
-                    .defaultPage(0)
-                    .onLoad(new OnLoadCompleteListener() {
-                        @Override
-                        public void loadComplete(int nbPages) {
-                            pg.setText(String.valueOf(nbPages));
-                            pgsam = nbPages;
-                            pdfDetailsList.get(currentPdfIndex).setPages(String.valueOf(pgsam));
-                            updateamt(currentPdfIndex);
-                            float a = pgsam * perpage+delivercharge;
-                            perpageamt.setText(String.valueOf(perpage));
-                            amt1.setText("₹ " + String.valueOf(a));
-                            amtperqty=a;
-                            finalamt.setText("₹ " + String.valueOf(a));
-
-                        }
-                    })
-                    .enableAntialiasing(true)
-                    .spacing(0)
-                    .autoSpacing(false)
-                    .pageFitPolicy(FitPolicy.WIDTH)
-                    .fitEachPage(true)
-                    .pageSnap(true)
-                    .pageFling(false)
-                    .nightMode(false)
-                    .scrollHandle(null)
-                    .enableSwipe(false)
-                    .enableDoubletap(false)
-                    .enableAnnotationRendering(false)
-                    .pageSnap(false)
-                    .pageFling(false).load();
-        }
-
         private void setamt() {
             deliveryamt.setText(String.format("₹ %.2f", delivercharge));
             perpageamt.setText(String.format("%.2f", perpage));
@@ -471,14 +434,50 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
         public void bind(Uri uri, String fileName,int position) {
             fileNameTextView.setText(fileName);
-            displayPdfFromUri(uri, fileName);
+            loadPdfInfo(uri, fileName, position);
             currentPdfIndex = position;
+        }
+        private void loadPdfInfo(Uri uri, String fileName, int position) {
+            try {
+                ParcelFileDescriptor parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
+                PdfRenderer renderer = new PdfRenderer(parcelFileDescriptor);
+
+                int pageCount = renderer.getPageCount();
+                pg.setText(String.valueOf(pageCount));
+                pgsam = pageCount;
+                pdfDetailsList.get(position).setPages(String.valueOf(pgsam));
+
+
+                PdfRenderer.Page page = renderer.openPage(0);
+                Bitmap bitmap = Bitmap.createBitmap(page.getWidth(), page.getHeight(), Bitmap.Config.ARGB_8888);
+                page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+                pdfThumbnail.setImageBitmap(bitmap);
+
+                page.close();
+                renderer.close();
+                parcelFileDescriptor.close();
+
+                updateamt(position);
+                float a = pgsam * perpage + delivercharge;
+                perpageamt.setText(String.valueOf(perpage));
+                amt1.setText("₹ " + a);
+                amtperqty = a;
+                finalamt.setText("₹ " + a);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Error loading PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
 
 
 
     }
-        class InputFilterMinMax implements InputFilter {
+
+
+
+
+    class InputFilterMinMax implements InputFilter {
         private int min, max;
 
         public InputFilterMinMax(int min, int max) {

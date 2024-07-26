@@ -19,10 +19,17 @@ import java.util.List;
 public class orderadaptortadmin extends RecyclerView.Adapter<RetrivepdfAdaptorhomeadmin> {
     private List<Fileinmodel> orderList;
     private Context context;
+    public orderadaptortadmin(){
+
+    }
 
     public orderadaptortadmin(List<Fileinmodel> orderList, Context context) {
         this.orderList = orderList;
         this.context = context;
+    }
+    public void updateList(List<Fileinmodel> newList) {
+        orderList = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull

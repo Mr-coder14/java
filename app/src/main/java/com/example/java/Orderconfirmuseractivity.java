@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.java.recyculer.PreviewAdapter;
@@ -26,6 +27,7 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
     private pdflratelistApadtor apadtor;
     private  ArrayList<Uri> uris;
     private Activity activity;
+    private ImageButton back;
     private preview_orderActivity activity1;
     private ArrayList<PDFDetails> pdfDetails;
     public  Float gt;
@@ -47,6 +49,7 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         activity=this;
         activity1=new preview_orderActivity();
+        back=findViewById(R.id.back_btnuser12);
 
         Confirmorder=findViewById(R.id.orderbtnuser12);
         grandamt=findViewById(R.id.grandamt);
@@ -84,6 +87,12 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
 
 
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         Confirmorder.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -127,6 +127,16 @@ public class preview_orderActivity extends AppCompatActivity   {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (recyclerView != null) {
+            recyclerView.setAdapter(null);
+        }
+        if (adapter != null) {
+            adapter.cancelPendingTasks();
+        }
+    }
 
 
 

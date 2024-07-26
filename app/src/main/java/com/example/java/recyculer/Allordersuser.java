@@ -1,4 +1,4 @@
-package Tempadmin;
+package com.example.java.recyculer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,10 +21,6 @@ import android.widget.Toast;
 
 import com.example.java.Fileinmodel;
 import com.example.java.R;
-import com.example.java.RetrivepdfAdaptorhomeadmin;
-import com.example.java.recyculer.allordersadaptor;
-import com.example.java.recyculer.orderadaptormyorders;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,7 +34,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AllOrderstempadmin extends AppCompatActivity {
+import Tempadmin.AllOrderstempadmin;
+
+public class Allordersuser extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DatabaseReference databaseReference;
     private DatabaseReference pdfsRef;
@@ -56,23 +54,22 @@ public class AllOrderstempadmin extends AppCompatActivity {
     private Handler debounceHandler = new Handler(Looper.getMainLooper());
     private Runnable searchRunnable;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_orderstempadmin);
+        setContentView(R.layout.activity_allordersuser);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
-        recyclerView = findViewById(R.id.recyclerhometadminhis);
+        recyclerView = findViewById(R.id.recyclerhometadminhis00);
         auth = FirebaseAuth.getInstance();
-        txt=findViewById(R.id.allordersempadmin123);
+        txt=findViewById(R.id.allordersempadmin12300);
 
         user = auth.getCurrentUser();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        progressBar = findViewById(R.id.progressbarhometadminhis);
+        progressBar = findViewById(R.id.progressbarhometadminhis00);
         progressBar.setVisibility(View.VISIBLE);
         txt.setVisibility(View.GONE);
-        searchEditText=findViewById(R.id.search_edit_texttadminhish);
+        searchEditText=findViewById(R.id.search_edit_texttadminhish00);
         userid = user.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         query = databaseReference;
@@ -83,13 +80,12 @@ public class AllOrderstempadmin extends AppCompatActivity {
             searchIcon.setBounds(0, 0, size, size);
             searchEditText.setCompoundDrawables(searchIcon, null, null, null);
         }
-
-
         pdfsRef = FirebaseDatabase.getInstance().getReference().child("pdfs");
         pdfsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot uniqueIdSnapshot : snapshot.getChildren()) {
+                    if(uniqueIdSnapshot.getKey().equals(userid)){
                     for(DataSnapshot ui:uniqueIdSnapshot.getChildren()){
                         for (DataSnapshot fileSnapshot : ui.getChildren()) {
                             String name = fileSnapshot.child("name0").getValue(String.class);
@@ -103,7 +99,7 @@ public class AllOrderstempadmin extends AppCompatActivity {
                                 uniqueOrders.put(orderid, pdfFile);
                             }
                         }
-                    }}
+                    }}}
                 updateUI();
 
 
@@ -113,9 +109,10 @@ public class AllOrderstempadmin extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-                Toast.makeText(AllOrderstempadmin.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Allordersuser.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -134,11 +131,7 @@ public class AllOrderstempadmin extends AppCompatActivity {
                 debounceHandler.postDelayed(searchRunnable, 300);
             }
         });
-
-
-
     }
-
     private void updateUI() {
         progressBar.setVisibility(View.GONE);
 
@@ -174,7 +167,5 @@ public class AllOrderstempadmin extends AppCompatActivity {
         }
 
         adapter.updateList(filteredList);
-
     }
-
 }

@@ -24,6 +24,9 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".recyculer.Allordersuser"
+            android:exported="false" />
+        <activity
             android:name=".Proccessactivityallorders"
             android:exported="false" />
         <activity

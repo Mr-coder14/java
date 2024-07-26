@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
+import com.example.java.recyculer.Allordersuser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class profile_fragment extends Fragment {
-    private ImageButton constraintLayout;
+    private ImageButton constraintLayout,allordersbtn;
     private ImageButton btnlout;
     private FirebaseAuth auth;
     private CircleImageView circleImageView;
@@ -46,6 +47,7 @@ public class profile_fragment extends Fragment {
         name = view.findViewById(R.id.profilename);
         circleImageView=view.findViewById(R.id.shapeableImageViewq);
         progressBar=view.findViewById(R.id.progressprofile);
+        allordersbtn=view.findViewById(R.id.editdetailsallorders);
         scrollView=view.findViewById(R.id.profilevisible);
         phno1 = view.findViewById(R.id.phno11);
         constraintLayout = view.findViewById(R.id.editdetails);
@@ -54,6 +56,14 @@ public class profile_fragment extends Fragment {
         email = view.findViewById(R.id.emailprofile);
         progressBar.setVisibility(View.VISIBLE);
         scrollView.setVisibility(View.GONE);
+
+        allordersbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), Allordersuser.class));
+
+            }
+        });
 
         usersRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
         usersRef.addValueEventListener(new ValueEventListener() {

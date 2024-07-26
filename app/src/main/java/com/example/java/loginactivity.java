@@ -34,6 +34,7 @@ public class loginactivity extends AppCompatActivity {
     private final ArrayList<String> tempadmins = new ArrayList<>();
     TextView rgbuttontxt;
     EditText emaillg, passlg;
+
     Button login;
     TextView forgotPassword;
     private DatabaseReference tempadminsref1;

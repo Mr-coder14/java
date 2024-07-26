@@ -7,9 +7,9 @@
 
     />
     <item
-        android:title="History"
+        android:title="Shop"
         android:id="@+id/Historybottom"
-        android:icon="@drawable/baseline_history_24"
+        android:icon="@drawable/baseline_shopping_cart_24"
 
         />
     <item

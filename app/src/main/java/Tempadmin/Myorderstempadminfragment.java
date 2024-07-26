@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +45,7 @@ public class Myorderstempadminfragment extends Fragment {
     private DatabaseReference databaseReference;
     private DatabaseReference pdfsRef;
     private FirebaseAuth auth;
+    private orderadaptormyorders adapter;
     private TextView txt;
     private Query query;
     private ProgressBar progressBar;
@@ -50,7 +55,8 @@ public class Myorderstempadminfragment extends Fragment {
     private String orderid;
     private boolean deleivired;
     private String userid;
-    private FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter;
+    private Handler debounceHandler = new Handler(Looper.getMainLooper());
+    private Runnable searchRunnable;
 
 
 
@@ -135,6 +141,26 @@ public class Myorderstempadminfragment extends Fragment {
 
             }
         });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (debounceHandler != null && searchRunnable != null) {
+                    debounceHandler.removeCallbacks(searchRunnable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchRunnable = () -> filterOrders(s.toString());
+                debounceHandler.postDelayed(searchRunnable, 300);
+
+            }
+        });
 
 
         return view;
@@ -142,8 +168,28 @@ public class Myorderstempadminfragment extends Fragment {
 
     private void setupAdapter() {
         List<Fileinmodel> uniqueOrdersList = new ArrayList<>(uniqueOrders.values());
-        orderadaptormyorders adapter = new orderadaptormyorders(uniqueOrdersList, getContext());
+        adapter = new orderadaptormyorders(uniqueOrdersList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+    }
+    private void filterOrders(String searchText) {
+        List<Fileinmodel> filteredList = new ArrayList<>();
+        for (Fileinmodel order : uniqueOrders.values()) {
+            if (order.getOrderid0().toLowerCase().contains(searchText.toLowerCase())) {
+                filteredList.add(order);
+            }
+
+        }
+        if (filteredList.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            txt.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            txt.setVisibility(View.GONE);
+        }
+
+        adapter.updateList(filteredList);
+        adapter.updateList(filteredList);
+
     }
 }
