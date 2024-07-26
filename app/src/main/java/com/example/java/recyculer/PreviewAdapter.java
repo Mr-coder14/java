@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -17,6 +18,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,7 +40,13 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -275,16 +283,23 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 if (uris[holder.currentPdfIndex] != null) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(uris[holder.currentPdfIndex] , "application/pdf");
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    activity.startActivity(intent);
-                }
-                else {
-
-                    if (getContext() != null) {
-                        Toast.makeText(context, "PDF URI is not valid", Toast.LENGTH_SHORT).show();
+                    String mimeType = context.getContentResolver().getType(uris[holder.currentPdfIndex]);
+                    if (mimeType == null) {
+                        String extension = MimeTypeMap.getFileExtensionFromUrl(uris[holder.currentPdfIndex].toString());
+                        mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
                     }
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uris[holder.currentPdfIndex], mimeType);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                    if (intent.resolveActivity(context.getPackageManager()) != null) {
+                        activity.startActivity(intent);
+                    } else {
+                        Toast.makeText(context, "No application available to view this file", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, "File URI is not valid", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -434,9 +449,140 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
         public void bind(Uri uri, String fileName,int position) {
             fileNameTextView.setText(fileName);
-            loadPdfInfo(uri, fileName, position);
+            loadFileInfo(uri, fileName, position);
             currentPdfIndex = position;
         }
+
+        private void loadFileInfo(Uri uri, String fileName, int position) {
+            String mimeType = context.getContentResolver().getType(uri);
+            if (mimeType == null) {
+                String extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
+                mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+            }
+            if (mimeType != null) {
+                if (mimeType.startsWith("application/pdf")) {
+                    loadPdfInfo(uri, fileName, position);
+                } else if (mimeType.startsWith("image/")) {
+                    loadImageInfo(uri, fileName, position);
+                } else if (mimeType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") ||
+                        mimeType.equals("application/vnd.ms-excel")) {
+                    loadExcelInfo(uri, fileName, position);
+                } else if (mimeType.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
+                        mimeType.equals("application/vnd.ms-powerpoint")) {
+                    loadPowerPointInfo(uri, fileName, position);
+                } else if (mimeType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document") ||
+                        mimeType.equals("application/msword")) {
+                    loadWordInfo(uri, fileName, position);
+                } else {
+                    Toast.makeText(context, "Unsupported file type", Toast.LENGTH_SHORT).show();
+                    activity.finish();
+                }
+            } else {
+                Toast.makeText(context, "Unsupported file type", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private void loadWordInfo(Uri uri, String fileName, int position) {
+            try {
+                InputStream inputStream = context.getContentResolver().openInputStream(uri);
+                XWPFDocument document = new XWPFDocument(inputStream);
+                int pageCount = document.getProperties().getExtendedProperties().getUnderlyingProperties().getPages();
+
+                pg.setText(String.valueOf(pageCount));
+                pgsam = pageCount;
+                pdfDetailsList.get(position).setPages(String.valueOf(pageCount));
+
+                pdfThumbnail.setImageResource(R.drawable.pngegg);
+
+                document.close();
+                inputStream.close();
+
+                updateamt(position);
+                float a = pgsam * perpage + delivercharge;
+                perpageamt.setText(String.valueOf(perpage));
+                amt1.setText("₹ " + a);
+                amtperqty = a;
+                finalamt.setText("₹ " + a);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Error loading Word file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private void loadPowerPointInfo(Uri uri, String fileName, int position) {
+            try {
+                InputStream inputStream = context.getContentResolver().openInputStream(uri);
+                XMLSlideShow ppt = new XMLSlideShow(inputStream);
+                int slidesCount = ppt.getSlides().size();
+
+                pg.setText(String.valueOf(slidesCount));
+                pgsam = slidesCount;
+                pdfDetailsList.get(position).setPages(String.valueOf(slidesCount));
+                
+                pdfThumbnail.setImageResource(R.drawable.pngegg);
+
+                ppt.close();
+                inputStream.close();
+
+                updateamt(position);
+                float a = pgsam * perpage + delivercharge;
+                perpageamt.setText(String.valueOf(perpage));
+                amt1.setText("₹ " + a);
+                amtperqty = a;
+                finalamt.setText("₹ " + a);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Error loading PowerPoint file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private void loadExcelInfo(Uri uri, String fileName, int position) {
+            try {
+                InputStream inputStream = context.getContentResolver().openInputStream(uri);
+                Workbook workbook = WorkbookFactory.create(inputStream);
+                int sheetsCount = workbook.getNumberOfSheets();
+
+                pg.setText(String.valueOf(sheetsCount));
+                pgsam = sheetsCount;
+                pdfDetailsList.get(position).setPages(String.valueOf(sheetsCount));
+
+
+                pdfThumbnail.setImageResource(R.drawable.pngegg);
+
+                workbook.close();
+                inputStream.close();
+
+                updateamt(position);
+                float a = pgsam * perpage + delivercharge;
+                perpageamt.setText(String.valueOf(perpage));
+                amt1.setText("₹ " + a);
+                amtperqty = a;
+                finalamt.setText("₹ " + a);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Error loading Excel file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private void loadImageInfo(Uri uri, String fileName, int position) {
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+                pdfThumbnail.setImageBitmap(bitmap);
+                pg.setText("1"); // Images have only one page
+                pgsam = 1;
+                pdfDetailsList.get(position).setPages("1");
+                updateamt(position);
+                float a = pgsam * perpage + delivercharge;
+                perpageamt.setText(String.valueOf(perpage));
+                amt1.setText("₹ " + a);
+                amtperqty = a;
+                finalamt.setText("₹ " + a);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Error loading image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
         private void loadPdfInfo(Uri uri, String fileName, int position) {
             try {
                 ParcelFileDescriptor parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");

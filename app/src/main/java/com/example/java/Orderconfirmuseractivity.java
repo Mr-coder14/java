@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.Intent;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.java.recyculer.PreviewAdapter;
+
 import com.example.java.recyculer.pdflratelistApadtor;
 
 import java.util.ArrayList;

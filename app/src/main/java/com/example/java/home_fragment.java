@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,10 +49,11 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class home_fragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
-    private static final int PICK_PDF_REQUEST = 1;
+    private static final int PICK_FILE_REQUEST = 1;
     private Context context;
     private EditText filename;
     private DrawerLayout drawerLayout;
+    private String[] mimeTypes;
     private ConstraintLayout constraintLayout;
     private FirebaseAuth auth;
     private Button button;
@@ -93,6 +93,19 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
 
         files = new ArrayList<>();
         filenames = new ArrayList<>();
+        mimeTypes = new String[]{
+                "application/pdf",
+                "image/jpeg",
+                "image/png",
+                "image/gif",
+                "image/bmp",
+                "image/webp",
+                "application/vnd.ms-excel",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "application/msword",
+                "application/vnd.ms-powerpoint",
+                "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        };
     }
 
     private void setupListeners() {
@@ -190,17 +203,17 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
     }
 
     private void openfile() {
-        Intent intent = new Intent();
-        intent.setType("application/pdf");
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Files"), PICK_PDF_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select Files"), PICK_FILE_REQUEST);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null) {
+        if (requestCode == PICK_FILE_REQUEST && resultCode == RESULT_OK && data != null) {
             files.clear();
             filenames.clear();
             if (data.getClipData() != null) {
@@ -218,6 +231,7 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
 
     private void handleFileSelection(Uri uri) {
         String displayName = getFileName(uri);
+        String mimeType = getContext().getContentResolver().getType(uri);
         files.add(uri);
         filenames.add(displayName);
         filename.setText(displayName);

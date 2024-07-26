@@ -276,7 +276,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                                         }
                                         Toast.makeText(context, "Upload failed for some files", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        // Update progress
+
                                         if (progressDialog != null && progressDialog.isShowing()) {
                                             progressDialog.setMessage("Uploading file " + (uploadedCount[0] + 1) + " of " + totalFiles);
                                         }
