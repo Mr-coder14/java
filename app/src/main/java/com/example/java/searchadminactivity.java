@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,9 +20,12 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.java.recyculer.searchadminadaptor;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,9 +35,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class searchadminactivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,hjk;
     private ProgressBar progressBar;
     private EditText searchadmin;
+    private User user12;
     private ImageButton addadmin, backbtn;
     private FirebaseRecyclerAdapter<User, searchadminadaptor> adapter;
 
@@ -51,6 +56,7 @@ public class searchadminactivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("tempadmin1");
+        hjk=FirebaseDatabase.getInstance().getReference().child("users");
 
         addadmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +143,15 @@ public class searchadminactivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull searchadminadaptor holder, int position, @NonNull User model) {
                 holder.adminname.setText(model.getName());
                 holder.adminemail.setText(model.getEmail());
+                if(model.getProfileuri() != null && !model.getProfileuri().isEmpty()){
+                    Glide.with(holder.itemView.getContext())
+                            .load(model.getProfileuri())
+                            .placeholder(R.drawable.person3)
+                            .into(holder.pic);
+                } else {
+                    holder.pic.setImageResource(R.drawable.person3);
+                }
+
 
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
@@ -148,14 +163,34 @@ public class searchadminactivity extends AppCompatActivity {
                                 .setMessage("Are you sure you want to delete this admin?")
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-
-                                        databaseReference.child(userid).removeValue().addOnCompleteListener(task -> {
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(searchadminactivity.this, "Admin deleted successfully", Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                Toast.makeText(searchadminactivity.this, "Failed to delete admin", Toast.LENGTH_SHORT).show();
+                                        databaseReference.child(userid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                if(task.isSuccessful()){
+                                                    user12=task.getResult().getValue(User.class);
+                                                    if(user12!=null){
+                                                        hjk.child(userid).setValue(user12).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    databaseReference.child(userid).removeValue()
+                                                                            .addOnCompleteListener(removeTask -> {
+                                                                                if (removeTask.isSuccessful()) {
+                                                                                    Toast.makeText(searchadminactivity.this, "Admin moved and deleted successfully", Toast.LENGTH_SHORT).show();
+                                                                                } else {
+                                                                                    Toast.makeText(searchadminactivity.this, "Failed to delete admin from tempadmin1", Toast.LENGTH_SHORT).show();
+                                                                                }
+                                                                            });
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
                                             }
                                         });
+
+
+
                                     }
                                 })
                                 .setNegativeButton(android.R.string.no, null)

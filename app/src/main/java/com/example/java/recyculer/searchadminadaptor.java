@@ -1,6 +1,7 @@
 package com.example.java.recyculer;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,9 +11,12 @@ import com.example.java.R;
 import com.example.java.User;
 import com.google.firebase.database.FirebaseDatabase;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class searchadminadaptor  extends RecyclerView.ViewHolder implements View.OnClickListener {
     public com.example.java.recyculer.itemClickListener itemClickListener;
     public TextView adminname,adminemail;
+    public CircleImageView pic;
 
 
 
@@ -20,6 +24,7 @@ public class searchadminadaptor  extends RecyclerView.ViewHolder implements View
         super(itemView);
         adminname = itemView.findViewById(R.id.admin_profile_name);
         adminemail = itemView.findViewById(R.id.admin_email);
+        pic=itemView.findViewById(R.id.profilepicadmin);
 
     }
 

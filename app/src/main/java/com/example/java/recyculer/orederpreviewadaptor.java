@@ -2,6 +2,7 @@ package com.example.java.recyculer;
 
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +27,13 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
     public orederpreviewadaptor(ArrayList<Fileinmodel> fileinmodels, Activity activity) {
         this.fileinmodels = fileinmodels;
         this.activity=activity;
+    }
+    private String getFileExtension(String fileName) {
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
+        } else {
+            return "";
+        }
     }
 
     @NonNull
@@ -45,10 +54,41 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
         holder.preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String fileUrl = fileinmodel.getUri0();
+                String fileName = fileinmodel.getName0();
+                String fileExtension = getFileExtension(fileName);
+
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse(fileinmodel.getUri0()), "application/pdf");
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                activity.startActivity(intent);
+
+                switch (fileExtension.toLowerCase()) {
+                    case "pdf":
+                        intent.setDataAndType(Uri.parse(fileUrl), "application/pdf");
+                        break;
+                    case "jpg":
+                    case "jpeg":
+                    case "png":
+                        intent.setDataAndType(Uri.parse(fileUrl), "image/*");
+                        break;
+                    case "doc":
+                    case "docx":
+                        intent.setDataAndType(Uri.parse(fileUrl), "application/msword");
+                        break;
+                    case "xls":
+                    case "xlsx":
+                        intent.setDataAndType(Uri.parse(fileUrl), "application/vnd.ms-excel");
+                        break;
+                    // Add more file types as needed
+                    default:
+                        intent.setDataAndType(Uri.parse(fileUrl), "*/*");
+                        break;
+                }
+
+                try {
+                    activity.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(activity, "No application found to open this file", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

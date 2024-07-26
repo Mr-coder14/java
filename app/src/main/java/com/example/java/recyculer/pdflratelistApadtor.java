@@ -202,7 +202,6 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             fileModel.setOrderd(orderd);
                             fileModel.setDelivered(delevried);
                             fileModel.setNotes(notes != null ? notes : "");
-                            Toast.makeText(activity, fileModel.getNotes(), Toast.LENGTH_SHORT).show();
                             fileModel.setUsername(username);
                             databaseReference.child(userid).child(orderid).child(sanitizedFileName).setValue(fileModel)
                                     .addOnCompleteListener(task1 -> {
