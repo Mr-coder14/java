@@ -6,6 +6,7 @@ import android.app.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
@@ -485,17 +486,30 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         private void loadWordInfo(Uri uri, String fileName, int position) {
             try {
                 InputStream inputStream = context.getContentResolver().openInputStream(uri);
-                XWPFDocument document = new XWPFDocument(inputStream);
-                int pageCount = document.getProperties().getExtendedProperties().getUnderlyingProperties().getPages();
+                int pageCount = 1; // Default to 1 page if we can't determine the count
+
+                try {
+                    // Try to open as OOXML (.docx) file
+                    XWPFDocument document = new XWPFDocument(inputStream);
+                    pageCount = document.getProperties().getExtendedProperties().getUnderlyingProperties().getPages();
+                    document.close();
+                } catch (org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException e) {
+                    // If it's an OLE2 file (.doc), we can't get the page count easily
+                    // So we'll just use a default value or estimate based on file size
+                    inputStream.close();
+                    inputStream = context.getContentResolver().openInputStream(uri);
+                    long fileSize = inputStream.available();
+                    // Rough estimate: assume 3KB per page
+                    pageCount = (int) (fileSize / 3000) + 1;
+                }
+
+                inputStream.close();
 
                 pg.setText(String.valueOf(pageCount));
                 pgsam = pageCount;
                 pdfDetailsList.get(position).setPages(String.valueOf(pageCount));
 
                 pdfThumbnail.setImageResource(R.drawable.pngegg);
-
-                document.close();
-                inputStream.close();
 
                 updateamt(position);
                 float a = pgsam * perpage + delivercharge;

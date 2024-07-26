@@ -100,8 +100,6 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
                 "image/gif",
                 "image/bmp",
                 "image/webp",
-                "application/vnd.ms-excel",
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 "application/msword",
                 "application/vnd.ms-powerpoint",
                 "application/vnd.openxmlformats-officedocument.presentationml.presentation"

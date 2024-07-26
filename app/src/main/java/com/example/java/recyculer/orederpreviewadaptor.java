@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
 import com.example.java.R;
-import com.github.barteksc.pdfviewer.PDFView;
+
 import java.util.ArrayList;
 
 public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadaptor.ViewHolder> {
@@ -35,6 +35,20 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
             return "";
         }
     }
+
+    private void openWordFile(String fileUrl) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(fileUrl), "application/msword");
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        try {
+            activity.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(activity, "No application found to open Word document", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     @NonNull
     @Override
@@ -72,13 +86,8 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
                         break;
                     case "doc":
                     case "docx":
-                        intent.setDataAndType(Uri.parse(fileUrl), "application/msword");
+                        openWordFile(fileUrl);
                         break;
-                    case "xls":
-                    case "xlsx":
-                        intent.setDataAndType(Uri.parse(fileUrl), "application/vnd.ms-excel");
-                        break;
-                    // Add more file types as needed
                     default:
                         intent.setDataAndType(Uri.parse(fileUrl), "*/*");
                         break;
