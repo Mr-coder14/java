@@ -1,11 +1,5 @@
 package com.example.java.recyculer;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +12,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
 import com.example.java.R;
@@ -33,8 +33,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import Tempadmin.AllOrderstempadmin;
 
 public class Allordersuser extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -58,7 +56,6 @@ public class Allordersuser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allordersuser);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         recyclerView = findViewById(R.id.recyclerhometadminhis00);
         auth = FirebaseAuth.getInstance();
         txt=findViewById(R.id.allordersempadmin12300);

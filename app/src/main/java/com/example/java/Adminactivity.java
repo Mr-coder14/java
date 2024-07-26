@@ -1,10 +1,11 @@
 package com.example.java;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -12,10 +13,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Adminactivity extends AppCompatActivity {
-    FirebaseAuth auth;
-    FirebaseUser user;
-    BottomNavigationView bottomNavigationView;
-    Fragment fragment=null;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+    private BottomNavigationView bottomNavigationView;
+    private Fragment fragment=null;
 
 
 

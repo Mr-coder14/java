@@ -1,23 +1,27 @@
 package com.example.java;
-import android.content.Intent;
-import android.net.Uri;
+
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+
+import com.example.java.recyculer.orderadaptormyorders;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,151 +31,160 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class ordersfragment_adminmain extends Fragment {
 
     private RecyclerView recyclerView;
-    FirebaseAuth auth;
-    FirebaseUser user;
     private DatabaseReference databaseReference;
+    private DatabaseReference pdfsRef;
+    private FirebaseAuth auth;
+    private orderadaptormyorders adapter;
+    private TextView txt;
     private Query query;
     private ProgressBar progressBar;
-    Button button;
+    private EditText editText;
+    private FirebaseUser user;
+    private HashMap<String, Fileinmodel> uniqueOrders = new HashMap<>();
+    private String orderid;
+    private boolean deleivired;
+    private String userid;
+    private Handler debounceHandler = new Handler(Looper.getMainLooper());
+    private Runnable searchRunnable;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.oders_activity_adminadmin, container, false);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
-        recyclerView = view.findViewById(R.id.recyclerVieworders);
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("orderstempadmin");
+        recyclerView = view.findViewById(R.id.recyclerhometadminhis1);
         auth = FirebaseAuth.getInstance();
+        txt=view.findViewById(R.id.nordersmyordersadmin1);
+        editText=view.findViewById(R.id.search_edit_texttadminhis1);
         user = auth.getCurrentUser();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        progressBar = view.findViewById(R.id.progress_baradmin);
-        button=view.findViewById(R.id.btnsearchadmin);
+        progressBar = view.findViewById(R.id.progressbarhometadminhis1);
         progressBar.setVisibility(View.VISIBLE);
-        query = databaseReference.orderByChild("timestamp");
+        txt.setVisibility(View.GONE);
+        userid = user.getUid();
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), searchadminactivity.class));
-            }
-        });
-        query.addValueEventListener(new ValueEventListener() {
+        Drawable searchIcon = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_search_24);
+        if (searchIcon != null) {
+            int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 34, getResources().getDisplayMetrics());
+            searchIcon.setBounds(0, 0, size, size);
+            editText.setCompoundDrawables(searchIcon, null, null, null);
+        }
+        query = databaseReference;
+
+
+        pdfsRef = FirebaseDatabase.getInstance().getReference().child("orderstempadmin");
+        pdfsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    progressBar.setVisibility(View.GONE);
-                    displaypdfs();
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "No PDFs found", Toast.LENGTH_SHORT).show();
+                for(DataSnapshot ui:snapshot.getChildren()){
+                    for (DataSnapshot fileSnapshot : ui.getChildren()) {
+                        String name = fileSnapshot.child("name0").getValue(String.class);
+                        String uri = fileSnapshot.child("uri0").getValue(String.class);
+                        String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
+                        orderid = fileSnapshot.child("orderid0").getValue(String.class);
+                        String username=fileSnapshot.child("username").getValue(String.class);
+                        deleivired=fileSnapshot.child("delivered").getValue(boolean.class);
+                        if(deleivired==true && !uniqueOrders.containsKey(orderid)){
+                            Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,deleivired,username);
+                            uniqueOrders.put(orderid, pdfFile);
+                        }
+
+                    }
                 }
+
+
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                txt.setVisibility(View.VISIBLE);
+            }
+        });
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    setupAdapter();
+                    progressBar.setVisibility(View.GONE);
+                }
+                else {
+                    progressBar.setVisibility(View.GONE);
+                    txt.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (debounceHandler != null && searchRunnable != null) {
+                    debounceHandler.removeCallbacks(searchRunnable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchRunnable = () -> filterOrders(s.toString());
+                debounceHandler.postDelayed(searchRunnable, 300);
+
             }
         });
 
 
+
         return view;
     }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_admin, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id=item.getItemId();
-        if (id==R.id.action_settings){
-            Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        else {
-            if (user != null) {
-                auth.signOut();
-                startActivity(new Intent(getContext(), loginactivity.class));
-                getActivity().finish();
-            }
-            return true;
-        }
-
-
-    }
-
-
-    private void displaypdfs() {
-        FirebaseRecyclerOptions<Fileinmodel> options =
-                new FirebaseRecyclerOptions.Builder<Fileinmodel>()
-                        .setQuery(query, Fileinmodel.class)
-                        .build();
-
-        FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin> adapter =
-                new FirebaseRecyclerAdapter<Fileinmodel, RetrivepdfAdaptorhomeadmin>(options) {
-                    @Override
-                    protected void onBindViewHolder(@NonNull RetrivepdfAdaptorhomeadmin holder, int position, @NonNull Fileinmodel model) {
-                        progressBar.setVisibility(View.GONE);
-                        //String orderids= model.getOrderid0().toString();
-                        holder.orderid.setText(model.getOrderid0());
-
-
-                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
-                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()) {
-                                    User user = snapshot.getValue(User.class);
-                                    if (user != null) {
-                                        holder.UserName1.setText(user.getName());
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(getContext(), "Failed to load user data", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                String pdfUri = model.getUri0();
-
-                                if (pdfUri != null && !pdfUri.isEmpty()) {
-                                    Intent intent=new Intent(getActivity(), OrdrerdDetailsadminactivity.class);
-                                    intent.setData(Uri.parse(pdfUri));
-                                    //intent.putExtra("orderid",orderids);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(getContext(), "PDF URI is not valid", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                        });*/
-
-                    }
-
-                    @NonNull
-                    @Override
-                    public RetrivepdfAdaptorhomeadmin onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.orders_template, parent, false);
-                        return new RetrivepdfAdaptorhomeadmin(view);
-                    }
-                };
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(layoutManager);
+    private void setupAdapter() {
+        List<Fileinmodel> uniqueOrdersList = new ArrayList<>(uniqueOrders.values());
+        adapter = new orderadaptormyorders(uniqueOrdersList, getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-        adapter.startListening();
     }
+    private void filterOrders(String searchText) {
+        List<Fileinmodel> filteredList = new ArrayList<>();
+        for (Fileinmodel order : uniqueOrders.values()) {
+            if (order.getOrderid0().toLowerCase().contains(searchText.toLowerCase())) {
+                filteredList.add(order);
+            }
+
+        }
+        if (filteredList.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            txt.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            txt.setVisibility(View.GONE);
+        }
+
+        adapter.updateList(filteredList);
+        adapter.updateList(filteredList);
+
+    }
+
+
+
+
+
 }
