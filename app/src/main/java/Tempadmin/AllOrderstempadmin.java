@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.java.Fileinmodel;
 import com.example.java.R;
 import com.example.java.RetrivepdfAdaptorhomeadmin;
+import com.example.java.recyculer.allordersadaptor;
 import com.example.java.recyculer.orderadaptormyorders;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -128,7 +129,7 @@ public class AllOrderstempadmin extends AppCompatActivity {
 
     private void displaypdfs() {
         List<Fileinmodel> uniqueOrdersList = new ArrayList<>(uniqueOrders.values());
-        orderadaptormyorders adapter = new orderadaptormyorders(uniqueOrdersList, this);
+        allordersadaptor adapter = new allordersadaptor(uniqueOrdersList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }

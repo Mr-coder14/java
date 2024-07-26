@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".orderdetailsmyorders">
+    tools:context=".Orderdetailsallorders">
     <ProgressBar
-        android:id="@+id/progressadmin11user"
+        android:id="@+id/progressadmin11user9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
@@ -31,14 +30,14 @@
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             android:background="@color/green"
-            android:id="@+id/uioad134"
+            android:id="@+id/uioad1349"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
             <ImageButton
-                android:id="@+id/backuser1"
+                android:id="@+id/backuser19"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/green"
@@ -50,7 +49,7 @@
                 />
 
             <TextView
-                android:id="@+id/FDFEFEFE1ER"
+                android:id="@+id/FDFEFEFE1ER9"
                 android:layout_width="175dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="22dp"
@@ -62,7 +61,7 @@
                 android:textSize="25sp"
                 android:textStyle="bold" />
             <ImageButton
-                android:id="@+id/orderinfouser1"
+                android:id="@+id/orderinfouser19"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/green"
@@ -81,14 +80,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uioad134"
+            app:layout_constraintTop_toBottomOf="@+id/uioad1349"
             android:orientation="horizontal">
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/fghj1"
+            android:id="@+id/fghj19"
             android:layout_marginTop="65dp"
             app:layout_constraintTop_toBottomOf="@id/linearLayout00341"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -97,7 +96,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/recyculerviewuser1"
+                android:id="@+id/recyculerviewuser19"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -114,7 +113,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/gtuser1"
+                    android:id="@+id/gtuser19"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -125,7 +124,7 @@
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/downloadbtnuser1"
+                    android:id="@+id/downloadbtnuser19"
                     android:layout_width="190dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -141,7 +140,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,12 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".Proccessactivityallorders"
+            android:exported="false" />
+        <activity
+            android:name=".Orderdetailsallorders"
+            android:exported="false" />
+        <activity
             android:name="Tempadmin.Editdeatilstempadmin"
             android:exported="false" />
         <activity

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.java.Fileinmodel;
-import com.example.java.MainActivity;
 import com.example.java.R;
 import com.example.java.tempadminmainactivity;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +31,7 @@ public class Processorderactivity extends AppCompatActivity {
     TextView note;
     String notes;
     private Button btn;
-    private boolean delivered,isDelivered;
+    private boolean delivered;
     private ImageButton backbtn;
     DatabaseReference databaseReference,newchild;
 
@@ -50,7 +49,6 @@ public class Processorderactivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
         newchild = FirebaseDatabase.getInstance().getReference().child("orderstempadmin");
         grandtotal=getIntent().getStringExtra("gt2");
-        isDelivered= Boolean.parseBoolean(getIntent().getStringExtra("delivered"));
         gt.setText("₹ "+grandtotal);
 
         backbtn.setOnClickListener(new View.OnClickListener() {
