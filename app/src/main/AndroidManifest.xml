@@ -24,6 +24,12 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".Mycart"
+            android:exported="false" />
+        <activity
+            android:name=".Productpreviewa"
+            android:exported="false" />
+        <activity
             android:name=".editdetailsmadmin"
             android:exported="false" />
         <activity

@@ -18,14 +18,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
-
-            <ImageView
+            >
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:id="@+id/productImage"
-                android:scaleType="centerCrop"
-                android:src="@drawable/about_us" />
+                android:layout_height="match_parent"
+                android:background="@color/gray">
+
+                <ImageView
+                    android:layout_width="match_parent"
+android:layout_margin="8dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/productImage"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/about_us" />
+
+            </LinearLayout>
+
 
 
             <TextView
@@ -33,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="Product Name"
                 android:textStyle="bold"
+                android:layout_margin="8dp"
                 android:id="@+id/productname"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/black"
@@ -42,8 +51,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:id="@+id/productamt"
+                android:layout_marginStart="8dp"
                 android:text="₹ 110"
                 android:textColor="#4CAF50"
                 android:textSize="18sp"
