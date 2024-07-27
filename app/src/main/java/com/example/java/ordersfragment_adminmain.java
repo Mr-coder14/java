@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,11 +46,13 @@ public class ordersfragment_adminmain extends Fragment {
     private TextView txt;
     private Query query;
     private ProgressBar progressBar;
+    private List<BigDecimal> gtl;
     private EditText editText;
     private FirebaseUser user;
     private HashMap<String, Fileinmodel> uniqueOrders = new HashMap<>();
     private String orderid;
     private boolean deleivired;
+    private TextView tamt;
     private String userid;
     private Handler debounceHandler = new Handler(Looper.getMainLooper());
     private Runnable searchRunnable;
@@ -63,10 +66,12 @@ public class ordersfragment_adminmain extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("orderstempadmin");
         recyclerView = view.findViewById(R.id.recyclerhometadminhis1);
         auth = FirebaseAuth.getInstance();
+        tamt=view.findViewById(R.id.totalAmountTextView);
         txt=view.findViewById(R.id.nordersmyordersadmin1);
         editText=view.findViewById(R.id.search_edit_texttadminhis1);
         user = auth.getCurrentUser();
         recyclerView.setHasFixedSize(true);
+        gtl=new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         progressBar = view.findViewById(R.id.progressbarhometadminhis1);
         progressBar.setVisibility(View.VISIBLE);
@@ -86,24 +91,35 @@ public class ordersfragment_adminmain extends Fragment {
         pdfsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ui:snapshot.getChildren()){
+                for (DataSnapshot ui : snapshot.getChildren()) {
                     for (DataSnapshot fileSnapshot : ui.getChildren()) {
                         String name = fileSnapshot.child("name0").getValue(String.class);
                         String uri = fileSnapshot.child("uri0").getValue(String.class);
                         String grandTotal = fileSnapshot.child("grandTotal0").getValue(String.class);
                         orderid = fileSnapshot.child("orderid0").getValue(String.class);
-                        String username=fileSnapshot.child("username").getValue(String.class);
-                        deleivired=fileSnapshot.child("delivered").getValue(boolean.class);
-                        if(deleivired==true && !uniqueOrders.containsKey(orderid)){
-                            Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,deleivired,username);
+                        String username = fileSnapshot.child("username").getValue(String.class);
+                        deleivired = fileSnapshot.child("delivered").getValue(boolean.class);
+                        String gt = fileSnapshot.child("grandTotal0").getValue(String.class);
+                        if (deleivired == true && !uniqueOrders.containsKey(orderid)) {
+                            Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid, deleivired, username);
+                            gtl.add(new BigDecimal(gt));
                             uniqueOrders.put(orderid, pdfFile);
                         }
 
                     }
                 }
+                BigDecimal totalAmount = BigDecimal.ZERO;
+                for (BigDecimal amount : gtl) {
+                    totalAmount = totalAmount.add(amount);
 
 
-
+                }
+                if (getActivity() != null) {
+                    BigDecimal finalTotalAmount = totalAmount;
+                    getActivity().runOnUiThread(() -> {
+                        tamt.setText("₹ " + finalTotalAmount.toString());
+                    });
+                }
             }
 
             @Override
@@ -112,6 +128,7 @@ public class ordersfragment_adminmain extends Fragment {
                 txt.setVisibility(View.VISIBLE);
             }
         });
+
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

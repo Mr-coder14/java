@@ -1,7 +1,5 @@
 package com.example.java;
 
-import static android.content.ContentValues.TAG;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -20,7 +18,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,7 +44,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -257,20 +253,51 @@ public class editdetails extends AppCompatActivity {
             return;
         }
 
-        if (imageUri != null) {
-            uploadImageToFirebase();
-        }
+        final ProgressDialog progressDialog = new ProgressDialog(editdetails.this);
+        progressDialog.setTitle("Updating Profile");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
                 .build();
 
-        usersRef.child("name").setValue(name);
-        usersRef.child("phno").setValue(phno);
-        if(ok){
+        currentUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    usersRef.child("name").setValue(name);
+                    usersRef.child("phno").setValue(phno).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                ok = true;
+                                if (imageUri != null) {
+                                    uploadImageToFirebase();
+                                } else {
+                                    progressDialog.dismiss();
+                                    checkAndCloseActivity();
+                                }
+                            } else {
+                                progressDialog.dismiss();
+                                Toast.makeText(editdetails.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(editdetails.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    private void checkAndCloseActivity() {
+        if (ok) {
             Toast.makeText(editdetails.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+            finish(); // This will close the activity
         }
-
     }
 
     private void uploadImageToFirebase() {
@@ -296,6 +323,7 @@ public class editdetails extends AppCompatActivity {
             public void onFailure(@NonNull Exception exception) {
                 progressDialog.dismiss();
                 Toast.makeText(editdetails.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                checkAndCloseActivity(); // Add this line
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -307,21 +335,18 @@ public class editdetails extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Uri downloadUri = task.getResult();
                             usersRef.child("profileImageUrl").setValue(downloadUri.toString());
-                            ok=true;
+                            ok = true;
                             Toast.makeText(editdetails.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                            finish();
+                            checkAndCloseActivity(); // Replace 'finish()' with this line
+                        } else {
+                            checkAndCloseActivity(); // Add this line
                         }
                     }
                 });
             }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                progressDialog.setMessage("Uploaded " + (int) progress + "%");
-            }
         });
     }
+
 
     private Bitmap getCircularBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);

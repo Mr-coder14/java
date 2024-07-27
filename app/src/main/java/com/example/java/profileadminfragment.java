@@ -60,6 +60,8 @@ public class profileadminfragment extends Fragment {
         email1 = view.findViewById(R.id.email11adminmain);
         name1 = view.findViewById(R.id.name11adminmain);
         email = view.findViewById(R.id.emailprofileadminmain);
+        progressBar.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(View.INVISIBLE);
 
         addadmins.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +100,8 @@ public class profileadminfragment extends Fragment {
                                     }
 
                                 }
+                                progressBar.setVisibility(View.GONE);
+                                scrollView.setVisibility(View.VISIBLE);
                             }
                         });
                         email1.setText(userData.getEmail());

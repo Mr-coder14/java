@@ -44,7 +44,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -255,20 +254,51 @@ public class editdetailsmadmin extends AppCompatActivity {
             return;
         }
 
-        if (imageUri != null) {
-            uploadImageToFirebase();
-        }
+        final ProgressDialog progressDialog = new ProgressDialog(editdetailsmadmin.this);
+        progressDialog.setTitle("Updating Profile");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
                 .build();
 
-        usersRef.child("name").setValue(name);
-        usersRef.child("phno").setValue(phno);
+        currentUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    usersRef.child("name").setValue(name);
+                    usersRef.child("phno").setValue(phno).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                ok = true;
+                                if (imageUri != null) {
+                                    uploadImageToFirebase();
+                                } else {
+                                    progressDialog.dismiss();
+                                    checkAndCloseActivity();
+                                }
+                            } else {
+                                progressDialog.dismiss();
+                                Toast.makeText(editdetailsmadmin.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(editdetailsmadmin.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    private void checkAndCloseActivity() {
         if (ok) {
             Toast.makeText(editdetailsmadmin.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+            finish(); // This will close the activity
         }
-
     }
 
     private void uploadImageToFirebase() {
@@ -294,6 +324,7 @@ public class editdetailsmadmin extends AppCompatActivity {
             public void onFailure(@NonNull Exception exception) {
                 progressDialog.dismiss();
                 Toast.makeText(editdetailsmadmin.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                checkAndCloseActivity(); // Add this line
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -307,16 +338,12 @@ public class editdetailsmadmin extends AppCompatActivity {
                             usersRef.child("profileImageUrl").setValue(downloadUri.toString());
                             ok = true;
                             Toast.makeText(editdetailsmadmin.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                            finish();
+                            checkAndCloseActivity(); // Replace 'finish()' with this line
+                        } else {
+                            checkAndCloseActivity(); // Add this line
                         }
                     }
                 });
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                progressDialog.setMessage("Uploaded " + (int) progress + "%");
             }
         });
     }

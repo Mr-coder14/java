@@ -2,13 +2,6 @@ package Tempadmin;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
@@ -21,11 +14,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.java.Fileinmodel;
 import com.example.java.R;
-import com.example.java.RetrivepdfAdaptorhomeadmin;
 import com.example.java.recyculer.orderadaptormyorders;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +43,8 @@ public class Myorderstempadminfragment extends Fragment {
     private DatabaseReference databaseReference;
     private DatabaseReference pdfsRef;
     private FirebaseAuth auth;
+    private List<BigDecimal> gtl;
+    private TextView tamt;
     private orderadaptormyorders adapter;
     private TextView txt;
     private Query query;
@@ -75,8 +75,10 @@ public class Myorderstempadminfragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         txt=view.findViewById(R.id.nordersmyordersadmin);
         editText=view.findViewById(R.id.search_edit_texttadminhis);
+        tamt=view.findViewById(R.id.totalAmountTextView1);
         user = auth.getCurrentUser();
         recyclerView.setHasFixedSize(true);
+        gtl=new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         progressBar = view.findViewById(R.id.progressbarhometadminhis);
         progressBar.setVisibility(View.VISIBLE);
@@ -104,12 +106,27 @@ public class Myorderstempadminfragment extends Fragment {
                         orderid = fileSnapshot.child("orderid0").getValue(String.class);
                         String username=fileSnapshot.child("username").getValue(String.class);
                         deleivired=fileSnapshot.child("delivered").getValue(boolean.class);
+                        String gt = fileSnapshot.child("grandTotal0").getValue(String.class);
                         if(deleivired==true && !uniqueOrders.containsKey(orderid)){
                             Fileinmodel pdfFile = new Fileinmodel(name, uri, grandTotal, orderid,deleivired,username);
+                            gtl.add(new BigDecimal(gt));
                             uniqueOrders.put(orderid, pdfFile);
                         }
 
+
                     }
+                }
+                BigDecimal totalAmount = BigDecimal.ZERO;
+                for (BigDecimal amount : gtl) {
+                    totalAmount = totalAmount.add(amount);
+
+
+                }
+                if (getActivity() != null) {
+                    BigDecimal finalTotalAmount = totalAmount;
+                    getActivity().runOnUiThread(() -> {
+                        tamt.setText("₹ " + finalTotalAmount.toString());
+                    });
                 }
 
 
