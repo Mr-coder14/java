@@ -6,8 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,13 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class history_fragment extends Fragment {
+public class history_fragment extends Fragment implements BannerAdapter.OnBannerClickListener{
     private ViewPager2 bannerViewPager;
     private LinearLayout pen,tippencil,drafter,aenote,calculator,graph;
     private RecyclerView recyclerView;
     private ProductlistAdaptor adaptor;
     private ArrayList<ProductDetails> productDetails;
-    private ImageButton cart;
+    private ImageView cart;
 
     public history_fragment() {
     }
@@ -118,11 +119,23 @@ public class history_fragment extends Fragment {
 
 
         List<BannerItem> banners = new ArrayList<>();
-        banners.add(new BannerItem("Get discount on fashion day", "Up to 50%", "Get Now", Color.parseColor("#FFE4E1"),R.drawable.vcc ));
-        banners.add(new BannerItem("Summer sale!", "Up to 30%", "Shop Now", Color.parseColor("#E1F5FE"),R.drawable.vcc ));
-        BannerAdapter bannerAdapter = new BannerAdapter(banners);
+        banners.add(new BannerItem("Combo Offer!", "Blue Pen-3,Black-1", "Buy Now", Color.parseColor("#FFE4E1"),R.drawable.pencombo ));
+        banners.add(new BannerItem("Combo Offer!", "Tip Pencil,Box,Scale,Eraser", "Buy Now", Color.parseColor("#E1F5FE"),R.drawable.pencilcombo ));
+        BannerAdapter bannerAdapter = new BannerAdapter(banners,this);
         bannerViewPager.setAdapter(bannerAdapter);
 
+
+
         return view;
+    }
+
+    @Override
+    public void onBannerClick(BannerItem bannerItem) {
+        if(bannerItem.getDiscountText().equals("Blue Pen-3,Black-1")){
+            Toast.makeText(getContext(), "pen offer", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getContext(), "pencil offer", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

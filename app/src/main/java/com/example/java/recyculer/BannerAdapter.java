@@ -19,9 +19,11 @@ import java.util.List;
 public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerViewHolder> {
 
     private final List<BannerItem> banners;
+    private OnBannerClickListener onBannerClickListener;
 
-    public BannerAdapter(List<BannerItem> banners) {
+    public BannerAdapter(List<BannerItem> banners,OnBannerClickListener onBannerClickListerner) {
         this.banners = banners;
+        this.onBannerClickListener=onBannerClickListerner;
     }
 
     @NonNull
@@ -33,12 +35,16 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
 
     @Override
     public void onBindViewHolder(@NonNull BannerViewHolder holder, int position) {
-        holder.bind(banners.get(position));
+        holder.bind(banners.get(position),onBannerClickListener);
     }
 
     @Override
     public int getItemCount() {
         return banners.size();
+    }
+
+    public interface OnBannerClickListener {
+        void onBannerClick(BannerItem bannerItem);
     }
 
     static class BannerViewHolder extends RecyclerView.ViewHolder {
@@ -57,14 +63,21 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
             getButton = itemView.findViewById(R.id.getButton);
         }
 
-        public void bind(BannerItem banner) {
+        public void bind(BannerItem banner,final OnBannerClickListener onBannerClickListener) {
             titleTextView.setText(banner.getTitle());
             discountTextView.setText(banner.getDiscountText());
             getButton.setText(banner.getButtonText());
             rootLayout.setBackgroundColor(banner.getBackgroundColor());
             Glide.with(bannerImageView.getContext())
-                    .load(R.drawable.vcc)
+                    .load(banner.getIamgeview())
                     .into(bannerImageView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBannerClickListener.onBannerClick(banner);
+                }
+            });
         }
     }
 }
