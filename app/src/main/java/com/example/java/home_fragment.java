@@ -173,14 +173,16 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
                                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                                     if (task.isSuccessful()) {
                                         String uri = task.getResult().getValue(String.class);
-                                        if(uri!=null){
-                                            Glide.with(context)
-                                                    .load(uri)
-                                                    .into(circleImageView);
-                                        }else {
-                                            Glide.with(context)
-                                                    .load(R.drawable.person3)
-                                                    .into(circleImageView);
+                                        if(context!=null) {
+                                            if (uri != null) {
+                                                Glide.with(context)
+                                                        .load(uri)
+                                                        .into(circleImageView);
+                                            } else {
+                                                Glide.with(context)
+                                                        .load(R.drawable.person3)
+                                                        .into(circleImageView);
+                                            }
                                         }
                                     }
                                 }
