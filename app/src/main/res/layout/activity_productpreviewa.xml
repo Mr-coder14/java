@@ -5,9 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Productpreviewa">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,132 +28,174 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:src="@drawable/back"
-                    android:background="?attr/selectableItemBackgroundBorderless"/>
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/back" />
+
+                <ImageButton
+                    android:id="@+id/mycartsproductpreview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/btn_3" />
 
             </RelativeLayout>
 
             <ImageView
+                android:id="@+id/productImagevieww"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:id="@+id/productImagevieww"
-                android:background="@drawable/productbackround"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/productbackround"
                 android:scaleType="centerCrop"
-                android:src="@drawable/drafter"/>
+                android:src="@drawable/drafter" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Plaid shirt"
-                android:id="@+id/productnameview"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$135"
-                android:id="@+id/productamtview"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"/>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="S"
-                        android:layout_marginEnd="8dp"/>
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="M"
-                        android:layout_marginEnd="8dp"/>
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="L"
-                        android:layout_marginEnd="8dp"
-                        android:backgroundTint="@color/green"/>
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="XL"
-                        android:layout_marginEnd="8dp"/>
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="XXL"/>
-                </LinearLayout>
-            </HorizontalScrollView>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp">
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/productnameview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/plus"
+                    android:text="Plaid shirt"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/qtyjkjii"
+                    android:layout_width="115dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/button_background"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+                    <ImageButton
+                        android:id="@+id/minusqtyproductview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@color/green"
+                        android:paddingBottom="9dp"
+                        android:scaleX="0.8"
+                        android:scaleY="0.7"
+                        android:src="@drawable/baseline_minimize_24" />
+
+                    <EditText
+                        android:id="@+id/qtytxtproductview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/plus"
+                        android:inputType="number"
+                        android:text="1"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/addqtyproductview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/green"
+                        android:padding="5dp"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"
+                        android:src="@drawable/baseline_add_24" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/productamtview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/plus"
+                    android:text="₹ 135"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Elina Rief"
-                    android:textStyle="bold"/>
+                    android:fontFamily="@font/lato"
+                    android:text="Description"
+                    android:textSize="21dp"
+                    android:textStyle="bold" />
 
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:rating="4.6"
-                    android:stepSize="0.1"
-                    style="?android:attr/ratingBarStyleSmall"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="I love this dress! It's so well-made and comfortable, and it fits beautifully. The fabric is high quality and I'm sure I can wear it for years to come. It fits exactly as I wanted."/>
+                    android:layout_marginTop="6dp"
+                    android:text="I love this dress! It's so well-made and comfortable, and it fits beautifully. The fabric is high quality and I'm sure I can wear it for years to come. It fits exactly as I wanted."
+                    android:textSize="15.5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:text="Cristen Alba"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"/>
+                    android:textStyle="bold" />
 
                 <RatingBar
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     android:rating="4.9"
-                    android:stepSize="0.1"
-                    style="?android:attr/ratingBarStyleSmall"/>
+                    android:stepSize="0.1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="The quality of this dress is really amazing. The fabric is very soft and pleasant to the touch, and the stitching is very clean and delicate."/>
+                    android:text="The quality of this dress is really amazing. The fabric is very soft and pleasant to the touch, and the stitching is very clean and delicate." />
             </LinearLayout>
 
             <Button
+                android:id="@+id/addtocardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add to Cart"
-                android:id="@+id/addtocardview"
+                android:layout_marginTop="16dp"
                 android:backgroundTint="@color/green"
-                android:layout_marginTop="16dp"/>
+                android:text="Add to Cart" />
 
         </LinearLayout>
     </ScrollView>

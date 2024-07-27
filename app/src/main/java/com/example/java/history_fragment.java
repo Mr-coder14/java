@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     private ViewPager2 bannerViewPager;
     private LinearLayout pen,tippencil,drafter,aenote,calculator,graph;
     private RecyclerView recyclerView;
+    private TextView allproducts;
     private ProductlistAdaptor adaptor;
     private ArrayList<ProductDetails> productDetails;
     private ImageView cart;
@@ -57,6 +59,13 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), Mycart.class));
+            }
+        });
+        allproducts=view.findViewById(R.id.allproducts);
+        allproducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),AllProducts.class));
             }
         });
 
