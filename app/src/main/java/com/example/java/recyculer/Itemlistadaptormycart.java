@@ -75,6 +75,7 @@ public class Itemlistadaptormycart extends RecyclerView.Adapter<Itemlistadaptorm
                 holder.qty.setText(String.valueOf(count));
                 holder.qty1.setText(String.valueOf(count));
                 cart.getInstance().updateItem(p);
+                ((Mycart) activity).calculateAndDisplayTotals();
             }
         });
 
@@ -88,6 +89,7 @@ public class Itemlistadaptormycart extends RecyclerView.Adapter<Itemlistadaptorm
                     holder.qty.setText(String.valueOf(count));
                     holder.qty1.setText(String.valueOf(count));
                     cart.getInstance().updateItem(p);
+                    ((Mycart) activity).calculateAndDisplayTotals();
                 }
             }
         });
@@ -133,6 +135,7 @@ public class Itemlistadaptormycart extends RecyclerView.Adapter<Itemlistadaptorm
         cart.getInstance().removeItems(itemsToRemove);
         selectedItems.clear();
         isSelectionMode = false;
+        ((Mycart) activity).calculateAndDisplayTotals();
     }
 
 

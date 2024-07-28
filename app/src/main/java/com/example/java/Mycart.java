@@ -28,11 +28,12 @@ public class Mycart extends AppCompatActivity {
     private ImageButton back, deleteButton;
     private Itemlistadaptormycart adaptor;
     private ArrayList<ProductDetails> productDetailsList;
-    private TextView emptyCartMessage;
+    private TextView emptymsg,subtotal, feedelivery, total;
     private DatabaseReference databaseReference;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private String userid;
+    private int deliveryFee=15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +41,15 @@ public class Mycart extends AppCompatActivity {
         setContentView(R.layout.activity_mycart);
 
         recyclerView = findViewById(R.id.recyculermycart);
-        emptyCartMessage = findViewById(R.id.empptytxt);
+        emptymsg = findViewById(R.id.empptytxt);
+        subtotal = findViewById(R.id.subtotal);
+        feedelivery = findViewById(R.id.feedelivery);
+        total = findViewById(R.id.total);
         back = findViewById(R.id.backbtnmycart);
         auth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressbarmycart);
         userid = auth.getCurrentUser().getUid();
         productDetailsList = new ArrayList<>();
-        emptyCartMessage.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
 
@@ -82,7 +85,6 @@ public class Mycart extends AppCompatActivity {
         recyclerView.setAdapter(adaptor);
 
         deleteButton.setVisibility(View.GONE);
-        updateEmptyCartMessage();
     }
 
     private void fetchCartItems() {
@@ -90,16 +92,20 @@ public class Mycart extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 productDetailsList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ProductDetails productDetails = dataSnapshot.getValue(ProductDetails.class);
-                    if (productDetails != null) {
-                        productDetails.setKey(dataSnapshot.getKey());
-                        productDetailsList.add(productDetails);
+                if(snapshot.exists()){
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        ProductDetails productDetails = dataSnapshot.getValue(ProductDetails.class);
+                        if (productDetails != null) {
+                            productDetails.setKey(dataSnapshot.getKey());
+                            productDetailsList.add(productDetails);
+                        }
                     }
                 }
+
                 progressBar.setVisibility(View.GONE);
                 adaptor.notifyDataSetChanged();
                 updateEmptyCartMessage();
+                calculateAndDisplayTotals();
             }
 
             @Override
@@ -111,12 +117,28 @@ public class Mycart extends AppCompatActivity {
         });
     }
 
+    public void calculateAndDisplayTotals() {
+        int subTotalAmount = 0;
+        for (ProductDetails item : productDetailsList) {
+            int a=Integer.parseInt(item.getProductamt());
+            subTotalAmount += item.getQty() * a;
+        }
+
+        int totalAmount = subTotalAmount + deliveryFee;
+
+        subtotal.setText("₹" + subTotalAmount);
+        feedelivery.setText("₹" + deliveryFee);
+        total.setText("₹" + totalAmount);
+    }
+
     private void updateEmptyCartMessage() {
-        if (adaptor.getItemCount() == 0) {
-            emptyCartMessage.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+        if (productDetailsList.isEmpty()) {
+            deliveryFee=0;
+            calculateAndDisplayTotals();
+            emptymsg.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
         } else {
-            emptyCartMessage.setVisibility(View.GONE);
+            emptymsg.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
     }

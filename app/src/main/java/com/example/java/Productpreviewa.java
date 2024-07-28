@@ -68,8 +68,22 @@ public class Productpreviewa extends AppCompatActivity {
         addtocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cart.getInstance().addItem(currentProduct);
-                Toast.makeText(Productpreviewa.this, "Product added to cart", Toast.LENGTH_SHORT).show();
+                cart.getInstance().addItem(currentProduct, new cart.CartAddCallback() {
+                    @Override
+                    public void onItemAlreadyExists() {
+                        Toast.makeText(Productpreviewa.this, "Item is already in the cart", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemAdded() {
+                        Toast.makeText(Productpreviewa.this, "Product added to cart", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemAddFailed() {
+                        Toast.makeText(Productpreviewa.this, "Failed to add item to cart", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
