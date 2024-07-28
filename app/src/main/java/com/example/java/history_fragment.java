@@ -116,12 +116,12 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
             }
         });
 
-        productDetails.add(new ProductDetails("Calculator","750",R.drawable.calculator));
-        productDetails.add(new ProductDetails("Graph","750",R.drawable.geaph));
-        productDetails.add(new ProductDetails("Pencil","100",R.drawable.tippencil));
-        productDetails.add(new ProductDetails("pen","100",R.drawable.pen));
-        productDetails.add(new ProductDetails("A3 Note","500",R.drawable.athreenote));
-        productDetails.add(new ProductDetails("Drafter","1000",R.drawable.drafter));
+        productDetails.add(new ProductDetails("Casio FX-991ES Plus Second Edition Scientific Calculator","750",R.drawable.calculatorr));
+        productDetails.add(new ProductDetails("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE","120",R.drawable.graphh));
+        productDetails.add(new ProductDetails("Stylish X3|Blue Pen|0.7mm ","10",R.drawable.stylishpen));
+        productDetails.add(new ProductDetails("A3 Sketch Book/Art Book/Drawing Book","300",R.drawable.athreenotee));
+        productDetails.add(new ProductDetails("UNI MITSUBISHI PENCIL, 0.5mm Mechanical Pencil uni KURU TOGA High Grade Model ","100",R.drawable.tippencil));
+        productDetails.add(new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)","800",R.drawable.drafter1));
         adaptor=new ProductlistAdaptor(productDetails,getContext());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adaptor);

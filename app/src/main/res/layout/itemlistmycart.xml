@@ -2,48 +2,84 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    android:background="@drawable/whitebg_profile"
+        android:background="@drawable/whitebg_profile"
     android:elevation="6dp"
-    android:layout_margin="3dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginLeft="3dp"
+    android:layout_marginBottom="3dp"
+    android:layout_marginRight="3dp"
         android:padding="8dp">
-
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/whitebg_profile"
+        android:elevation="5dp"
+        android:id="@+id/qwerty"
+        android:layout_margin="2dp"
+        >
         <ImageView
             android:id="@+id/productImagemycart"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/graybackround"
+            android:layout_width="85dp"
+            android:layout_height="84dp"
             android:src="@drawable/pencombo"
+            android:layout_margin="5dp"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
         <TextView
             android:id="@+id/productNamemycart"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Jean Coat"
-            android:fontFamily="@font/lato"
-            android:textSize="21sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/plus"
+            android:textSize="15sp"
+            android:maxLines="1"
+            android:textColor="@color/black"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@id/productImagemycart"
-            app:layout_constraintTop_toTopOf="@id/productImagemycart"
+            app:layout_constraintStart_toEndOf="@id/qwerty"
+            app:layout_constraintTop_toTopOf="@id/qwerty"
             app:layout_constraintEnd_toEndOf="parent"/>
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/qwerty"
+        app:layout_constraintTop_toBottomOf="@id/productNamemycart"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/quantityValu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity: "
+            android:fontFamily="@font/plus"
+            android:textSize="13dp"
+            />
         <TextView
             android:id="@+id/quantityValuemycart1"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/plus"
             android:layout_height="wrap_content"
-            android:text="45"
+            android:text="1"
             android:textColor="#FFA500"
-            android:layout_marginStart="8dp"
-            android:textSize="14dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toEndOf="@id/productImagemycart"
-            app:layout_constraintTop_toBottomOf="@id/productNamemycart"/>
+            android:textSize="13dp"
+            />
+
+
+    </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/productPricemycart"
@@ -52,9 +88,12 @@
             android:text="$48"
             android:textStyle="bold"
             android:layout_marginStart="8dp"
-            android:textSize="18dp"
-            app:layout_constraintStart_toEndOf="@id/productImagemycart"
-            app:layout_constraintBottom_toBottomOf="@id/productImagemycart"/>
+            android:textSize="16dp"
+            android:fontFamily="@font/plus"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/qwerty"
+            app:layout_constraintBottom_toBottomOf="@id/qwerty"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -62,6 +101,7 @@
         android:orientation="horizontal"
         android:background="@drawable/graybackround"
         android:padding="4dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -83,7 +123,7 @@
             android:layout_height="25dp"
             android:fontFamily="@font/plus"
             android:gravity="center"
-            android:text="2"
+            android:text="1"
             android:textColor="@color/black"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@id/productImagemycart"

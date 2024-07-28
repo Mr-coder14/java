@@ -1,6 +1,7 @@
 package com.example.java.recyculer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.java.Productpreviewa;
 import com.example.java.R;
 
 import java.util.ArrayList;
@@ -35,6 +37,15 @@ public class ProductlistAdaptor extends RecyclerView.Adapter<ProductlistAdaptor.
     @Override
     public void onBindViewHolder(@NonNull ProductlistAdaptor.viewHolder holder, int position) {
         ProductDetails pd=productDetails.get(position);
+        pd.setQty(1);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Productpreviewa.class);
+                intent.putExtra("product", pd);
+                context.startActivity(intent);
+            }
+        });
         holder.bind(pd);
     }
 
