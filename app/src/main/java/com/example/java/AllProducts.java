@@ -7,8 +7,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.java.recyculer.ProductDetails;
 import com.example.java.recyculer.ProductSearchAdapter;
 import com.example.java.recyculer.ProductlistAdaptor;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -25,8 +33,10 @@ public class AllProducts extends AppCompatActivity {
 
     private ProductSearchAdapter searchAdapter;
     private AutoCompleteTextView searchallproducts;
+    private View cartIconWithBadge;
+    private TextView badgeTextView;
     private ArrayList<ProductDetails> productDetails;
-    private ImageView cart;
+    private LinearLayout cart1;
 
 
     @Override
@@ -36,7 +46,9 @@ public class AllProducts extends AppCompatActivity {
         recyclerView=findViewById(R.id.recyculerviewallproducts);
         productDetails= new ArrayList<>();
         searchallproducts=findViewById(R.id.searchallproducts);
-        cart=findViewById(R.id.mycartalldetails);
+        cart1=findViewById(R.id.mycarthome2);
+        cartIconWithBadge = findViewById(R.id.cart_icon_with_badge2);
+        badgeTextView = cartIconWithBadge.findViewById(R.id.cart_badge);
         productDetails.add(new ProductDetails("Casio FX-991ES Plus Second Edition Scientific Calculator","750",R.drawable.calculatorr));
         productDetails.add(new ProductDetails("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE","120",R.drawable.graphh));
         productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Blue (0.7mm)","10",R.drawable.stylishpenblue));
@@ -68,7 +80,9 @@ public class AllProducts extends AppCompatActivity {
         searchAdapter = new ProductSearchAdapter(this, productDetails);
         searchallproducts.setAdapter(searchAdapter);
 
-        cart.setOnClickListener(new View.OnClickListener() {
+        fetchCartItemCount();
+
+        cart1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AllProducts.this, Mycart.class));
@@ -116,6 +130,33 @@ public class AllProducts extends AppCompatActivity {
         }
 
         adaptor.filterList(filteredList);
+    }
+    private void updateCartBadge(int itemCount) {
+        if (itemCount > 0) {
+            badgeTextView.setVisibility(View.VISIBLE);
+            badgeTextView.setText(String.valueOf(itemCount));
+        } else {
+            badgeTextView.setVisibility(View.GONE);
+        }
+    }
+
+    private void fetchCartItemCount() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String userId = auth.getCurrentUser().getUid();
+        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("userscart").child(userId);
+
+        cartRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int itemCount = (int) dataSnapshot.getChildrenCount();
+                updateCartBadge(itemCount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

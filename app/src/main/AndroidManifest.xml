@@ -24,6 +24,9 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".orderslist"
+            android:exported="false" />
+        <activity
             android:name=".orderspreview"
             android:exported="false" />
         <activity

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/lato"
-            android:text="Orders"
+            android:text="My Orders"
             android:gravity="center"
             android:layout_gravity="center"
             android:textSize="20sp"
@@ -30,12 +30,20 @@
             android:layout_marginLeft="16dp"/>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/qvb"
+        android:id="@+id/qvb1"
+        android:layout_marginTop="15dp"
+        android:background="@color/gray"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ordersRecyclerView"
         android:layout_width="match_parent"
         android:layout_marginTop="9dp"
-        android:layout_below="@+id/qvb"
+        android:layout_below="@+id/qvb1"
         android:layout_height="match_parent" />
 
     <ProgressBar
@@ -51,6 +59,9 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="No orders found"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:fontFamily="@font/lato"
+        android:textSize="17sp"
+         />
 
 </RelativeLayout>

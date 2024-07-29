@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,6 +21,12 @@ import com.example.java.recyculer.BannerAdapter;
 import com.example.java.recyculer.BannerItem;
 import com.example.java.recyculer.ProductDetails;
 import com.example.java.recyculer.ProductlistAdaptor;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +41,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     private ArrayList<ProductDetails> productDetails;
     private ProductDetails pr;
     private LinearLayout cart;
+    private EditText editText;
 
     public history_fragment() {
     }
@@ -48,17 +56,33 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         productDetails=new ArrayList<>();
         tippencil=view.findViewById(R.id.onclicktippencil);
         graph=view.findViewById(R.id.onclickgraph);
+        editText=view.findViewById(R.id.tyu);
         aenote=view.findViewById(R.id.onclicka3note);
         drafter=view.findViewById(R.id.onclickdrafter);
         calculator=view.findViewById(R.id.onclickcalculator);
         cart=view.findViewById(R.id.mycarthome);
-
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), AllProducts.class));
+            }
+        });
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), Mycart.class));
             }
         });
+
+
+        View cartIconWithBadge = view.findViewById(R.id.cart_icon_with_badge);
+        cartIconWithBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), Mycart.class));
+            }
+        });
+        fetchCartItemCount();
         allproducts=view.findViewById(R.id.allproducts);
         allproducts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +198,52 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
 
 
         return view;
+    }
+    private void updateCartBadge(int itemCount) {
+        View view = getView();
+        if (view == null) {
+            // The fragment's view is not available, so we can't update the badge
+            return;
+        }
+
+        View cartIconWithBadge = view.findViewById(R.id.cart_icon_with_badge);
+        if (cartIconWithBadge == null) {
+            // The cart icon view is not found, log an error or handle appropriately
+            return;
+        }
+
+        TextView badgeTextView = cartIconWithBadge.findViewById(R.id.cart_badge);
+        if (badgeTextView == null) {
+            // The badge TextView is not found, log an error or handle appropriately
+            return;
+        }
+
+        if (itemCount > 0) {
+            badgeTextView.setVisibility(View.VISIBLE);
+            badgeTextView.setText(String.valueOf(itemCount));
+        } else {
+            badgeTextView.setVisibility(View.GONE);
+        }
+    }
+    private void fetchCartItemCount() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String userId = auth.getCurrentUser().getUid();
+        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("userscart").child(userId);
+
+        cartRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int itemCount = (int) dataSnapshot.getChildrenCount();
+                if (isAdded()) {
+                    updateCartBadge(itemCount);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+            }
+        });
     }
 
     @Override

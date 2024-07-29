@@ -17,6 +17,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -81,6 +83,7 @@ public class editdetails extends AppCompatActivity {
         editTextName = findViewById(R.id.editdetailsname);
         profileimage = findViewById(R.id.profileImageView);
         editTextPhno = findViewById(R.id.editdetailsphno);
+        editTextPhno.setFilters(new InputFilter[]{phoneNumberFilter()});
         buttonSave = findViewById(R.id.savechanges);
         progressBar = findViewById(R.id.progressedit);
         constraintLayout = findViewById(R.id.constraintedit);
@@ -380,5 +383,21 @@ public class editdetails extends AppCompatActivity {
                 Toast.makeText(this, "Camera permission is required to take a photo", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    private InputFilter phoneNumberFilter() {
+        return new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                StringBuilder builder = new StringBuilder(dest);
+                builder.replace(dstart, dend, source.subSequence(start, end).toString());
+                if (!builder.toString().matches("^\\d{0,10}$")) {
+                    if (source.length() == 0) {
+                        return dest.subSequence(dstart, dend);
+                    }
+                    return "";
+                }
+                return null;
+            }
+        };
     }
 }

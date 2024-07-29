@@ -38,9 +38,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,Productpreviewa.class);
-                intent.putExtra("product",product);
-                context.startActivity(intent);
+                if (product.getProductimage()==R.drawable.pencombo) {
+                    Intent intent = new Intent(context, ComboOfferpen.class);
+                    intent.putExtra("comboProduct", product);
+                    context.startActivity(intent);
+                } else if (product.getProductimage()==R.drawable.pencilcombo) {
+                    Intent intent = new Intent(context, Combopencil.class);
+                    intent.putExtra("comboProduct", product);
+                    context.startActivity(intent);
+
+                } else {
+                    Intent intent=new Intent(context, Productpreviewa.class);
+                    intent.putExtra("product",product);
+                    context.startActivity(intent);
+                }
             }
         });
         holder.bind(product);

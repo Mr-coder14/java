@@ -52,13 +52,20 @@
 
             </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:id="@+id/mycartalldetails"
-                android:layout_gravity="center"
-                android:layout_marginLeft="13dp"
-                android:src="@drawable/btn_3" />
+            <LinearLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/mycarthome2"
+                >
+                <include
+                    android:id="@+id/cart_icon_with_badge2"
+                    layout="@layout/cart_icon_with_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

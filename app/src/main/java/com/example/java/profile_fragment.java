@@ -63,7 +63,7 @@ public class profile_fragment extends Fragment {
         allordersbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), OrdersActivity.class));
+                startActivity(new Intent(getContext(), orderslist.class));
 
             }
         });
