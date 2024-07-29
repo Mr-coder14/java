@@ -58,7 +58,7 @@ public class orderspreview extends AppCompatActivity {
         ntotes.setText(order.getNotes().isEmpty() ? "No Notes" : order.getNotes());
         total1.setText("Total: " + order.getOrderTotal());
 
-        ProductAdapter productAdapter = new ProductAdapter(order.getProducts());
+        ProductAdapter productAdapter = new ProductAdapter(order.getProducts(),this);
         productRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         productRecyclerView.setAdapter(productAdapter);
 

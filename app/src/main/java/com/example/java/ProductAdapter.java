@@ -1,5 +1,7 @@
 package com.example.java;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +18,11 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private List<ProductDetails> products;
+    private Context context;
 
-    public ProductAdapter(List<ProductDetails> products) {
+    public ProductAdapter(List<ProductDetails> products,Context context) {
         this.products = products;
+        this.context=context;
     }
 
     @NonNull
@@ -31,6 +35,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         ProductDetails product = products.get(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,Productpreviewa.class);
+                intent.putExtra("product",product);
+                context.startActivity(intent);
+            }
+        });
         holder.bind(product);
     }
 

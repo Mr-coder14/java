@@ -67,7 +67,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             orderTotalText.setText("Total: " + order.getOrderTotal());
             orderDateText.setText("Date: " + new Date(order.getOrderTimestamp()));
 
-            ProductAdapter productAdapter = new ProductAdapter(order.getProducts());
+            ProductAdapter productAdapter = new ProductAdapter(order.getProducts(),context);
             productRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             productRecyclerView.setAdapter(productAdapter);
         }
