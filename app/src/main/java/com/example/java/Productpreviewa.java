@@ -19,7 +19,7 @@ public class Productpreviewa extends AppCompatActivity {
     private ImageButton minus,plus;
     private TextView name,amt;
     private Button addtocart;
-    private TextView qty;
+    private TextView qty,discription;
     private ProductDetails currentProduct;
 
     @Override
@@ -28,6 +28,7 @@ public class Productpreviewa extends AppCompatActivity {
         setContentView(R.layout.activity_productpreviewa);
         back=findViewById(R.id.backButtonproductview);
         iamge=findViewById(R.id.productImagevieww);
+        discription=findViewById(R.id.discriptionview);
         mycart=findViewById(R.id.mycartsproductpreview);
         addtocart=findViewById(R.id.addtocardview);
         minus=findViewById(R.id.minusqtyproductview);
@@ -43,6 +44,7 @@ public class Productpreviewa extends AppCompatActivity {
         iamge.setImageResource(currentProduct.getProductimage());
         amt.setText("₹ "+currentProduct.getProductamt());
         qty.setText(String.valueOf(currentProduct.getQty()));
+        discription.setText(currentProduct.getDiscription());
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

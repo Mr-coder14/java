@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.java.ComboOfferpen;
+import com.example.java.Combopencil;
 import com.example.java.Mycart;
 import com.example.java.Productpreviewa;
 import com.example.java.R;
@@ -58,9 +60,21 @@ public class Itemlistadaptormycart extends RecyclerView.Adapter<Itemlistadaptorm
                 if (isSelectionMode) {
                     toggleSelection(holder, p);
                 } else {
-                    Intent intent=new Intent(activity, Productpreviewa.class);
-                    intent.putExtra("product",p);
-                    activity.startActivity(intent);
+                    if (p.getProductimage()==R.drawable.pencombo) {
+                        Intent intent = new Intent(activity, ComboOfferpen.class);
+                        intent.putExtra("comboProduct", p);
+                        activity.startActivity(intent);
+                    } else if (p.getProductimage()==R.drawable.pencilcombo) {
+                        Intent intent = new Intent(activity, Combopencil.class);
+                        intent.putExtra("comboProduct", p);
+                        activity.startActivity(intent);
+
+                    } else {
+                        Intent intent=new Intent(activity, Productpreviewa.class);
+                        intent.putExtra("product",p);
+                        activity.startActivity(intent);
+                    }
+
                 }
             }
         });
@@ -115,7 +129,7 @@ public class Itemlistadaptormycart extends RecyclerView.Adapter<Itemlistadaptorm
             isSelectionMode = false;
         }
 
-        // Notify the activity about selection changes
+
         if (activity instanceof Mycart) {
             ((Mycart) activity).onSelectionChanged(selectedItems.size());
         }

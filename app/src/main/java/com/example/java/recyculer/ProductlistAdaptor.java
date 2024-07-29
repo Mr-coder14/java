@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Productpreviewa;
 import com.example.java.R;
+import com.example.java.cart;
 
 import java.util.ArrayList;
 
@@ -46,6 +49,27 @@ public class ProductlistAdaptor extends RecyclerView.Adapter<ProductlistAdaptor.
                 context.startActivity(intent);
             }
         });
+        holder.addtocart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cart.getInstance().addItem(pd, new cart.CartAddCallback() {
+                    @Override
+                    public void onItemAlreadyExists() {
+                        Toast.makeText(context, "Item is already in the cart", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemAdded() {
+                        Toast.makeText(context, "Product added to cart", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemAddFailed() {
+                        Toast.makeText(context, "Failed to add item to cart", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         holder.bind(pd);
     }
 
@@ -57,9 +81,11 @@ public class ProductlistAdaptor extends RecyclerView.Adapter<ProductlistAdaptor.
     public class viewHolder extends RecyclerView.ViewHolder {
         private TextView productamt,productname;
         private ImageView productimage;
+        private Button addtocart;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             productamt=itemView.findViewById(R.id.productamt);
+            addtocart=itemView.findViewById(R.id.addToCartButtontemplate);
             productname=itemView.findViewById(R.id.productname);
             productimage=itemView.findViewById(R.id.productImage);
         }

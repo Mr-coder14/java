@@ -170,6 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
+                    android:id="@+id/discriptionview"
                     android:text="I love this dress! It's so well-made and comfortable, and it fits beautifully. The fabric is high quality and I'm sure I can wear it for years to come. It fits exactly as I wanted."
                     android:textSize="15.5dp" />
 

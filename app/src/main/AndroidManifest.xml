@@ -24,6 +24,12 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".Combopencil"
+            android:exported="false" />
+        <activity
+            android:name=".ComboOfferpen"
+            android:exported="false" />
+        <activity
             android:name=".AllProducts"
             android:exported="false" />
         <activity

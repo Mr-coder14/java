@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,12 +27,13 @@ import java.util.List;
 
 public class history_fragment extends Fragment implements BannerAdapter.OnBannerClickListener{
     private ViewPager2 bannerViewPager;
-    private LinearLayout pen,tippencil,drafter,aenote,calculator,graph;
+    private LinearLayout tippencil,drafter,aenote,calculator,graph;
     private RecyclerView recyclerView;
     private TextView allproducts;
     private ProductlistAdaptor adaptor;
     private ArrayList<ProductDetails> productDetails;
-    private ImageView cart;
+    private ProductDetails pr;
+    private LinearLayout cart;
 
     public history_fragment() {
     }
@@ -47,7 +46,6 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         bannerViewPager = view.findViewById(R.id.bannerViewPager);
         recyclerView=view.findViewById(R.id.productrecyculer);
         productDetails=new ArrayList<>();
-        pen=view.findViewById(R.id.onclickpen);
         tippencil=view.findViewById(R.id.onclicktippencil);
         graph=view.findViewById(R.id.onclickgraph);
         aenote=view.findViewById(R.id.onclicka3note);
@@ -69,17 +67,15 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
             }
         });
 
-        pen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(),Productpreviewa.class));
-            }
-        });
+
 
         graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),Productpreviewa.class));
+                pr=new ProductDetails("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE","120",R.drawable.graphh);
+                Intent intent = new Intent(getContext(), Productpreviewa.class);
+                intent.putExtra("product", pr);
+                startActivity(intent);
 
             }
         });
@@ -87,7 +83,10 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         calculator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),Productpreviewa.class));
+                pr=new ProductDetails("Casio FX-991ES Plus Second Edition Scientific Calculator","750",R.drawable.calculatorr);
+                Intent intent = new Intent(getContext(), Productpreviewa.class);
+                intent.putExtra("product", pr);
+                startActivity(intent);
 
             }
         });
@@ -95,7 +94,10 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         aenote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),Productpreviewa.class));
+                pr=new ProductDetails("A3 Sketch Book/Art Book/Drawing Book","300",R.drawable.athreenotee);
+                Intent intent = new Intent(getContext(), Productpreviewa.class);
+                intent.putExtra("product", pr);
+                startActivity(intent);
 
             }
         });
@@ -103,7 +105,10 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         drafter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),Productpreviewa.class));
+                pr=new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)","800",R.drawable.drafter1);
+                Intent intent = new Intent(getContext(), Productpreviewa.class);
+                intent.putExtra("product", pr);
+                startActivity(intent);
 
             }
         });
@@ -111,16 +116,49 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         tippencil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),Productpreviewa.class));
+                pr=new ProductDetails("Mechanical Pencils with 1 Tube Lead, 0.7mm Tip","15",R.drawable.tippencil,1,"Name : Faber-Castell Tri-Click Mechanical Pencils with 1 Tube Lead, 0.7mm Tip\n" +
+                        "\n" +
+                        "Brand : Faber Castell\n" +
+                        "\n" +
+                        "Net Quantity (N) : 1\n" +
+                        "\n" +
+                        "Ergonomic triangular grip zone\n" +
+                        "\n" +
+                        "Retractable metal sleeve-pocket safe\n" +
+                        "\n" +
+                        "Tip size : 0.7mm\n" +
+                        "\n" +
+                        "Set includes mechanical pencil with one tube of lead (0.7mm)");
+                Intent intent = new Intent(getContext(), Productpreviewa.class);
+                intent.putExtra("product", pr);
+                startActivity(intent);
 
             }
         });
 
         productDetails.add(new ProductDetails("Casio FX-991ES Plus Second Edition Scientific Calculator","750",R.drawable.calculatorr));
         productDetails.add(new ProductDetails("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE","120",R.drawable.graphh));
-        productDetails.add(new ProductDetails("Stylish X3|Blue Pen|0.7mm ","10",R.drawable.stylishpen));
+        productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Blue (0.7mm)","10",R.drawable.stylishpenblue));
+        productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Black (0.7mm)","10",R.drawable.stylishblackpen));
         productDetails.add(new ProductDetails("A3 Sketch Book/Art Book/Drawing Book","300",R.drawable.athreenotee));
-        productDetails.add(new ProductDetails("UNI MITSUBISHI PENCIL, 0.5mm Mechanical Pencil uni KURU TOGA High Grade Model ","100",R.drawable.tippencil));
+        productDetails.add(new ProductDetails("Mechanical Pencils with 1 Tube Lead, 0.7mm Tip","15",R.drawable.tippencil,1,"Name : Faber-Castell Tri-Click Mechanical Pencils with 1 Tube Lead, 0.7mm Tip\n" +
+                "\n" +
+                "Brand : Faber Castell\n" +
+                "\n" +
+                "Net Quantity (N) : 1\n" +
+                "\n" +
+                "Ergonomic triangular grip zone\n" +
+                "\n" +
+                "Retractable metal sleeve-pocket safe\n" +
+                "\n" +
+                "Tip size : 0.7mm\n" +
+                "\n" +
+                "Set includes mechanical pencil with one tube of lead (0.7mm)"));
+        productDetails.add(new ProductDetails("Tip Bpx Camlin Kokuyo 0.7mm Klick Lead Tube","5",R.drawable.tipbox,1,"Leads are tough, smooth and dark\n" +
+                "0.7mm B leads\n" +
+                "High polymer fine leads for smooth writing"));
+        productDetails.add(new ProductDetails("Kokuyo Camlin Exam Scale Broad 30cm Ruler ","20",R.drawable.scale,1,"Camlin Exam portfolio of scales are the perfect tools for high precision and accuracy. Smooth taped edges that lie flat on the surface to give a sharp line. Transparent body"));
+        productDetails.add(new ProductDetails("White Apsara Eraser","5",R.drawable.eraser,1,"As a quality focused firm, we are engaged in offering a high quality range of Apsara Eraser."));
         productDetails.add(new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)","800",R.drawable.drafter1));
         adaptor=new ProductlistAdaptor(productDetails,getContext());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -141,9 +179,9 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     @Override
     public void onBannerClick(BannerItem bannerItem) {
         if(bannerItem.getDiscountText().equals("Blue Pen-3,Black-1")){
-            Toast.makeText(getContext(), "pen offer", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(),ComboOfferpen.class));
         }else {
-            Toast.makeText(getContext(), "pencil offer", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), Combopencil.class));
         }
 
     }

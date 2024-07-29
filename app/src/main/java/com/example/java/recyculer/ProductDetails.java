@@ -7,6 +7,7 @@ public class ProductDetails implements Serializable {
     int productimage;
     int qty;
     private String key;
+    private String discription;
 
     public String getKey() {
         return key;
@@ -19,14 +20,31 @@ public class ProductDetails implements Serializable {
 
     }
 
+    public String getDiscription() {
+        return discription;
+    }
+
+    public void setDiscription(String discription) {
+        this.discription = discription;
+    }
+
     public ProductDetails(String productname, String productamt, int productimage) {
         this.productname = productname;
         this.productamt = productamt;
+        this.discription="";
         this.productimage = productimage;
+    }
+    public ProductDetails(String productname, String productamt, int productimage,int qty,String discription) {
+        this.productname = productname;
+        this.productamt = productamt;
+        this.discription=discription;
+        this.productimage = productimage;
+        this.qty=qty;
     }
     public ProductDetails(String productname, String productamt, int productimage,int qty) {
         this.productname = productname;
         this.productamt = productamt;
+        this.discription="";
         this.productimage = productimage;
         this.qty=qty;
     }
