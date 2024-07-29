@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!-- Repeat this for each brand -->
+
 
 
                 <LinearLayout
@@ -260,12 +260,12 @@
                         android:textSize="15sp" />
                 </LinearLayout>
 
-                <!-- End repeat -->
+
 
             </LinearLayout>
         </HorizontalScrollView>
 
-        <!-- Popular Products -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -288,14 +288,14 @@
                 android:textColor="#4CAF50" />
         </LinearLayout>
 
-        <!-- Product Grid -->
+
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="2"
             android:rowCount="2">
 
-            <!-- Repeat this for each product -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/productrecyculer"
                 android:layout_width="match_parent"

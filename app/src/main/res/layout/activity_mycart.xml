@@ -86,6 +86,34 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="5dp"
+        android:background="@drawable/graybackround"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Add Notes"
+            android:background="@null"
+            android:inputType="textMultiLine"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:fontFamily="@font/plus"
+            android:id="@+id/notesmycart"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:text="Add"
+            android:gravity="center"
+            android:id="@+id/addnotes"/>
+    </LinearLayout>
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -184,6 +212,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/plus"
+        android:id="@+id/checkoutbtn"
         android:text="Check Out"
         android:layout_marginTop="16dp"
         android:background="@drawable/button_background"

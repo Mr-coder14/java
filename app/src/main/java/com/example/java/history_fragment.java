@@ -72,7 +72,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pr=new ProductDetails("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE","120",R.drawable.graphh);
+                pr=new ProductDetails("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE","120",R.drawable.graphh,1);
                 Intent intent = new Intent(getContext(), Productpreviewa.class);
                 intent.putExtra("product", pr);
                 startActivity(intent);
@@ -83,7 +83,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         calculator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pr=new ProductDetails("Casio FX-991ES Plus Second Edition Scientific Calculator","750",R.drawable.calculatorr);
+                pr=new ProductDetails("Casio FX-991ES Plus Second Edition Scientific Calculator","750",R.drawable.calculatorr,1);
                 Intent intent = new Intent(getContext(), Productpreviewa.class);
                 intent.putExtra("product", pr);
                 startActivity(intent);
@@ -94,7 +94,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         aenote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pr=new ProductDetails("A3 Sketch Book/Art Book/Drawing Book","300",R.drawable.athreenotee);
+                pr=new ProductDetails("A3 Sketch Book/Art Book/Drawing Book","300",R.drawable.athreenotee,1);
                 Intent intent = new Intent(getContext(), Productpreviewa.class);
                 intent.putExtra("product", pr);
                 startActivity(intent);
@@ -105,7 +105,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         drafter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pr=new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)","800",R.drawable.drafter1);
+                pr=new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)","800",R.drawable.drafter1,1);
                 Intent intent = new Intent(getContext(), Productpreviewa.class);
                 intent.putExtra("product", pr);
                 startActivity(intent);
@@ -167,7 +167,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
 
         List<BannerItem> banners = new ArrayList<>();
         banners.add(new BannerItem("Combo Offer!", "Blue Pen-3,Black-1", "Buy Now", Color.parseColor("#FFE4E1"),R.drawable.pencombo ));
-        banners.add(new BannerItem("Combo Offer!", "Tip Pencil,Box,Scale,Eraser", "Buy Now", Color.parseColor("#E1F5FE"),R.drawable.pencilcombo ));
+        banners.add(new BannerItem("Combo Offer!", "Tip Pencil,Box,Scale,Eraser", "Shop Now", Color.parseColor("#E1F5FE"),R.drawable.pencilcombo ));
         BannerAdapter bannerAdapter = new BannerAdapter(banners,this);
         bannerViewPager.setAdapter(bannerAdapter);
 
@@ -178,7 +178,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
 
     @Override
     public void onBannerClick(BannerItem bannerItem) {
-        if(bannerItem.getDiscountText().equals("Blue Pen-3,Black-1")){
+        if(bannerItem.getButtonText().equals("Buy Now")){
             startActivity(new Intent(getContext(),ComboOfferpen.class));
         }else {
             startActivity(new Intent(getContext(), Combopencil.class));

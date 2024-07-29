@@ -36,6 +36,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
     @Override
     public void onBindViewHolder(@NonNull BannerViewHolder holder, int position) {
         holder.bind(banners.get(position),onBannerClickListener);
+
     }
 
     @Override
@@ -72,12 +73,16 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
                     .load(banner.getIamgeview())
                     .into(bannerImageView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+
+            View.OnClickListener clickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onBannerClickListener.onBannerClick(banner);
                 }
-            });
+            };
+            itemView.setOnClickListener(clickListener);
+
+            getButton.setOnClickListener(clickListener);
         }
     }
 }
