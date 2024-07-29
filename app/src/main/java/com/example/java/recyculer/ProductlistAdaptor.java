@@ -28,6 +28,10 @@ public class ProductlistAdaptor extends RecyclerView.Adapter<ProductlistAdaptor.
         this.productDetails = productDetails;
         this.context = context;
     }
+    public void filterList(ArrayList<ProductDetails> filteredList) {
+        productDetails = filteredList;
+        notifyDataSetChanged();
+    }
 
 
     @NonNull

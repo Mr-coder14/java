@@ -38,11 +38,12 @@
                         android:layout_height="24dp"
                         android:src="@drawable/search_icon" />
 
-                    <EditText
+                    <AutoCompleteTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:id="@+id/searchallproducts"
                         android:hint="Search anything"
                         android:paddingStart="8dp" />
 
