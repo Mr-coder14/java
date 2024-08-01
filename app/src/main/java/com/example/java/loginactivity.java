@@ -1,5 +1,6 @@
 package com.example.java;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class loginactivity extends AppCompatActivity {
-    String adminemail = "abcd1234@gmail.com";
+    private ArrayList<String> admins=new ArrayList<>();
+
     private final ArrayList<String> tempadmins = new ArrayList<>();
     TextView rgbuttontxt;
     EditText emaillg, passlg;
@@ -39,10 +42,15 @@ public class loginactivity extends AppCompatActivity {
     TextView forgotPassword;
     private DatabaseReference tempadminsref1;
     FirebaseAuth auth;
+    private boolean isUserLoggedIn = false;
+    private ProgressDialog progressDialog;
+    private String userType = "";
 
     @Override
     protected void onStart() {
         super.onStart();
+        admins.add("abcd1234@gmail.com");
+        admins.add("saleem1712005@gmail.com");
 
         tempadminsref1 = FirebaseDatabase.getInstance().getReference().child("tempadmin1");
         tempadminsref1.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -60,15 +68,16 @@ public class loginactivity extends AppCompatActivity {
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
+                    isUserLoggedIn = true;
                     String userEmail = user.getEmail();
-                    if (userEmail.equals(adminemail)) {
-                        startActivity(new Intent(loginactivity.this, Adminactivity.class));
+                    if (admins.contains(userEmail)) {
+                        userType = "admin";
                     } else if (tempadmins.contains(userEmail)) {
-                        startActivity(new Intent(loginactivity.this, tempadminmainactivity.class));
+                        userType = "tempadmin";
                     } else {
-                        startActivity(new Intent(loginactivity.this, MainActivity.class));
+                        userType = "user";
                     }
-                    finish();
+                    redirectLoggedInUser();
                 }
             }
 
@@ -77,6 +86,26 @@ public class loginactivity extends AppCompatActivity {
                 Toast.makeText(loginactivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void redirectLoggedInUser() {
+        if (isUserLoggedIn) {
+            Intent intent;
+            switch (userType) {
+                case "admin":
+                    intent = new Intent(loginactivity.this, Adminactivity.class);
+                    break;
+                case "tempadmin":
+                    intent = new Intent(loginactivity.this, tempadminmainactivity.class);
+                    break;
+                default:
+                    intent = new Intent(loginactivity.this, MainActivity.class);
+                    break;
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            progressDialog.dismiss();
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -89,6 +118,9 @@ public class loginactivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         login = findViewById(R.id.btnlg);
         forgotPassword = findViewById(R.id.forget_password);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Logging in, please wait...");
+        progressDialog.setCancelable(false);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,38 +131,31 @@ public class loginactivity extends AppCompatActivity {
                     Toast.makeText(loginactivity.this, "Enter All details", Toast.LENGTH_SHORT).show();
                 } else if (pass1.length() < 6) {
                     Toast.makeText(loginactivity.this, "Incorrect Password ", Toast.LENGTH_SHORT).show();
-                } else if (email1.equals(adminemail)) {
-                    auth.signInWithEmailAndPassword(adminemail, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(loginactivity.this, Adminactivity.class));
-                                finish();
-                            } else {
-                                Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
                 } else {
+                    progressDialog.show();
                     auth.signInWithEmailAndPassword(email1, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                if (user != null) {
-                                    String userEmail = user.getEmail();
-                                    if (tempadmins.contains(userEmail)) {
-                                        Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(loginactivity.this, tempadminmainactivity.class));
-                                    } else {
-                                        Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(loginactivity.this, MainActivity.class));
-                                    }
-                                    finish();
+                                Toast.makeText(loginactivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                                isUserLoggedIn = true;
+                                if (admins.contains(email1)) {
+                                    userType = "admin";
+                                } else if (tempadmins.contains(email1)) {
+                                    userType = "tempadmin";
+                                } else {
+                                    userType = "user";
                                 }
+                                redirectLoggedInUser();
                             } else {
-                                Toast.makeText(loginactivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+
+                                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(loginactivity.this, "Invalid password or Email. Please try again.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(loginactivity.this, "Login failed " , Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
                     });

@@ -19,12 +19,12 @@ public class User {
 
     }
 
-    public User(String name, String email, String phno,String Collegename,String userid) {
+    public User(String name, String email, String phno,String userid) {
         this.name = name;
         this.email = email;
         this.phno=phno;
         this.userid=userid;
-        this.collegename=Collegename;
+
     }
 
     public String getProfileuri() {

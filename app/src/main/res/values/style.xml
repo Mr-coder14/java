@@ -4,4 +4,5 @@
     <style name="CustomProgressBar" parent="Widget.AppCompat.ProgressBar">
         <item name="android:indeterminateTint">@color/white</item>
     </style>
+
 </resources>

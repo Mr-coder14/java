@@ -71,28 +71,7 @@
                     android:textColor="#707070"
                     android:textColorHint="@color/black"
                     android:textSize="18sp" />
-                <TextView
-                    android:id="@+id/textView9df"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="College Name"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-                <Spinner
-                    android:id="@+id/clgname"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:hint="Enter Your College Name"
-                    android:spinnerMode="dropdown"
-                    android:textSize="18sp"
-                    android:textColor="#707070"
-                    android:textColorHint="@color/black"
-                    android:entries="@array/college_names_array" />
+
 
                 <TextView
                     android:id="@+id/textView78"

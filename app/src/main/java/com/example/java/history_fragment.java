@@ -191,7 +191,8 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
 
         List<BannerItem> banners = new ArrayList<>();
         banners.add(new BannerItem("Combo Offer!", "Blue Pen-3,Black-1", "Buy Now", Color.parseColor("#FFE4E1"),R.drawable.pencombo ));
-        banners.add(new BannerItem("Combo Offer!", "Tip Pencil,Box,Scale,Eraser", "Shop Now", Color.parseColor("#E1F5FE"),R.drawable.pencilcombo ));
+        banners.add(new BannerItem("Combo Offer!", "Tip Pencil,Box,Scale,Eraser", "Shop Now", Color.parseColor("#E1F5FE"), R.drawable.pencilcombo));
+        banners.add(new BannerItem("Drafter Combo","Drafter,A3 Note","Get Now",Color.parseColor("#f0df60"),R.drawable.drafte1));
         BannerAdapter bannerAdapter = new BannerAdapter(banners,this);
         bannerViewPager.setAdapter(bannerAdapter);
 
@@ -250,8 +251,10 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     public void onBannerClick(BannerItem bannerItem) {
         if(bannerItem.getButtonText().equals("Buy Now")){
             startActivity(new Intent(getContext(),ComboOfferpen.class));
-        }else {
+        }else if(bannerItem.getButtonText().equals("Shop Now")){
             startActivity(new Intent(getContext(), Combopencil.class));
+        }else {
+            startActivity(new Intent(getContext(),ComboDrafter.class));
         }
 
     }
