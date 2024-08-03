@@ -47,9 +47,9 @@ public class ComboDrafter extends AppCompatActivity {
             }
         });
 
-        productDetailsList.add(new ProductDetails("Drafter ","280",R.drawable.stylishpenblue,1));
-        productDetailsList.add(new ProductDetails("A3 Note","140",R.drawable.stylishblackpen,1));
-        cpmbofferpen=new ProductDetails("Combo Offer  Drafter,A3 Note","420",R.drawable.pencombo,1);
+        productDetailsList.add(new ProductDetails("Drafter ","280",R.drawable.drafte1,1));
+        productDetailsList.add(new ProductDetails("A3 Note","140",R.drawable.athreenotee,1));
+        cpmbofferpen=new ProductDetails("Combo Offer  Drafter,A3 Note","420",R.drawable.draftercombo,1);
         updateEmptyCartMessage();
 
         adaptor = new mylistcombopenadaptor(productDetailsList, this);

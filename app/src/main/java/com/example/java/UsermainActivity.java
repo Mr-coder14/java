@@ -1,15 +1,13 @@
 package com.example.java;
 
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -18,8 +16,7 @@ import com.google.firebase.appcheck.FirebaseAppCheck;
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
 
-
-public class MainActivity extends AppCompatActivity {
+public class UsermainActivity extends AppCompatActivity {
     private int PERMISSION_REQUEST_CODE=100;
     private BottomNavigationView bottomNavigationView;
     private Fragment fragment;
@@ -28,12 +25,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        bottomNavigationView=findViewById(R.id.bottomappbar);
+        setContentView(R.layout.activity_usermain);
+        bottomNavigationView=findViewById(R.id.bottomappbarm);
         auth=FirebaseAuth.getInstance();
         fragment=new home_fragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containerm,fragment).commit();
         checkPermissions();
 
         FirebaseApp.initializeApp(/*context=*/ this);
@@ -41,23 +37,7 @@ public class MainActivity extends AppCompatActivity {
         firebaseAppCheck.installAppCheckProviderFactory(
                 PlayIntegrityAppCheckProviderFactory.getInstance());
 
-       /* FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            return;
-                        }
 
-                        // Get new FCM registration token
-                        String token = task.getResult();
-
-
-                        String msg = token;
-                        Log.e("token",token);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });*/
 
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -66,25 +46,30 @@ public class MainActivity extends AppCompatActivity {
                 int id=item.getItemId();
                 if(id==R.id.Homebottom){
                     fragment=new home_fragment();
+
                 }
                 if(id==R.id.Historybottom){
                     fragment=new history_fragment();
+
                 }
                 if(id==R.id.profilebottom)
                 {
                     fragment = new profile_fragment();
+
                 }
-                if(fragment!=null)
-                {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+                if(fragment!=null) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containerm, fragment).commit();
                     return true;
                 }
                 else {
                     return false;
                 }
+
+
+
             }
         });
-}
+    }
     private boolean checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
@@ -99,4 +84,4 @@ public class MainActivity extends AppCompatActivity {
     public void selectBottomNavItem(int historybottom) {
         bottomNavigationView.setSelectedItemId(historybottom);
     }
-}
+    }

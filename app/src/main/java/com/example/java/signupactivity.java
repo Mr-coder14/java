@@ -64,7 +64,7 @@ public class signupactivity extends AppCompatActivity {
                 startActivity(new Intent(signupactivity.this,tempadminmainactivity.class));
                 finish();
             } else {
-                startActivity(new Intent(signupactivity.this, MainActivity.class));
+                startActivity(new Intent(signupactivity.this, UsermainActivity.class));
                 finish();
             }
 
@@ -148,7 +148,7 @@ public class signupactivity extends AppCompatActivity {
                         }
                         else {
                             usersRef.child(userId).setValue(newUser);
-                            intent = new Intent(signupactivity.this, MainActivity.class);
+                            intent = new Intent(signupactivity.this, UsermainActivity.class);
                         }
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,12 +41,9 @@ public class SplashActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         tempadminsref = FirebaseDatabase.getInstance().getReference().child("tempadmin");
-
+        Toast.makeText(this, "splashactivity", Toast.LENGTH_SHORT).show();
 
         loadTempAdmins();
-
-
-        new Handler().postDelayed(this::checkUserAndRedirect, SPLASH_DURATION);
     }
 
     private void loadTempAdmins() {
@@ -61,32 +59,39 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }
                 }
+                // Move the checkUserAndRedirect call here
+                new Handler().postDelayed(() -> checkUserAndRedirect(), SPLASH_DURATION);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle error if needed
+                // Still proceed to check user and redirect
+                new Handler().postDelayed(() -> checkUserAndRedirect(), SPLASH_DURATION);
             }
         });
     }
 
     private void checkUserAndRedirect() {
         FirebaseUser currentUser = auth.getCurrentUser();
-        Intent intent = null;
+        Intent intent;
         if (currentUser != null) {
             String userEmail = currentUser.getEmail();
             if (userEmail != null) {
                 if (userEmail.equals(adminEmail)) {
-                    intent=new Intent(SplashActivity.this, Adminactivity.class);
+                    intent = new Intent(SplashActivity.this, Adminactivity.class);
                 } else if (tempadmins.contains(userEmail)) {
-                    intent=new Intent(SplashActivity.this, tempadminmainactivity.class);
+                    intent = new Intent(SplashActivity.this, tempadminmainactivity.class);
                 } else {
 
-                    intent=new Intent(SplashActivity.this, MainActivity.class);
+                    intent = new Intent(SplashActivity.this, UsermainActivity.class);
+
                 }
+            } else {
+                intent = new Intent(SplashActivity.this, loginactivity.class);
             }
         } else {
-            intent=new Intent(SplashActivity.this, loginactivity.class);
+            intent = new Intent(SplashActivity.this, loginactivity.class);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

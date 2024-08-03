@@ -22,7 +22,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -66,19 +65,7 @@ public class loginactivity extends AppCompatActivity {
                     }
                 }
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    isUserLoggedIn = true;
-                    String userEmail = user.getEmail();
-                    if (admins.contains(userEmail)) {
-                        userType = "admin";
-                    } else if (tempadmins.contains(userEmail)) {
-                        userType = "tempadmin";
-                    } else {
-                        userType = "user";
-                    }
-                    redirectLoggedInUser();
-                }
+
             }
 
             @Override
@@ -98,7 +85,7 @@ public class loginactivity extends AppCompatActivity {
                     intent = new Intent(loginactivity.this, tempadminmainactivity.class);
                     break;
                 default:
-                    intent = new Intent(loginactivity.this, MainActivity.class);
+                    intent = new Intent(loginactivity.this, UsermainActivity.class);
                     break;
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

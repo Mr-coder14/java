@@ -264,15 +264,15 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
         drawerLayout.closeDrawer(GravityCompat.START);
         int itemid = item.getItemId();
         if (itemid == R.id.nav_home) {
-            return true;
+            return false;
         } else if (itemid == R.id.nav_profile) {
-            ((MainActivity) getActivity()).selectBottomNavItem(R.id.profilebottom);
+            ((UsermainActivity) getActivity()).selectBottomNavItem(R.id.profilebottom);
             return true;
         } else if (itemid == R.id.nav_logout) {
             logout();
             return true;
         } else if (itemid == R.id.nav_history) {
-            ((MainActivity) getActivity()).selectBottomNavItem(R.id.Historybottom);
+            ((UsermainActivity) getActivity()).selectBottomNavItem(R.id.Historybottom);
             return true;
         }
         return false;

@@ -192,7 +192,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         List<BannerItem> banners = new ArrayList<>();
         banners.add(new BannerItem("Combo Offer!", "Blue Pen-3,Black-1", "Buy Now", Color.parseColor("#FFE4E1"),R.drawable.pencombo ));
         banners.add(new BannerItem("Combo Offer!", "Tip Pencil,Box,Scale,Eraser", "Shop Now", Color.parseColor("#E1F5FE"), R.drawable.pencilcombo));
-        banners.add(new BannerItem("Drafter Combo","Drafter,A3 Note","Get Now",Color.parseColor("#f0df60"),R.drawable.drafte1));
+        banners.add(new BannerItem("Drafter Combo","Drafter,A3 Note","Get Now",Color.parseColor("#f0df60"),R.drawable.draftercombo));
         BannerAdapter bannerAdapter = new BannerAdapter(banners,this);
         bannerViewPager.setAdapter(bannerAdapter);
 
@@ -203,19 +203,19 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     private void updateCartBadge(int itemCount) {
         View view = getView();
         if (view == null) {
-            // The fragment's view is not available, so we can't update the badge
+
             return;
         }
 
         View cartIconWithBadge = view.findViewById(R.id.cart_icon_with_badge);
         if (cartIconWithBadge == null) {
-            // The cart icon view is not found, log an error or handle appropriately
+
             return;
         }
 
         TextView badgeTextView = cartIconWithBadge.findViewById(R.id.cart_badge);
         if (badgeTextView == null) {
-            // The badge TextView is not found, log an error or handle appropriately
+
             return;
         }
 
@@ -242,7 +242,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
+
             }
         });
     }

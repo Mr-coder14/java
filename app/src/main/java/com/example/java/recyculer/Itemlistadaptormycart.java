@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.java.ComboDrafter;
 import com.example.java.ComboOfferpen;
 import com.example.java.Combopencil;
 import com.example.java.Mycart;
@@ -69,6 +70,10 @@ public class Itemlistadaptormycart extends RecyclerView.Adapter<Itemlistadaptorm
                         intent.putExtra("comboProduct", p);
                         activity.startActivity(intent);
 
+                    } else if (p.getProductimage()==R.drawable.draftercombo) {
+                        Intent intent = new Intent(activity, ComboDrafter.class);
+                        intent.putExtra("comboProduct", p);
+                        activity.startActivity(intent);
                     } else {
                         Intent intent=new Intent(activity, Productpreviewa.class);
                         intent.putExtra("product",p);
