@@ -1,5 +1,6 @@
 package com.example.java;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -30,21 +31,21 @@ import java.util.ArrayList;
 
 public class signupactivity extends AppCompatActivity {
     String adminEmail = "abcd1234@gmail.com";
-    private ArrayList<String> tempadmins=new ArrayList<>();
-
+    private ArrayList<String> tempadmins = new ArrayList<>();
+    private ProgressDialog progressDialog;
     String tempadminemail;
 
     @Override
     public void onStart() {
         super.onStart();
         DatabaseReference tempadminsref;
-        tempadminsref =FirebaseDatabase.getInstance().getReference().child("tempadmin");
+        tempadminsref = FirebaseDatabase.getInstance().getReference().child("tempadmin");
         tempadminsref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                        tempadminemail =dataSnapshot.child("email").getValue(String.class);
+                if (snapshot.exists()) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        tempadminemail = dataSnapshot.child("email").getValue(String.class);
                         tempadmins.add(tempadminemail);
                     }
                 }
@@ -60,8 +61,8 @@ public class signupactivity extends AppCompatActivity {
             if (currentUser.getEmail().equals(adminEmail)) {
                 startActivity(new Intent(signupactivity.this, Adminactivity.class));
                 finish();
-            }else if(tempadmins.contains(currentUser.getEmail())){
-                startActivity(new Intent(signupactivity.this,tempadminmainactivity.class));
+            } else if (tempadmins.contains(currentUser.getEmail())) {
+                startActivity(new Intent(signupactivity.this, tempadminmainactivity.class));
                 finish();
             } else {
                 startActivity(new Intent(signupactivity.this, UsermainActivity.class));
@@ -72,18 +73,15 @@ public class signupactivity extends AppCompatActivity {
     }
 
     EditText email, pass, confirmPass, name, phone;
-
     Button register;
-
     private DatabaseReference tempadminsref1;
     FirebaseAuth auth;
-    DatabaseReference usersRef,adminsref;
+    DatabaseReference usersRef, adminsref;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signupactivity);
-
 
         email = findViewById(R.id.editTextemail);
         pass = findViewById(R.id.editTextpassword);
@@ -95,10 +93,12 @@ public class signupactivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference("users");
-        adminsref=FirebaseDatabase.getInstance().getReference().child("admins");
-        tempadminsref1=FirebaseDatabase.getInstance().getReference().child("tempadmin1");
+        adminsref = FirebaseDatabase.getInstance().getReference().child("admins");
+        tempadminsref1 = FirebaseDatabase.getInstance().getReference().child("tempadmin1");
 
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Registering...");
+        progressDialog.setCancelable(true);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,44 +109,45 @@ public class signupactivity extends AppCompatActivity {
                 String userPhone = phone.getText().toString();
                 String userConfirmPass = confirmPass.getText().toString();
 
-
-                if (TextUtils.isEmpty(userEmail) || TextUtils.isEmpty(userPass) || TextUtils.isEmpty(userConfirmPass) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(userPhone) ) {
+                if (TextUtils.isEmpty(userEmail) || TextUtils.isEmpty(userPass) || TextUtils.isEmpty(userConfirmPass) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(userPhone)) {
                     Toast.makeText(signupactivity.this, "Enter all details", Toast.LENGTH_SHORT).show();
                 } else if (userPass.length() < 6) {
                     Toast.makeText(signupactivity.this, "Password should be minimum 6 characters", Toast.LENGTH_SHORT).show();
                 } else if (!userPass.equals(userConfirmPass)) {
                     Toast.makeText(signupactivity.this, "Enter same passwords", Toast.LENGTH_SHORT).show();
-                } else if (userEmail.equals(adminEmail)) {
-                    createUser(adminEmail, userPass, userName, userPhone, true,false);
-                }else if(tempadmins.contains(userEmail)){
-                    createUser(userEmail,userPass,userName,userPhone,false,true);
-                }
-                else {
-                    createUser(userEmail, userPass, userName, userPhone, false,false);
+                } else {
+                    progressDialog.show();
+                    if (userEmail.equals(adminEmail)) {
+                        createUser(adminEmail, userPass, userName, userPhone, true, false);
+                    } else if (tempadmins.contains(userEmail)) {
+                        createUser(userEmail, userPass, userName, userPhone, false, true);
+                    } else {
+                        createUser(userEmail, userPass, userName, userPhone, false, false);
+                    }
                 }
             }
         });
     }
 
-    private void createUser(final String email, String password, final String name, final String phone, final boolean isAdmin,final boolean istempadmin) {
+    private void createUser(final String email, String password, final String name, final String phone, final boolean isAdmin, final boolean istempadmin) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(signupactivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                progressDialog.dismiss();
                 if (task.isSuccessful()) {
                     FirebaseUser user = auth.getCurrentUser();
                     if (user != null) {
                         String userId = user.getUid();
-                        User newUser = new User(name, email, phone,userId);
+                        User newUser = new User(name, email, phone, userId);
                         Toast.makeText(signupactivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
                         Intent intent;
                         if (isAdmin) {
                             adminsref.child(userId).setValue(newUser);
                             intent = new Intent(signupactivity.this, Adminactivity.class);
-                        } else if(istempadmin) {
+                        } else if (istempadmin) {
                             tempadminsref1.child(userId).setValue(newUser);
-                            intent=new Intent(signupactivity.this, tempadminmainactivity.class);
-                        }
-                        else {
+                            intent = new Intent(signupactivity.this, tempadminmainactivity.class);
+                        } else {
                             usersRef.child(userId).setValue(newUser);
                             intent = new Intent(signupactivity.this, UsermainActivity.class);
                         }
@@ -158,12 +159,13 @@ public class signupactivity extends AppCompatActivity {
                     if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                         Toast.makeText(signupactivity.this, "An account with this email already exists. Please log in instead.", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(signupactivity.this, "Registration failed " , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(signupactivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
     }
+
     private InputFilter phoneNumberFilter() {
         return new InputFilter() {
             @Override

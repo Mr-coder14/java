@@ -38,6 +38,7 @@ public class Mycart extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageButton back, deleteButton;
     private Itemlistadaptormycart adaptor;
+    private int totalAmount;
     private ArrayList<ProductDetails> productDetailsList;
     private TextView emptymsg,subtotal, feedelivery, total;
     private DatabaseReference databaseReference,orderrefrence,userref;
@@ -184,50 +185,53 @@ public class Mycart extends AppCompatActivity {
                 if (productDetailsList.isEmpty()) {
                     Toast.makeText(Mycart.this, "No Item To Checkout", Toast.LENGTH_SHORT).show();
                 } else {
+                    if (totalAmount >= 50) {
 
-                    String orderId = generateOrderId();
+                        String orderId = generateOrderId();
 
-                    if (orderId != null) {
+                        if (orderId != null) {
 
-                        DatabaseReference newOrderRef = orderrefrence.child(orderId);
-
-
-                        Map<String, Object> orderItems = new HashMap<>();
+                            DatabaseReference newOrderRef = orderrefrence.child(orderId);
 
 
-                        for (ProductDetails item : productDetailsList) {
-                            orderItems.put(item.getKey(), item);
-                        }
+                            Map<String, Object> orderItems = new HashMap<>();
 
 
-                        orderItems.put("orderTotal", total.getText().toString());
-                        orderItems.put("orderTimestamp", ServerValue.TIMESTAMP);
-                        orderItems.put("username",username);
-                        orderItems.put("phno",phno);
-                        orderItems.put("notes",note);
-                        orderItems.put("odered",true);
-                        orderItems.put("delivered",false);
-
-
-                        newOrderRef.setValue(orderItems).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-
-                                    databaseReference.removeValue();
-                                    productDetailsList.clear();
-                                    adaptor.notifyDataSetChanged();
-                                    updateEmptyCartMessage();
-
-                                    startActivity(new Intent(Mycart.this, suceesanimation.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(Mycart.this, "Failed to place order. Please try again.", Toast.LENGTH_SHORT).show();
-                                }
+                            for (ProductDetails item : productDetailsList) {
+                                orderItems.put(item.getKey(), item);
                             }
-                        });
-                    } else {
-                        Toast.makeText(Mycart.this, "Failed to generate order ID. Please try again.", Toast.LENGTH_SHORT).show();
+
+
+                            orderItems.put("orderTotal", total.getText().toString());
+                            orderItems.put("orderTimestamp", ServerValue.TIMESTAMP);
+                            orderItems.put("username", username);
+                            orderItems.put("phno", phno);
+                            orderItems.put("notes", note);
+                            orderItems.put("odered", true);
+                            orderItems.put("delivered", false);
+
+                            newOrderRef.setValue(orderItems).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+
+                                        databaseReference.removeValue();
+                                        productDetailsList.clear();
+                                        adaptor.notifyDataSetChanged();
+                                        updateEmptyCartMessage();
+
+                                        startActivity(new Intent(Mycart.this, suceesanimation.class));
+                                        finish();
+                                    } else {
+                                        Toast.makeText(Mycart.this, "Failed to place order. Please try again.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } else {
+                            Toast.makeText(Mycart.this, "Failed to generate order ID. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(Mycart.this, "The Minimum Order Should be 50 Rupees", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -241,7 +245,7 @@ public class Mycart extends AppCompatActivity {
             subTotalAmount += item.getQty() * a;
         }
 
-        int totalAmount = subTotalAmount + deliveryFee;
+        totalAmount = subTotalAmount + deliveryFee;
 
         subtotal.setText("₹" + subTotalAmount);
         feedelivery.setText("₹" + deliveryFee);

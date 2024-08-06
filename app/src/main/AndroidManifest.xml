@@ -21,16 +21,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Java"
+        android:theme="@style/Base.Theme.Java"
         tools:targetApi="34">
         <activity
             android:name=".ordeersactivityadmin"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".oderspreviewadmin"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".UsermainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.Java"
             android:exported="false" />
         <activity
             android:name=".ComboDrafter"

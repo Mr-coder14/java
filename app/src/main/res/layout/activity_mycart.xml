@@ -107,10 +107,13 @@
             android:textSize="15sp"
             android:fontFamily="@font/plus"
             android:id="@+id/notesmycart"/>
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="37dp"
+            android:background="@drawable/button_background"
             android:text="Add"
+            android:textColor="@color/white"
+            android:fontFamily="@font/plus"
             android:gravity="center"
             android:id="@+id/addnotes"/>
     </LinearLayout>
@@ -208,7 +211,7 @@
 
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/plus"

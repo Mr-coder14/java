@@ -54,11 +54,104 @@
         android:id="@+id/notesuser"
         android:background="@drawable/whitebg_profile"
         android:elevation="5dp"
+        android:fontFamily="@font/plus"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:hint="Add Some Notes"
-        android:layout_margin="10dp"
+        android:layout_margin="16dp"
         android:padding="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        android:background="@drawable/whitebg_profile"
+        android:elevation="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/lato"
+                android:textSize="16sp"
+                android:text="Subtotal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/subtotal1"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:fontFamily="@font/lato"
+                android:text="₹0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:textSize="16sp"
+                android:fontFamily="@font/lato"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delivery Fee"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="16sp"
+                android:id="@+id/feedelivery1"
+                android:fontFamily="@font/lato"
+                android:layout_height="wrap_content"
+                android:text="₹15"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="#E6DEDE"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="19sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/lato"
+                android:layout_weight="1"
+                android:text="Total"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:fontFamily="@font/lato"
+                android:id="@+id/total1"
+                android:text="₹0"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -99,6 +99,13 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         String uuidString = uuid.toString().replaceAll("-", "");
         return uuidString.substring(0, Math.min(uuidString.length(), 10));
     }
+    public float calculateTotalAmount() {
+        float total = 0;
+        for (PDFDetails details : pdfDetailsList) {
+            total += Float.parseFloat(details.getFinalmat());
+        }
+        return total;
+    }
 
 
 
@@ -319,7 +326,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView fileNameTextView;
         private ImageView pdfThumbnail;
-        private TextView  pg, amt1, qtyno, qtytxt1, perpageamt, deliveryamt, colortxt,finalamt;
+        private TextView  pg, amt1, qtyno, qtytxt1, perpageamt, colortxt,finalamt;
 
         private EditText qty;
         private int currentPdfIndex = 0;
@@ -358,7 +365,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             perpageamt = itemView.findViewById(R.id.perpageamtadmin);
             plus = itemView.findViewById(R.id.addqtyadmin);
             qtyno = itemView.findViewById(R.id.qtynoadmin);
-            deliveryamt = itemView.findViewById(R.id.deliveryamt1admin);
             minus = itemView.findViewById(R.id.minusqtyadmin);
             pdfThumbnail = itemView.findViewById(R.id.pdfViewadmin);
             colortxt = itemView.findViewById(R.id.colorfontadmin);
@@ -390,13 +396,14 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
                     }
 
-                    amtperqty= perpage * pgsam + delivercharge;
-                    pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
-                    pdfDetailsList.get(position).setDeliverycharge(String.valueOf(delivercharge));
-
-
-
+                    amtperqty = perpage * pgsam;
                     finalamount = perpage * pgsam * count;
+                    pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
+
+
+
+
+
 
                     if (ratios.equals("1:1") && formats.equals("Front Only") && pgsam > 50) {
                         float discount = 0.05f * finalamount;
@@ -410,7 +417,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
 
 
-                    finalamount += delivercharge;
                     setamt();
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -419,11 +425,9 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 String amt1Text = amt1.getText().toString().replaceAll("[^\\d.]", "");
                 perpage=15.0f;
                 pdfDetailsList.get(position).setPerpage(String.valueOf(15.0));
-                amtperqty=perpage * pgsam + delivercharge;
+                amtperqty = perpage * pgsam;
                 finalamount = perpage * pgsam * count;
-                finalamount += delivercharge;
                 pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
-                pdfDetailsList.get(position).setDeliverycharge(String.valueOf(delivercharge));
                 setamt();
 
 
@@ -433,9 +437,8 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         }
 
         private void setamt() {
-            deliveryamt.setText(String.format("₹ %.2f", delivercharge));
+
             perpageamt.setText(String.format("%.2f", perpage));
-            pdfDetailsList.get(currentPdfIndex).setDeliverycharge(String.valueOf(delivercharge));
             pdfDetailsList.get(currentPdfIndex).setPerpage(String.valueOf(perpage));
             finalamt.setText(String.format("₹ %.2f", finalamount));
             amt1.setText(String.format("₹ %.2f", amtperqty));
@@ -486,20 +489,18 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         private void loadWordInfo(Uri uri, String fileName, int position) {
             try {
                 InputStream inputStream = context.getContentResolver().openInputStream(uri);
-                int pageCount = 1; // Default to 1 page if we can't determine the count
+                int pageCount = 1;
 
                 try {
-                    // Try to open as OOXML (.docx) file
+
                     XWPFDocument document = new XWPFDocument(inputStream);
                     pageCount = document.getProperties().getExtendedProperties().getUnderlyingProperties().getPages();
                     document.close();
                 } catch (org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException e) {
-                    // If it's an OLE2 file (.doc), we can't get the page count easily
-                    // So we'll just use a default value or estimate based on file size
                     inputStream.close();
                     inputStream = context.getContentResolver().openInputStream(uri);
                     long fileSize = inputStream.available();
-                    // Rough estimate: assume 3KB per page
+
                     pageCount = (int) (fileSize / 3000) + 1;
                 }
 
@@ -512,7 +513,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 pdfThumbnail.setImageResource(R.drawable.pngegg);
 
                 updateamt(position);
-                float a = pgsam * perpage + delivercharge;
+                float a = pgsam * perpage ;
                 perpageamt.setText(String.valueOf(perpage));
                 amt1.setText("₹ " + a);
                 amtperqty = a;
@@ -539,7 +540,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 inputStream.close();
 
                 updateamt(position);
-                float a = pgsam * perpage + delivercharge;
+                float a = pgsam * perpage;
                 perpageamt.setText(String.valueOf(perpage));
                 amt1.setText("₹ " + a);
                 amtperqty = a;
@@ -567,7 +568,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 inputStream.close();
 
                 updateamt(position);
-                float a = pgsam * perpage + delivercharge;
+                float a = pgsam * perpage ;
                 perpageamt.setText(String.valueOf(perpage));
                 amt1.setText("₹ " + a);
                 amtperqty = a;
@@ -582,11 +583,11 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
                 pdfThumbnail.setImageBitmap(bitmap);
-                pg.setText("1"); // Images have only one page
+                pg.setText("1");
                 pgsam = 1;
                 pdfDetailsList.get(position).setPages("1");
                 updateamt(position);
-                float a = pgsam * perpage + delivercharge;
+                float a = pgsam * perpage ;
                 perpageamt.setText(String.valueOf(perpage));
                 amt1.setText("₹ " + a);
                 amtperqty = a;
@@ -618,7 +619,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 parcelFileDescriptor.close();
 
                 updateamt(position);
-                float a = pgsam * perpage + delivercharge;
+                float a = pgsam * perpage ;
                 perpageamt.setText(String.valueOf(perpage));
                 amt1.setText("₹ " + a);
                 amtperqty = a;

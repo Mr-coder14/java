@@ -1,11 +1,6 @@
 package com.example.java;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,6 +11,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.recyculer.pdflratelistApadtor;
 
@@ -25,6 +23,7 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
     private ArrayList<String> fileNames;
     private RecyclerView recyclerView1;
     private pdflratelistApadtor apadtor;
+    private float Deliverycharge;
     private  ArrayList<Uri> uris;
     private Activity activity;
     private ImageButton back;
@@ -35,7 +34,7 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
     private String orderid;
     private EditText notes;
     private Button Confirmorder;
-    private TextView grandamt;
+    private TextView grandamt,subtotal, feedelivery, total;
 
 
 
@@ -50,9 +49,13 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         activity=this;
         activity1=new preview_orderActivity();
         back=findViewById(R.id.back_btnuser12);
+        subtotal = findViewById(R.id.subtotal1);
+        feedelivery = findViewById(R.id.feedelivery1);
+        total = findViewById(R.id.total1);
 
         Confirmorder=findViewById(R.id.orderbtnuser12);
         grandamt=findViewById(R.id.grandamt);
+        Deliverycharge=15.0f;
         AppData appData = AppData.getInstance();
         uris = appData.getUris();
         fileNames = appData.getFileNames();
@@ -82,7 +85,11 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         apadtor=new pdflratelistApadtor(activity,uris,fileNames,orderid,pdfDetails,notesst);
         recyclerView1.setAdapter(apadtor);
         gt= apadtor.getGrandtotal();
-        grandamt.setText("₹ "+String.valueOf(gt));
+        subtotal.setText(String.format("₹ %.2f", gt));
+        feedelivery.setText(String.format("₹ %.2f", Deliverycharge));
+        Float tt=gt+Deliverycharge;
+        total.setText(String.format("₹ %.2f", tt));
+        grandamt.setText(String.format("₹ %.2f", tt));
 
 
 
