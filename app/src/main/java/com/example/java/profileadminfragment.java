@@ -128,7 +128,7 @@ public class profileadminfragment extends Fragment {
         allorders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), AllOrderstempadmin.class));
+                startActivity(new Intent(getContext(), orderslist.class));
             }
         });
 

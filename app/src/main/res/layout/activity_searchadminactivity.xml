@@ -23,8 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
-            android:text="Search User"
+            android:text="Search Admin"
             android:textColor="@color/white"
+            android:fontFamily="@font/lato"
             android:textSize="22sp"
             android:textStyle="bold"
             android:layout_toEndOf="@+id/back_btnadmin"/>
@@ -71,6 +72,7 @@
             android:elevation="4dp"
             android:hint="Username"
             android:imeOptions="actionSearch"
+            android:fontFamily="@font/plus"
             android:inputType="text"
             android:padding="10dp"
             android:textColor="@color/black"

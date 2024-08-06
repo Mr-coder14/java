@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.java.recyculer.OrderAdaptormadmin;
 import com.example.java.recyculer.ProductDetails;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,7 +42,7 @@ public class homeadminmain extends Fragment {
 
     private RecyclerView recyclerView;
     FirebaseAuth auth;
-    private OrderAdapter adapter;
+    private OrderAdaptormadmin adapter;
     private List<Order> orderList;
     FirebaseUser user;
     private EditText editText;
@@ -70,7 +71,7 @@ public class homeadminmain extends Fragment {
         user = auth.getCurrentUser();
         query = databaseReference.orderByChild("timestamp");
         orderList = new ArrayList<>();
-        adapter = new OrderAdapter(orderList,getContext());
+        adapter = new OrderAdaptormadmin(orderList,getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
