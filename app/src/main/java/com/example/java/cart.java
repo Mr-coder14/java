@@ -11,33 +11,37 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class cart {
-    private static cart instance;
+    private static Map<String, cart> instances = new HashMap<>();
     private FirebaseAuth auth;
     private String userid;
     private ArrayList<ProductDetails> items;
     private DatabaseReference databaseReference;
 
-    private cart() {
+    private cart(String userid) {
+        this.userid = userid;
         items = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
-        userid = auth.getCurrentUser().getUid();
-        if (userid != null) {
-            databaseReference = FirebaseDatabase.getInstance().getReference("userscart").child(userid);
-        }
+        databaseReference = FirebaseDatabase.getInstance().getReference("userscart").child(userid);
     }
 
     public static synchronized cart getInstance() {
-        if (instance == null) {
-            instance = new cart();
+        String userid = FirebaseAuth.getInstance().getUid();
+        if (userid == null) {
+            throw new IllegalStateException("User must be logged in to access cart");
         }
-        return instance;
+        if (!instances.containsKey(userid)) {
+            instances.put(userid, new cart(userid));
+        }
+        return instances.get(userid);
     }
 
-    public void removeItem(ProductDetails itemsToRemove) {
-        items.remove(itemsToRemove);
-        databaseReference.child(itemsToRemove.getKey()).removeValue();
+    public void removeItem(ProductDetails itemToRemove) {
+        items.remove(itemToRemove);
+        databaseReference.child(itemToRemove.getKey()).removeValue();
     }
 
     public void updateItem(ProductDetails product) {
@@ -92,6 +96,13 @@ public class cart {
 
     public void clear() {
         items.clear();
+    }
+
+    public static void clearInstance() {
+        String userid = FirebaseAuth.getInstance().getUid();
+        if (userid != null) {
+            instances.remove(userid);
+        }
     }
 
     public interface CartAddCallback {

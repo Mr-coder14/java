@@ -141,6 +141,7 @@ public class profile_fragment extends Fragment {
 
                 if (user != null) {
                     auth.signOut();
+                    cart.clearInstance();
                     Intent intent = new Intent(getContext(), loginactivity.class);
                     startActivity(intent);
                     getActivity().finish();

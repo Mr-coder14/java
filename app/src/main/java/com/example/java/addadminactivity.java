@@ -1,7 +1,5 @@
 package com.example.java;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,11 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class addadminactivity extends AppCompatActivity {
-    private EditText editText, Username,clg;
+    private EditText editText, Username;
     private Button btn;
     private DatabaseReference Databaserefrence;
     private ProgressDialog progressDialog;
@@ -26,7 +26,7 @@ public class addadminactivity extends AppCompatActivity {
 
         editText= findViewById(R.id.adminemailadd);
         Username =findViewById(R.id.usernameaddadmin);
-        clg=findViewById(R.id.collegeaddadmin);btn=findViewById(R.id.btnadd);
+        btn=findViewById(R.id.btnadd);
 
         Databaserefrence=FirebaseDatabase.getInstance().getReference().child("tempadmin");
 
@@ -35,8 +35,7 @@ public class addadminactivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = editText.getText().toString().trim();
                 String username1= Username.getText().toString();
-                String college1=clg.getText().toString();
-                if (!email.isEmpty() && !username1.isEmpty() && !college1.isEmpty()) {
+                if (!email.isEmpty() && !username1.isEmpty() ) {
                     progressDialog = new ProgressDialog(addadminactivity.this);
                     progressDialog.setMessage("Adding...");
                     progressDialog.setCancelable(false);
@@ -47,7 +46,6 @@ public class addadminactivity extends AppCompatActivity {
                         public void run() {
                             Databaserefrence.child(email.replace(".", ",")).child("email").setValue(email);
                             Databaserefrence.child(email.replace(".", ",")).child("name").setValue(username1);
-                            Databaserefrence.child(email.replace(".", ",")).child("college").setValue(college1);
                             progressDialog.dismiss();
                             editText.setText("");
                             Toast.makeText(addadminactivity.this, "Admin added successfully", Toast.LENGTH_SHORT).show();

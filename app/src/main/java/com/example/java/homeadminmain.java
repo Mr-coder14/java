@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,11 +22,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.java.recyculer.ProductDetails;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class homeadminmain extends Fragment {
@@ -32,11 +41,14 @@ public class homeadminmain extends Fragment {
 
     private RecyclerView recyclerView;
     FirebaseAuth auth;
+    private OrderAdapter adapter;
+    private List<Order> orderList;
     FirebaseUser user;
     private EditText editText;
     private DatabaseReference databaseReference;
     private Query query;
     private ProgressBar progressBar;
+    private TextView emptyOrdersText;
     private Handler debounceHandler = new Handler(Looper.getMainLooper());
     private Runnable searchRunnable;
 
@@ -44,17 +56,23 @@ public class homeadminmain extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_homeadminmain, container, false);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
+        databaseReference =  FirebaseDatabase.getInstance().getReference("userorders");
         recyclerView = view.findViewById(R.id.recyclerhomeadmin);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         progressBar = view.findViewById(R.id.progressbarhomeadmin);
+        emptyOrdersText = view.findViewById(R.id.emptyOrdersTextm);
         progressBar.setVisibility(View.VISIBLE);
         editText=view.findViewById(R.id.search_edit_textadmin);
+
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         query = databaseReference.orderByChild("timestamp");
+        orderList = new ArrayList<>();
+        adapter = new OrderAdapter(orderList,getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
 
 
 
@@ -80,9 +98,70 @@ public class homeadminmain extends Fragment {
 
             }
         });
+        fetchOrders();
 
         return view;
     }
+    private void fetchOrders() {
+        progressBar.setVisibility(View.VISIBLE);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                orderList.clear();
+                for(DataSnapshot ui : dataSnapshot.getChildren()) {
+                    for (DataSnapshot orderSnapshot : ui.getChildren()) {
+                        Boolean delivered = orderSnapshot.child("delivered").getValue(Boolean.class);
+
+                        if (delivered != null && !delivered) {
+                            String orderId = orderSnapshot.getKey();
+                            String orderTotal = orderSnapshot.child("orderTotal").getValue(String.class);
+                            Long orderTimestamp = orderSnapshot.child("orderTimestamp").getValue(Long.class);
+                            String username = orderSnapshot.child("username").getValue(String.class);
+                            String phno = orderSnapshot.child("phno").getValue(String.class);
+                            String notes = orderSnapshot.child("notes").getValue(String.class);
+                            Boolean ordered = orderSnapshot.child("odered").getValue(Boolean.class);
+
+                            List<ProductDetails> products = new ArrayList<>();
+                            for (DataSnapshot productSnapshot : orderSnapshot.getChildren()) {
+                                if (!productSnapshot.getKey().equals("orderTotal") &&
+                                        !productSnapshot.getKey().equals("orderTimestamp") &&
+                                        !productSnapshot.getKey().equals("username") &&
+                                        !productSnapshot.getKey().equals("phno") &&
+                                        !productSnapshot.getKey().equals("notes") &&
+                                        !productSnapshot.getKey().equals("odered") &&
+                                        !productSnapshot.getKey().equals("delivered")) {
+                                    ProductDetails product = productSnapshot.getValue(ProductDetails.class);
+                                    if (product != null) {
+                                        products.add(product);
+                                    }
+                                }
+                            }
+
+                            Order order = new Order(orderId, orderTotal, orderTimestamp, products, username, phno, notes, ordered, delivered);
+                            orderList.add(order);
+                        }
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+
+                if (orderList.isEmpty()) {
+                    emptyOrdersText.setVisibility(View.VISIBLE);
+                } else {
+                    emptyOrdersText.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Failed to load orders", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     }
 
 

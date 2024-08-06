@@ -205,6 +205,8 @@ public class Mycart extends AppCompatActivity {
                         orderItems.put("username",username);
                         orderItems.put("phno",phno);
                         orderItems.put("notes",note);
+                        orderItems.put("odered",true);
+                        orderItems.put("delivered",false);
 
 
                         newOrderRef.setValue(orderItems).addOnCompleteListener(new OnCompleteListener<Void>() {

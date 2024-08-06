@@ -1,7 +1,9 @@
 package com.example.java;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,32 +24,33 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class orderspreview extends AppCompatActivity {
+public class oderspreviewadmin extends AppCompatActivity {
     private TextView username,phno,total,orderid,date,ntotes,total1;
     private ImageView orderStatusImage, deliveredStatusImage;
     private RecyclerView productRecyclerView;
     private ImageButton backButton;
-    private Boolean delivered;
-    private DatabaseReference databaseReference;
+    private boolean delivered=false;
+    private DatabaseReference databaseReference,newchild;
+    private Button markasdelivered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orderspreview);
-        username=findViewById(R.id.orderedusername);
-        phno=findViewById(R.id.ordereduserphno);
-        total=findViewById(R.id.totalpriceorderpreview);
-        orderid=findViewById(R.id.orderidorderpreview);
-        date=findViewById(R.id.orderdateorderpreview);
+        setContentView(R.layout.activity_oderspreviewadmin);
+        username=findViewById(R.id.orderedusername1);
+        phno=findViewById(R.id.ordereduserphno1);
+        total=findViewById(R.id.totalpriceorderpreview1);
+        orderid=findViewById(R.id.orderidorderpreview1);
+        date=findViewById(R.id.orderdateorderpreview1);
+        ntotes=findViewById(R.id.notesorderpreview1);
+        total1=findViewById(R.id.totalorderpreview11);
+        backButton = findViewById(R.id.backbtnorderpreview1);
+        orderStatusImage = findViewById(R.id.handleimageorderorderpreview1);
+        deliveredStatusImage = findViewById(R.id.handleimagedeliveredorderpreview1);
+        productRecyclerView = findViewById(R.id.recyculervieworderpreview1);
+        markasdelivered=findViewById(R.id.markasdelivered);
         databaseReference= FirebaseDatabase.getInstance().getReference().child("userorders");
-        ntotes=findViewById(R.id.notesorderpreview);
-        total1=findViewById(R.id.totalorderpreview1);
-        backButton = findViewById(R.id.backbtnorderpreview);
-        orderStatusImage = findViewById(R.id.handleimageorderorderpreview);
-        deliveredStatusImage = findViewById(R.id.handleimagedeliveredorderpreview);
-        productRecyclerView = findViewById(R.id.recyculervieworderpreview);
-
-
+        newchild = FirebaseDatabase.getInstance().getReference().child("deliveredordersadmin");
         Order order = getIntent().getParcelableExtra("order");
         if (order != null) {
             displayOrderDetails(order);
@@ -62,32 +65,50 @@ public class orderspreview extends AppCompatActivity {
                 finish();
             }
         });
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        markasdelivered.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot snapshot1:snapshot.getChildren()){
-                        for(DataSnapshot qw:snapshot1.getChildren()){
-                            if(qw.getKey().equals(order.getOrderId())){
-                                delivered=qw.child("delivered").getValue(Boolean.class);
-                                if (delivered != null && delivered) {
-                                        deliveredStatusImage.setImageResource(R.drawable.tick);
-                                    }
+            public void onClick(View v) {
+                if(order!=null){
+                    delivered=true;
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                for (DataSnapshot orderSnapshot : userSnapshot.getChildren()) {
+                                    if (orderSnapshot.getKey().equals(order.getOrderId())) {
+                                        databaseReference.child(userSnapshot.getKey()).child(order.getOrderId()).child("delivered").setValue(delivered);
 
-                            }
+                                        newchild.child(order.getOrderId()).setValue(orderSnapshot.getValue()).addOnSuccessListener(aVoid -> {
+
+                                            startActivity(new Intent(oderspreviewadmin.this, Adminactivity.class));
+                                            finishAffinity();
+                                        }).addOnFailureListener(e -> {
+
+                                        });
+
+                                        return;
+
+
+
+
+                                    }}}
                         }
-                    }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 
 
     }
+
     private void displayOrderDetails(Order order) {
         if (order!=null) {
             username.setText(order.getUsername());
@@ -96,8 +117,6 @@ public class orderspreview extends AppCompatActivity {
             orderid.setText(order.getOrderId());
             date.setText(formatDate(order.getOrderTimestamp()));
             String notes = order.getNotes();
-
-
             ntotes.setText(notes != null && !notes.isEmpty() ? notes : "No Notes");
             total1.setText("Total: " + order.getOrderTotal());
 
@@ -113,5 +132,4 @@ public class orderspreview extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault());
         return sdf.format(new Date(timestamp));
     }
-
 }

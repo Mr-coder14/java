@@ -11,6 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,10 +22,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     private List<Order> orders;
     private Context context;
+    private FirebaseAuth mauth;
+    private FirebaseUser user;
+    private ArrayList<String> arrayList=new ArrayList<>();
 
     public OrderAdapter(List<Order> orders,Context context) {
         this.orders = orders;
         this.context=context;
+        mauth=FirebaseAuth.getInstance();
+        user=mauth.getCurrentUser();
+        arrayList.add("abcd1234@gmail.com");
     }
 
     @NonNull
@@ -37,9 +47,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, orderspreview.class);
-                intent.putExtra("order", order);
-                context.startActivity(intent);
+                if(arrayList.contains(user.getEmail())){
+                    Intent intent = new Intent(context, oderspreviewadmin.class);
+                    intent.putExtra("order", order);
+                    context.startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(context, orderspreview.class);
+                    intent.putExtra("order", order);
+                    context.startActivity(intent);
+                }
+
             }
         });
         holder.bind(order);

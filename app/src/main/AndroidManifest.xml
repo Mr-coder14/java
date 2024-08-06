@@ -24,6 +24,9 @@
         android:theme="@style/Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".oderspreviewadmin"
+            android:exported="false" />
+        <activity
             android:name=".UsermainActivity"
             android:exported="false" />
         <activity

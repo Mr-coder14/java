@@ -12,7 +12,8 @@ import java.util.List;
 
 public class Order implements Parcelable {
     private String orderId;
-    private String orderTotal,odered,delivered;
+    private String orderTotal;
+    private Boolean odered,delivered;
 
     public String getUsername() {
         return username;
@@ -41,28 +42,30 @@ public class Order implements Parcelable {
     private Long orderTimestamp;
     private String username,phno,notes;
 
-    public String getOdered() {
+    public Boolean getOdered() {
         return odered;
     }
 
-    public void setOdered(String odered) {
+    public void setOdered(Boolean odered) {
         this.odered = odered;
     }
 
-    public String getDelivered() {
+    public Boolean getDelivered() {
         return delivered;
     }
 
-    public void setDelivered(String delivered) {
+    public void setDelivered(Boolean delivered) {
         this.delivered = delivered;
     }
 
     private List<ProductDetails> products;
 
-    public Order(String orderId, String orderTotal, Long orderTimestamp, List<ProductDetails> products,String uername,String phno,String notes) {
+    public Order(String orderId, String orderTotal, Long orderTimestamp, List<ProductDetails> products,String uername,String phno,String notes,Boolean odered,Boolean delivered) {
         this.orderId = orderId;
         this.orderTotal = orderTotal;
         this.username=uername;
+        this.odered=odered;
+        this.delivered=delivered;
         this.notes=notes;
         this.phno=phno;
         this.orderTimestamp = orderTimestamp;

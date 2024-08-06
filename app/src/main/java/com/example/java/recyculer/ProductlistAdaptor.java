@@ -56,22 +56,26 @@ public class ProductlistAdaptor extends RecyclerView.Adapter<ProductlistAdaptor.
         holder.addtocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cart.getInstance().addItem(pd, new cart.CartAddCallback() {
-                    @Override
-                    public void onItemAlreadyExists() {
-                        Toast.makeText(context, "Item is already in the cart", Toast.LENGTH_SHORT).show();
-                    }
+                try {
+                    cart.getInstance().addItem(pd, new cart.CartAddCallback() {
+                        @Override
+                        public void onItemAlreadyExists() {
+                            Toast.makeText(context, "Item is already in the cart", Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onItemAdded() {
-                        Toast.makeText(context, "Product added to cart", Toast.LENGTH_SHORT).show();
-                    }
+                        @Override
+                        public void onItemAdded() {
+                            Toast.makeText(context, "Product added to cart", Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onItemAddFailed() {
-                        Toast.makeText(context, "Failed to add item to cart", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onItemAddFailed() {
+                            Toast.makeText(context, "Failed to add item to cart", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (IllegalStateException e) {
+                    Toast.makeText(context, "Please log in to add items to cart", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         holder.bind(pd);

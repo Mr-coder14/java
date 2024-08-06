@@ -76,16 +76,18 @@ public class OrdersActivity extends AppCompatActivity {
                     String username= orderSnapshot.child("username").getValue(String.class);
                     String phno=orderSnapshot.child("phno").getValue(String.class);
                     String notes=orderSnapshot.child("notes").getValue(String.class);
+                    Boolean ordred=orderSnapshot.child("odered").getValue(Boolean.class);
+                    Boolean delivered=orderSnapshot.child("delivered").getValue(Boolean.class);
 
                     List<ProductDetails> products = new ArrayList<>();
                     for (DataSnapshot productSnapshot : orderSnapshot.getChildren()) {
-                        if (!productSnapshot.getKey().equals("orderTotal") && !productSnapshot.getKey().equals("orderTimestamp") && !productSnapshot.getKey().equals("username") && !productSnapshot.getKey().equals("phno") && !productSnapshot.getKey().equals("notes")) {
+                        if (!productSnapshot.getKey().equals("orderTotal") && !productSnapshot.getKey().equals("orderTimestamp") && !productSnapshot.getKey().equals("username") && !productSnapshot.getKey().equals("phno") && !productSnapshot.getKey().equals("notes") && !productSnapshot.getKey().equals("odered") && !productSnapshot.getKey().equals("delivered")) {
                             ProductDetails product = productSnapshot.getValue(ProductDetails.class);
                             products.add(product);
                         }
                     }
 
-                    Order order = new Order(orderId, orderTotal, orderTimestamp, products,username,phno,notes);
+                    Order order = new Order(orderId, orderTotal, orderTimestamp, products, username, phno, notes,ordred,delivered);
                     orderList.add(order);
                 }
 

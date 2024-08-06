@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +40,6 @@ public class SplashActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         tempadminsref = FirebaseDatabase.getInstance().getReference().child("tempadmin");
-        Toast.makeText(this, "splashactivity", Toast.LENGTH_SHORT).show();
 
         loadTempAdmins();
     }
