@@ -36,6 +36,10 @@ public class OrderAdaptormadmin extends RecyclerView.Adapter<OrderAdaptormadmin.
         user=mauth.getCurrentUser();
         arrayList.add("abcd1234@gmail.com");
     }
+    public void updateList(List<Order> newList) {
+        orders = newList;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public OrderAdaptormadmin.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

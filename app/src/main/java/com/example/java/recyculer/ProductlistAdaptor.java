@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.java.BookFormApplication;
 import com.example.java.Productpreviewa;
 import com.example.java.R;
 import com.example.java.cart;
@@ -48,9 +49,14 @@ public class ProductlistAdaptor extends RecyclerView.Adapter<ProductlistAdaptor.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Productpreviewa.class);
-                intent.putExtra("product", pd);
-                context.startActivity(intent);
+                if(pd.getProductname().equals("Book Form")){
+                    context.startActivity(new Intent(context, BookFormApplication.class));
+                }else {
+                    Intent intent = new Intent(context, Productpreviewa.class);
+                    intent.putExtra("product", pd);
+                    context.startActivity(intent);
+                }
+
             }
         });
         holder.addtocart.setOnClickListener(new View.OnClickListener() {

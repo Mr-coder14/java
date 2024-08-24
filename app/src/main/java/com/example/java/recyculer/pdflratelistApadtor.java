@@ -17,16 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.java.Fileinmodel;
 import com.example.java.PDFDetails;
 import com.example.java.R;
-import com.example.java.suceesanimation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,6 +35,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
     private Context context;
     private ArrayList<Uri> uris;
     private ArrayList<String> fileNames;
+    private static final int UPI_PAYMENT_REQUEST_CODE = 1;
     private DatabaseReference databaseReference;
     ArrayList<PDFDetails> pdfDetails;
     private boolean orderd,delevried;
@@ -233,8 +231,9 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
 
                                                         if (allSuccessful) {
                                                             Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
-                                                            activity.startActivity(new Intent(activity, suceesanimation.class));
-                                                            activity.finish();
+                                                            openPhonePeToPay(grandtotal);
+                                                            //activity.startActivity(new Intent(activity, suceesanimation.class));
+                                                           // activity.finish();
                                                         } else {
                                                             Toast.makeText(context, "Upload unsuccessful for some files", Toast.LENGTH_SHORT).show();
                                                         }
@@ -288,6 +287,65 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                     }
                 });
             }
+        }
+
+        private void openGooglePayToPay(Float totalAmount) {
+            String upiId = "mukilan895-3@oksbi";  // Replace with the correct UPI ID
+            String name = "Parmugilan";  // Replace with the recipient's name
+            String note = "Pay the amount to confirm the order";  // Payment note
+            String currency = "INR";  // Currency code
+            String amount = String.format("%.2f", totalAmount);  // Amount to pay
+
+            Uri uri = Uri.parse("upi://pay?pa=" + upiId +
+                    "&pn=" + name +
+                    "&tn=" + note +
+                    "&am=" + amount +
+                    "&cu=" + currency +
+                    "&mode=07");  // mode=02 can be used to force select bank account
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.google.android.apps.nbu.paisa.user");
+
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+            } else {
+                showError("Google Pay is not installed on your device.");
+            }
+        }
+        private void openPhonePeToPay(Float totalAmount) {
+            String upiId = "mukilan895-3@oksbi";  // Replace with the correct UPI ID
+            String name = "Parmugilan";  // Replace with the recipient's name
+            String note = "Pay the amount to confirm the order";  // Payment note
+            String currency = "INR";  // Currency code
+            String amount = String.format("%.2f", totalAmount);  // Amount to pay
+
+            Uri uri = Uri.parse("upi://pay?pa=" + upiId +
+                    "&pn=" + name +
+                    "&tn=" + note +
+                    "&am=" + amount +
+                    "&cu=" + currency);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.phonepe.app");
+
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+            } else {
+                showError("PhonePe is not installed on your device.");
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        private void showError(String message) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         }
 
     }

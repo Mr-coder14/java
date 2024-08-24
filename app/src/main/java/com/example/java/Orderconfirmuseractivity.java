@@ -1,6 +1,7 @@
 package com.example.java;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -37,7 +38,9 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
     private TextView grandamt,subtotal, feedelivery, total;
 
 
+    public  Orderconfirmuseractivity(){
 
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +90,7 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         gt= apadtor.getGrandtotal();
         subtotal.setText(String.format("₹ %.2f", gt));
         feedelivery.setText(String.format("₹ %.2f", Deliverycharge));
-        Float tt=gt+Deliverycharge;
+        Float tt=gt;//Deliverycharge;
         total.setText(String.format("₹ %.2f", tt));
         grandamt.setText(String.format("₹ %.2f", tt));
 
@@ -104,7 +107,10 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         Confirmorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadPdfFiles();
+                //uploadPdfFiles();
+                Intent intent=new Intent(Orderconfirmuseractivity.this,Paymentactivity.class);
+                intent.putExtra("gt",tt);
+                startActivity(intent);
 
 
             }
@@ -129,4 +135,5 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
             }
         }
     }
+
 }

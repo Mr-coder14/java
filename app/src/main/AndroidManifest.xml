@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -24,18 +25,27 @@
         android:theme="@style/Base.Theme.Java"
         tools:targetApi="34">
         <activity
-            android:name=".ordeersactivityadmin"
-            android:screenOrientation="portrait"
+            android:name=".Paymentactivity"
             android:exported="false" />
+        <activity
+            android:name=".ReviewForm"
+            android:exported="false" />
+        <activity
+            android:name=".BookFormApplication"
+            android:exported="false" />
+        <activity
+            android:name=".ordeersactivityadmin"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".oderspreviewadmin"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UsermainActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Base.Theme.Java"
-            android:exported="false" />
+            android:theme="@style/Base.Theme.Java" />
         <activity
             android:name=".ComboDrafter"
             android:exported="false"

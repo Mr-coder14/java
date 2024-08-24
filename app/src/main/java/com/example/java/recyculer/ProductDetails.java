@@ -6,8 +6,17 @@ public class ProductDetails implements Serializable {
     String productname,productamt;
     int productimage;
     int qty;
+    private float rating;
     private String key;
     private String discription;
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
 
     public String getKey() {
         return key;

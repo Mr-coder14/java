@@ -1,7 +1,9 @@
 package com.example.java;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ public class orderspreview extends AppCompatActivity {
     private ImageView orderStatusImage, deliveredStatusImage;
     private RecyclerView productRecyclerView;
     private ImageButton backButton;
+    private Button review;
     private Boolean delivered;
     private DatabaseReference databaseReference;
 
@@ -43,6 +46,7 @@ public class orderspreview extends AppCompatActivity {
         ntotes=findViewById(R.id.notesorderpreview);
         total1=findViewById(R.id.totalorderpreview1);
         backButton = findViewById(R.id.backbtnorderpreview);
+        review=findViewById(R.id.reviewform);
         orderStatusImage = findViewById(R.id.handleimageorderorderpreview);
         deliveredStatusImage = findViewById(R.id.handleimagedeliveredorderpreview);
         productRecyclerView = findViewById(R.id.recyculervieworderpreview);
@@ -56,6 +60,14 @@ public class orderspreview extends AppCompatActivity {
             Toast.makeText(this, "Error: Order details not found", Toast.LENGTH_SHORT).show();
             finish();
         }
+        review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(orderspreview.this, ReviewForm.class);
+                intent.putExtra("order", order);
+                startActivity(intent);
+            }
+        });
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

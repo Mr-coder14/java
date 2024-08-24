@@ -59,7 +59,6 @@ public class OrdersActivity extends AppCompatActivity {
         adapter = new OrderAdapter(orderList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
         fetchOrders();
     }
 

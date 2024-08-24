@@ -43,6 +43,7 @@ public class homeadminmain extends Fragment {
     private RecyclerView recyclerView;
     FirebaseAuth auth;
     private OrderAdaptormadmin adapter;
+    private List<Order> fullOrderList;
     private List<Order> orderList;
     FirebaseUser user;
     private EditText editText;
@@ -63,8 +64,10 @@ public class homeadminmain extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         progressBar = view.findViewById(R.id.progressbarhomeadmin);
         emptyOrdersText = view.findViewById(R.id.emptyOrdersTextm);
+        debounceHandler.removeCallbacks(searchRunnable);
         progressBar.setVisibility(View.VISIBLE);
         editText=view.findViewById(R.id.search_edit_textadmin);
+        fullOrderList=new ArrayList<>();
 
 
         auth = FirebaseAuth.getInstance();
@@ -91,6 +94,18 @@ public class homeadminmain extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                debounceHandler.removeCallbacks(searchRunnable);
+
+
+                searchRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        String searchText = charSequence.toString().trim().toLowerCase();
+                        filterOrders(searchText);
+                    }
+                };
+
+                debounceHandler.postDelayed(searchRunnable, 300);
 
             }
 
@@ -103,6 +118,24 @@ public class homeadminmain extends Fragment {
 
         return view;
     }
+    private void filterOrders(String searchText) {
+        List<Order> filteredList = new ArrayList<>();
+
+        for (Order order : orderList) {
+            if (order.getOrderId().toLowerCase().contains(searchText)) {
+                filteredList.add(order);
+            }
+        }
+
+        adapter.updateList(filteredList);
+
+        if (filteredList.isEmpty()) {
+            emptyOrdersText.setVisibility(View.VISIBLE);
+            emptyOrdersText.setText("No matching orders found");
+        } else {
+            emptyOrdersText.setVisibility(View.GONE);
+        }
+    }
     private void fetchOrders() {
         progressBar.setVisibility(View.VISIBLE);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -112,6 +145,7 @@ public class homeadminmain extends Fragment {
                 for(DataSnapshot ui : dataSnapshot.getChildren()) {
                     for (DataSnapshot orderSnapshot : ui.getChildren()) {
                         Boolean delivered = orderSnapshot.child("delivered").getValue(Boolean.class);
+
 
                         if (delivered != null && !delivered) {
                             String orderId = orderSnapshot.getKey();
@@ -140,9 +174,13 @@ public class homeadminmain extends Fragment {
 
                             Order order = new Order(orderId, orderTotal, orderTimestamp, products, username, phno, notes, ordered, delivered);
                             orderList.add(order);
+                            fullOrderList.add(order);
                         }
                     }
                 }
+                orderList = new ArrayList<>(fullOrderList); // Create a copy for the adapter
+                adapter.updateList(orderList);
+                progressBar.setVisibility(View.GONE);
 
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
