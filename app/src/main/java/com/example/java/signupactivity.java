@@ -1,6 +1,7 @@
 package com.example.java;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -8,11 +9,14 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,8 +37,9 @@ public class signupactivity extends AppCompatActivity {
     String adminEmail = "abcd1234@gmail.com";
     private ArrayList<String> tempadmins = new ArrayList<>();
     private ProgressDialog progressDialog;
+    CheckBox termsCheckBox;
     String tempadminemail;
-
+    private String adres="Paavai Engineering College,Pachal,Tamilnadu,637018";
     @Override
     public void onStart() {
         super.onStart();
@@ -93,6 +98,7 @@ public class signupactivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference("users");
+        termsCheckBox = findViewById(R.id.texttermsandcontions);
         adminsref = FirebaseDatabase.getInstance().getReference().child("admins");
         tempadminsref1 = FirebaseDatabase.getInstance().getReference().child("tempadmin1");
 
@@ -100,9 +106,28 @@ public class signupactivity extends AppCompatActivity {
         progressDialog.setMessage("Registering...");
         progressDialog.setCancelable(true);
 
+
+
+        termsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                 // Enable the button if the checkbox is checked
+            }
+        });
+        termsCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTermsAndConditionsDialog();
+            }
+        });
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!termsCheckBox.isChecked()) {
+                    Toast.makeText(signupactivity.this, "Please accept the terms and conditions to proceed.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 final String userName = name.getText().toString();
                 final String userEmail = email.getText().toString();
                 String userPass = pass.getText().toString();
@@ -118,18 +143,18 @@ public class signupactivity extends AppCompatActivity {
                 } else {
                     progressDialog.show();
                     if (userEmail.equals(adminEmail)) {
-                        createUser(adminEmail, userPass, userName, userPhone, true, false);
+                        createUser(adminEmail, userPass, userName, userPhone,"", true, false);
                     } else if (tempadmins.contains(userEmail)) {
-                        createUser(userEmail, userPass, userName, userPhone, false, true);
+                        createUser(userEmail, userPass, userName, userPhone,"", false, true);
                     } else {
-                        createUser(userEmail, userPass, userName, userPhone, false, false);
+                        createUser(userEmail, userPass, userName, userPhone,adres, false, false);
                     }
                 }
             }
         });
     }
 
-    private void createUser(final String email, String password, final String name, final String phone, final boolean isAdmin, final boolean istempadmin) {
+    private void createUser(final String email, String password, final String name, final String phone,String adres, final boolean isAdmin, final boolean istempadmin) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(signupactivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -138,7 +163,7 @@ public class signupactivity extends AppCompatActivity {
                     FirebaseUser user = auth.getCurrentUser();
                     if (user != null) {
                         String userId = user.getUid();
-                        User newUser = new User(name, email, phone, userId);
+                        User newUser = new User(name, email, phone, userId,adres);
                         Toast.makeText(signupactivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
                         Intent intent;
                         if (isAdmin) {
@@ -164,6 +189,18 @@ public class signupactivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void showTermsAndConditionsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Terms and Conditions");
+        builder.setMessage("Your terms and conditions go here. Please read them carefully before proceeding.");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     private InputFilter phoneNumberFilter() {

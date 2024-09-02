@@ -1,7 +1,6 @@
 package com.example.java;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -89,7 +89,7 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         recyclerView1.setAdapter(apadtor);
         gt= apadtor.getGrandtotal();
         subtotal.setText(String.format("₹ %.2f", gt));
-        feedelivery.setText(String.format("₹ %.2f", Deliverycharge));
+      //  feedelivery.setText(String.format("₹ %.2f", Deliverycharge));
         Float tt=gt;//Deliverycharge;
         total.setText(String.format("₹ %.2f", tt));
         grandamt.setText(String.format("₹ %.2f", tt));
@@ -107,11 +107,12 @@ public class Orderconfirmuseractivity extends AppCompatActivity {
         Confirmorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //uploadPdfFiles();
-                Intent intent=new Intent(Orderconfirmuseractivity.this,Paymentactivity.class);
-                intent.putExtra("gt",tt);
-                startActivity(intent);
-
+                if(tt<50.0f){
+                    Toast.makeText(activity, "Minimum Order Should be more than 50", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    uploadPdfFiles();
+                }
 
             }
         });

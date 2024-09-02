@@ -164,11 +164,20 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
             productDetails.add(new ProductDetails("White Apsara Eraser", "5", R.drawable.eraser, 1,
                     "As a quality focused firm, we are engaged in offering a high quality range of Apsara Eraser."));
             productDetails.add(new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)", "800", R.drawable.drafter1));
-            productDetails.add(new ProductDetails("Book Form","Your Price",R.drawable.athreenotee,1));
+            productDetails.add(new ProductDetails("A4 Sheet Bundle COPIER PAPER 80 GSM 500 SHEETS","280",R.drawable.afoursheet,1,"Brand\tTNPL\n" +
+                    "Colour\tWhite\n" +
+                    "Item Weight\t80 Grams\n" +
+                    "Paper Finish\tGlossy\n" +
+                    "Sheet Size\tA4"));
+            productDetails.add(new ProductDetails("A4 Sheet Bundle COPIER PAPER 70 GSM 500 SHEETS","270",R.drawable.afoursheet,1,"Brand\tTNPL\n" +
+                    "Colour\tWhite\n" +
+                    "Item Weight\t80 Grams\n" +
+                    "Paper Finish\tGlossy\n" +
+                    "Sheet Size\tA4"));
 
             adaptor.notifyDataSetChanged();
             showContent();
-        }, 1000); // Adjust the delay as needed
+        }, 1000);
     }
 
     private void fetchCartItemCount() {

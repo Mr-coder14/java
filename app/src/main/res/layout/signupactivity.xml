@@ -177,12 +177,22 @@
                     android:textColorHint="@color/black"
                     android:textSize="18sp" />
 
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/texttermsandcontions"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/plus"
+                    android:layout_gravity="center"
+                    android:text="I'm accep to the terms and conditions"
+                    />
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/signup"
                     style="@android:style/Widget.Button"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/button_background"
                     android:text="Sign Up"
                     android:textColor="#ffffff"

@@ -1,5 +1,4 @@
 package com.example.java;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,12 +10,10 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.java.recyculer.Itemlistadaptormycart;
 import com.example.java.recyculer.ProductDetails;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +25,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,14 +43,13 @@ public class Mycart extends AppCompatActivity {
     private FirebaseAuth auth;
     private String userid;
     private EditText notes;
-    String note,username,phno;
-    private int deliveryFee=15;
+    private String note,username,phno;
+    private int deliveryFee=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mycart);
-
         recyclerView = findViewById(R.id.recyculermycart);
         emptymsg = findViewById(R.id.empptytxt);
         subtotal = findViewById(R.id.subtotal);
@@ -89,7 +84,8 @@ public class Mycart extends AppCompatActivity {
 
         addnotes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 note=notes.getText().toString();
             }
         });
@@ -190,18 +186,11 @@ public class Mycart extends AppCompatActivity {
                         String orderId = generateOrderId();
 
                         if (orderId != null) {
-
                             DatabaseReference newOrderRef = orderrefrence.child(orderId);
-
-
                             Map<String, Object> orderItems = new HashMap<>();
-
-
                             for (ProductDetails item : productDetailsList) {
                                 orderItems.put(item.getKey(), item);
                             }
-
-
                             orderItems.put("orderTotal", total.getText().toString());
                             orderItems.put("orderTimestamp", ServerValue.TIMESTAMP);
                             orderItems.put("username", username);
@@ -214,12 +203,10 @@ public class Mycart extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-
                                         databaseReference.removeValue();
                                         productDetailsList.clear();
                                         adaptor.notifyDataSetChanged();
                                         updateEmptyCartMessage();
-
                                         startActivity(new Intent(Mycart.this, suceesanimation.class));
                                         finish();
                                     } else {
@@ -248,7 +235,7 @@ public class Mycart extends AppCompatActivity {
         totalAmount = subTotalAmount + deliveryFee;
 
         subtotal.setText("₹" + subTotalAmount);
-        feedelivery.setText("₹" + deliveryFee);
+        feedelivery.setText("Free Delivery");
         total.setText("₹" + totalAmount);
     }
 

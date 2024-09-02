@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.SEND_SMS" />
 
@@ -24,6 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Java"
         tools:targetApi="34">
+        <activity
+            android:name=".ContactusActivity"
+            android:exported="false" />
         <activity
             android:name=".Paymentactivity"
             android:exported="false" />

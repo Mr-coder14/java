@@ -15,11 +15,18 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.appcheck.FirebaseAppCheck;
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class UsermainActivity extends AppCompatActivity {
     private int PERMISSION_REQUEST_CODE=100;
     private BottomNavigationView bottomNavigationView;
     private Fragment fragment;
+    private DatabaseReference ordersRef;
+    String userid;
     private FirebaseAuth auth;
 
     @Override
@@ -31,6 +38,9 @@ public class UsermainActivity extends AppCompatActivity {
         fragment=new home_fragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containerm,fragment).commit();
         checkPermissions();
+        userid=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        ordersRef= FirebaseDatabase.getInstance().getReference().child("pdfs").child(userid);
+        checkOrderPaidStatus();
 
         FirebaseApp.initializeApp(/*context=*/ this);
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
@@ -48,6 +58,7 @@ public class UsermainActivity extends AppCompatActivity {
                     fragment=new home_fragment();
 
                 }
+
                 if(id==R.id.Historybottom){
                     fragment=new history_fragment();
 
@@ -83,5 +94,30 @@ public class UsermainActivity extends AppCompatActivity {
 
     public void selectBottomNavItem(int historybottom) {
         bottomNavigationView.setSelectedItemId(historybottom);
+    }
+    private void checkOrderPaidStatus() {
+       ordersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+               if(snapshot.exists()){
+                   for(DataSnapshot s:snapshot.getChildren()){
+                       for(DataSnapshot q:s.getChildren()){
+                           Boolean paid = q.child("paid").getValue(Boolean.class);
+                           if (paid != null && !paid) {
+                               q.getRef().removeValue();
+                           }
+                           else {
+
+                           }
+                       }
+                   }
+               }
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+
+           }
+       });
     }
     }

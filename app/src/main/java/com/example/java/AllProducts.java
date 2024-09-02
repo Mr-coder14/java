@@ -73,7 +73,40 @@ public class AllProducts extends AppCompatActivity {
         productDetails.add(new ProductDetails("Kokuyo Camlin Exam Scale Broad 30cm Ruler ","20",R.drawable.scale,1,"Camlin Exam portfolio of scales are the perfect tools for high precision and accuracy. Smooth taped edges that lie flat on the surface to give a sharp line. Transparent body"));
         productDetails.add(new ProductDetails("White Apsara Eraser","5",R.drawable.eraser,1,"As a quality focused firm, we are engaged in offering a high quality range of Apsara Eraser."));
         productDetails.add(new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)","800",R.drawable.drafter1));
-        productDetails.add(new ProductDetails("Book Form","Your Price",R.drawable.athreenotee,1));
+        productDetails.add(new ProductDetails("A4 Sheet Bundle COPIER PAPER 80 GSM 500 SHEETS","280",R.drawable.afoursheet,1,"Brand\tTNPL\n" +
+                "Colour\tWhite\n" +
+                "Item Weight\t80 Grams\n" +
+                "Paper Finish\tGlossy\n" +
+                "Sheet Size\tA4"));
+        productDetails.add(new ProductDetails("A4 Sheet Bundle COPIER PAPER 70 GSM 500 SHEETS","270",R.drawable.afoursheet,1,"Brand\tTNPL\n" +
+                "Colour\tWhite\n" +
+                "Item Weight\t80 Grams\n" +
+                "Paper Finish\tGlossy\n" +
+                "Sheet Size\tA4"));
+        productDetails.add(new ProductDetails("Classmate Long Size Notebook(A4) - 120 Pages (Ruled)","60",R.drawable.note,1,"\n" +
+                "Brand\tClassmate\n" +
+                "Colour\tWhite\n" +
+                "Theme\tPlain\n" +
+                "Cover Material\tsoft cover\n" +
+                "Style\tindian"));
+        productDetails.add(new ProductDetails("Classmate Small Size Notebook - 120 Pages (Ruled)","40",R.drawable.smallnote,1,"\n" +
+                "Brand\tClassmate\n" +
+                "Colour\tWhite\n" +
+                "Theme\tPlain\n" +
+                "Cover Material\tsoft cover\n" +
+                "Style\tindian"));
+        productDetails.add(new ProductDetails("ALIS Unisex Lab Coat/Apron Cotton White Colour for Medical Students, Chemistry Lab, Doctors, Nurses and Surgeon","500",R.drawable.labcourt,1,"Material \tcomposition100% Cotton\n" +
+                "Care \tinstructionsMachine Wash\n" +
+                "Country of Origin \tIndia"));
+        productDetails.add(new ProductDetails("Kangaro No. 10 Stapler","60",R.drawable.stabler,1,"Attractive pack of stapler and staples\n" +
+                "Durable\n" +
+                "Color of the product delivered is subject to stock availability\n" +
+                "Product information provided by the seller on the Website is not exhaustive, please read the label on the physical product carefully for complete information provided by the manufacturer. For additional information, please contact the manufacturer."));
+        productDetails.add(new ProductDetails("Shuban Documents File Folder Fs Poly-Plastic Certificate Organizer With Snap Button Closure For School Office Gazette File","30",R.drawable.files,1,"Colour:    Gazette File (Single type)-Mix\n" +
+                "Material:    Plastic\n" +
+                "Style:    Envelope\n" +
+                "Brand:    Shuban\n" +
+                "Sheet Size:    letter\n"));
         adaptor=new ProductlistAdaptor(productDetails,this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adaptor);

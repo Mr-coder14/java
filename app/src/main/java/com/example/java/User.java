@@ -4,7 +4,18 @@ public class User {
     private String name;
     private String email;
     private String userid;
-    private String phno,collegename;
+    private String phno;
+    private String collegename;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    private String address;
     private String profileuri;
 
     public String getUserid() {
@@ -19,10 +30,11 @@ public class User {
 
     }
 
-    public User(String name, String email, String phno,String userid) {
+    public User(String name, String email, String phno,String userid,String address) {
         this.name = name;
         this.email = email;
         this.phno=phno;
+        this.address=address;
         this.userid=userid;
 
     }

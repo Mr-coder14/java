@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,10 +9,12 @@
     android:padding="16dp"
     tools:context=".Paymentactivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/headerLayout">
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -20,7 +22,7 @@
             android:src="@drawable/back"
             android:id="@+id/backbtnpayment"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical" />
 
         <TextView
             android:layout_width="0dp"
@@ -32,15 +34,20 @@
             android:layout_gravity="center"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:layout_marginLeft="16dp"/>
-
+            android:layout_marginLeft="16dp" />
 
     </LinearLayout>
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray"
-        android:layout_marginTop="8dp"/>
+        android:id="@+id/ioi"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/headerLayout" />
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,8 +56,11 @@
         android:drawableStart="@drawable/baseline_location_on_24"
         android:textSize="20sp"
         android:drawablePadding="5dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/ioi"
+        android:id="@+id/addressLabel" />
 
+    <!-- Address Container -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,85 +72,36 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:background="@drawable/whitebg_profile"
-        >
+        android:layout_below="@id/addressLabel">
+
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ratiobtnaddress"
-            />
+            android:id="@+id/ratiobtnaddress" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17sp"
             android:id="@+id/address"
             android:background="@null"
-            android:text="260,southmedu,nagakuppam,chinnaselam,kallakurichi"
+            android:text="Paavai Engineering College,Pachal,Tamilnadu,637018"
             android:textColor="@color/black"
             android:fontFamily="@font/plus"
-            android:layout_margin="1dp"/>
+            android:layout_margin="1dp" />
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pay With Upi"
-        android:fontFamily="@font/lato"
-        android:textSize="20sp"
-        android:drawablePadding="5dp"
-        android:layout_marginTop="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="10dp"
-        android:elevation="8dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@drawable/whitebg_profile"
-        >
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgoo"
-            android:layout_marginRight="30dp"
-            android:src="@drawable/phonepay"
-            />
-        <TextView
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:id="@+id/phonetxt"
-            android:background="@null"
-            android:text="Phone Pe"
-            android:textColor="@color/black"
-            android:fontFamily="@font/lato"
-            android:layout_margin="1dp"/>
-        <RadioButton
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/ratiobtnphonepe"
-            />
-
-    </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="bottom"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottomLayout">
 
         <TextView
             android:id="@+id/grandamty"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/lato"
@@ -160,6 +121,4 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-
-
-</LinearLayout>
+</RelativeLayout>

@@ -265,6 +265,9 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
         int itemid = item.getItemId();
         if (itemid == R.id.nav_home) {
             return false;
+        } else if (itemid ==R.id.nav_contact) {
+            startActivity(new Intent(getContext(), ContactusActivity.class));
+            return true;
         } else if (itemid == R.id.nav_profile) {
             ((UsermainActivity) getActivity()).selectBottomNavItem(R.id.profilebottom);
             return true;

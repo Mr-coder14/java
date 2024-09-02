@@ -12,6 +12,10 @@
             android:icon="@drawable/baseline_home_24"
             android:title="Home"/>
 
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/baseline_shopping_cart_24"
+            android:title="Shop"/>
 
         <item
             android:id="@+id/nav_profile"
@@ -19,9 +23,9 @@
             android:title="Profile"/>
 
         <item
-            android:id="@+id/nav_history"
-            android:icon="@drawable/baseline_history_24"
-            android:title="History"/>
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/baseline_call_24"
+            android:title="Contact Us"/>
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/baseline_logout_24"

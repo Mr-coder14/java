@@ -25,6 +25,15 @@ public class Fileinmodel {
     String perqtyamt0;
     String orderDate0;
     String perpage0;
+    Boolean paid;
+
+    public Boolean getPaid() {
+        return paid;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
+    }
 
     public String getUsername() {
         return username;

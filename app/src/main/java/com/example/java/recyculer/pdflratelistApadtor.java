@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.Fileinmodel;
 import com.example.java.PDFDetails;
+import com.example.java.Paymentactivity;
 import com.example.java.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,16 +48,15 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
     public Float grandtotal=0.0f;
     private String notes;
 
-    public  pdflratelistApadtor(Activity activity, ArrayList<Uri> uris1, ArrayList<String> fileNames1, String orderid, ArrayList<PDFDetails> pdfDetails,String notes){
-        this.uris=uris1;
-        this.activity=activity;
-        this.uploaded=new boolean[uris.size()];
-        this.fileNames=fileNames1;
-        this.orderid=orderid;
-        this.pdfDetails=pdfDetails;
+    public pdflratelistApadtor(Activity activity, ArrayList<Uri> uris1, ArrayList<String> fileNames1, String orderid, ArrayList<PDFDetails> pdfDetails, String notes) {
+        this.uris = uris1 != null ? uris1 : new ArrayList<>();
+        this.activity = activity;
+        this.uploaded = new boolean[this.uris.size()];
+        this.fileNames = fileNames1 != null ? fileNames1 : new ArrayList<>();
+        this.orderid = orderid;
+        this.pdfDetails = pdfDetails != null ? pdfDetails : new ArrayList<>();
         this.notes = notes != null ? notes : "";
         calculateGrandTotal();
-
     }
     public void updateNotes(String newNotes) {
         this.notes = newNotes;
@@ -190,12 +190,13 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             fileModel.setFormat0(details.getFormats());
                             fileModel.setRatio0(details.getRatios());
                             fileModel.setSheet0(details.getSheet());
-                            fileModel.setDeliveyamt0(details.getDeliverycharge());
+                            fileModel.setDeliveyamt0("Free");
                             fileModel.setPages0(details.getPages());
                             fileModel.setPerpage0(details.getPerpage());
                             fileModel.setPerqtyamt0(details.getPerqtyamt());
                             fileModel.setOrderDate0(details.getOrderdate());
                             fileModel.setFinalamt0(details.getFinalmat());
+                            fileModel.setPaid(false);
                             fileModel.setuserid0(details.getUserid());
                             fileModel.setOrderd(orderd);
                             fileModel.setDelivered(delevried);
@@ -231,9 +232,10 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
 
                                                         if (allSuccessful) {
                                                             Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
-                                                            openPhonePeToPay(grandtotal);
-                                                            //activity.startActivity(new Intent(activity, suceesanimation.class));
-                                                           // activity.finish();
+                                                           Intent intent=new Intent(context, Paymentactivity.class);
+                                                            intent.putExtra("tt",grandtotal);
+                                                            activity.startActivity(intent);
+
                                                         } else {
                                                             Toast.makeText(context, "Upload unsuccessful for some files", Toast.LENGTH_SHORT).show();
                                                         }
@@ -289,64 +291,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
             }
         }
 
-        private void openGooglePayToPay(Float totalAmount) {
-            String upiId = "mukilan895-3@oksbi";  // Replace with the correct UPI ID
-            String name = "Parmugilan";  // Replace with the recipient's name
-            String note = "Pay the amount to confirm the order";  // Payment note
-            String currency = "INR";  // Currency code
-            String amount = String.format("%.2f", totalAmount);  // Amount to pay
 
-            Uri uri = Uri.parse("upi://pay?pa=" + upiId +
-                    "&pn=" + name +
-                    "&tn=" + note +
-                    "&am=" + amount +
-                    "&cu=" + currency +
-                    "&mode=07");  // mode=02 can be used to force select bank account
-
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.setPackage("com.google.android.apps.nbu.paisa.user");
-
-            if (intent.resolveActivity(context.getPackageManager()) != null) {
-                context.startActivity(intent);
-            } else {
-                showError("Google Pay is not installed on your device.");
-            }
-        }
-        private void openPhonePeToPay(Float totalAmount) {
-            String upiId = "mukilan895-3@oksbi";  // Replace with the correct UPI ID
-            String name = "Parmugilan";  // Replace with the recipient's name
-            String note = "Pay the amount to confirm the order";  // Payment note
-            String currency = "INR";  // Currency code
-            String amount = String.format("%.2f", totalAmount);  // Amount to pay
-
-            Uri uri = Uri.parse("upi://pay?pa=" + upiId +
-                    "&pn=" + name +
-                    "&tn=" + note +
-                    "&am=" + amount +
-                    "&cu=" + currency);
-
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.setPackage("com.phonepe.app");
-
-            if (intent.resolveActivity(context.getPackageManager()) != null) {
-                context.startActivity(intent);
-            } else {
-                showError("PhonePe is not installed on your device.");
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-        private void showError(String message) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        }
 
     }
 }

@@ -113,7 +113,7 @@
                 android:id="@+id/feedelivery1"
                 android:fontFamily="@font/lato"
                 android:layout_height="wrap_content"
-                android:text="₹15"/>
+                android:text="Free Delivery"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
