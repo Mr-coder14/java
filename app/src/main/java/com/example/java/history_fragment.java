@@ -38,7 +38,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     private RecyclerView recyclerView;
     private ProductlistAdaptor adaptor;
     private ArrayList<ProductDetails> productDetails;
-    private LinearLayout tippencil, drafter, aenote, calculator, graph;
+    private LinearLayout tippencil, drafter, aenote, calculator, graph,book;
     private TextView allproducts;
     private LinearLayout cart;
     private LinearLayout editText;
@@ -53,6 +53,12 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.history_fragment, container, false);
         initializeViews(view);
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), BookFormApplication.class));
+            }
+        });
         return view;
     }
 
@@ -78,6 +84,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         cart = view.findViewById(R.id.mycarthome);
         allproducts = view.findViewById(R.id.allproducts);
         cartIconWithBadge = view.findViewById(R.id.cart_icon_with_badge);
+        book=view.findViewById(R.id.onclickbook);
         progressBar = view.findViewById(R.id.progress_barvbn);
         contentLayout = view.findViewById(R.id.content_layout);
 
@@ -97,6 +104,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     }
 
     private void setupCategoryListeners() {
+
         graph.setOnClickListener(v -> openProductPreview("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE", "120", R.drawable.graphh));
         calculator.setOnClickListener(v -> openProductPreview("Casio FX-991ES Plus Second Edition Scientific Calculator", "750", R.drawable.calculatorr));
         aenote.setOnClickListener(v -> openProductPreview("A3 Sketch Book/Art Book/Drawing Book", "300", R.drawable.athreenotee));

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import Tempadmin.AllOrderstempadmin;
 
 public class orderslist extends AppCompatActivity {
-    private ConstraintLayout c1,c2;
+    private ConstraintLayout c1,c2,c3;
     private ImageButton c;
     private FirebaseUser user;
     private ArrayList<String> admins=new ArrayList<>();
@@ -29,12 +29,25 @@ public class orderslist extends AppCompatActivity {
         c1=findViewById(R.id.xeroxorders);
         c2=findViewById(R.id.stationryorders);
         c=findViewById(R.id.backbtnordersuser11);
+        c3=findViewById(R.id.bookorders);
         user= FirebaseAuth.getInstance().getCurrentUser();
         admins.add("abcd1234@gmail.com");
+        admins.add("saleem1712005@gmail.com");
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        c3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(admins.contains(user.getEmail())){
+                    //startActivity(new Intent(orderslist.this,ordeersactivityadmin.class));
+
+                }else {
+                    startActivity(new Intent(orderslist.this,Bookordersactivity.class));
+                }
             }
         });
         c2.setOnClickListener(new View.OnClickListener() {
