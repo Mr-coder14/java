@@ -26,6 +26,9 @@
         android:theme="@style/Base.Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".Termscondtions"
+            android:exported="false" />
+        <activity
             android:name=".ContactusActivity"
             android:exported="false" />
         <activity

@@ -268,7 +268,11 @@ public class home_fragment extends Fragment implements NavigationView.OnNavigati
         } else if (itemid ==R.id.nav_contact) {
             startActivity(new Intent(getContext(), ContactusActivity.class));
             return true;
-        } else if (itemid == R.id.nav_profile) {
+        }else if (itemid ==R.id.nav_terms) {
+            startActivity(new Intent(getContext(), Termscondtions.class));
+            return true;
+        }
+        else if (itemid == R.id.nav_profile) {
             ((UsermainActivity) getActivity()).selectBottomNavItem(R.id.profilebottom);
             return true;
         } else if (itemid == R.id.nav_logout) {

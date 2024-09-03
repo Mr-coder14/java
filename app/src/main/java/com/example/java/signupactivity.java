@@ -1,7 +1,6 @@
 package com.example.java;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -191,16 +189,7 @@ public class signupactivity extends AppCompatActivity {
         });
     }
     private void showTermsAndConditionsDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Terms and Conditions");
-        builder.setMessage("Your terms and conditions go here. Please read them carefully before proceeding.");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
+        startActivity(new Intent(signupactivity.this,Termscondtions.class));
     }
 
     private InputFilter phoneNumberFilter() {

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_height="match_parent"
+    tools:context=".Termscondtions">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:id="@+id/backbtnterms"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/lato"
+            android:text="Privacy Policy and TC"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingBottom="14dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Introduction"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/plus"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="Welcome to Jasa. These Terms and Conditions govern your use of the payment services provided by Jasa. By using our payment services, you agree to these Terms and Conditions in full. Please read them carefully before using the service."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User Agreement"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/plus"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="By accessing and using the payment services within JASA, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you must not use our payment services. Users must be at least 16 years old to use the payment services provided through our app."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Refund and Cancellation Policy"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/plus"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="All sales are final, and we do not offer refunds except in cases where the product or service is defective or not as described. To request a refund, please contact our support team within 24 Hours of your purchase with a detailed description of the issue.
+Refunds will be processed back to the original payment method used at the time of purchase. Please note that processing times for refunds may vary based on your financial institution.
+Please note that we do not refund any transaction fees or charges incurred by Razorpay during the payment process."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Security"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/plus"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="We take reasonable measures to protect your information from unauthorized access, use, or disclosure. All transactions are processed securely using SSL encryption. However, we cannot guarantee the absolute security of your data transmitted to our service.
+
+It is your responsibility to ensure that your account details and payment information are kept confidential.
+"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Privacy Policy"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/plus"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="We are committed to protecting your privacy. We collect and use your personal information only as needed to process your transactions and provide the best possible service to you. Your payment information is securely processed through Razorpay and is not stored on our servers"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Changes to Terms"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/plus"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="We reserve the right to modify these Terms and Conditions at any time. Changes will be posted on this page, and it is your responsibility to review them regularly. Your continued use of our payment services following any changes indicates your acceptance of the new terms.
+"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact Information"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/plus"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="If you have any questions or concerns regarding these Terms and Conditions or our payment services, please contact us at Jasaessential@gmail.com."/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
