@@ -5,23 +5,47 @@ public class BookModel {
     private String authorName;
     private String launchedYear;
     private String isbn;
+
     private String publisher;
     private String price;
     private String description;
+    private String username;
+    private String phno;
+
+
+
     private String orderDate;
     private String orderTime;
 
-    // Default constructor required for calls to DataSnapshot.getValue(BookModel.class)
+
     public BookModel() {
     }
 
-    public BookModel(String bookName, String authorName, String launchedYear, String isbn, String publisher, String price, String description, String orderDate, String orderTime) {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPhno() {
+        return phno;
+    }
+
+    public void setPhno(String phno) {
+        this.phno = phno;
+    }
+
+    public BookModel(String bookName, String authorName, String launchedYear, String isbn, String publisher, String price, String description, String orderDate, String orderTime, String username, String phno) {
         this.bookName = bookName;
         this.authorName = authorName;
         this.launchedYear = launchedYear;
         this.isbn = isbn;
         this.publisher = publisher;
         this.price = price;
+        this.username=username;
+        this.phno=phno;
         this.description = description;
         this.orderDate = orderDate;
         this.orderTime = orderTime;

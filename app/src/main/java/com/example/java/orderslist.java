@@ -33,6 +33,7 @@ public class orderslist extends AppCompatActivity {
         user= FirebaseAuth.getInstance().getCurrentUser();
         admins.add("abcd1234@gmail.com");
         admins.add("saleem1712005@gmail.com");
+        admins.add("jayaraman00143@gmail.com");
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +44,7 @@ public class orderslist extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(admins.contains(user.getEmail())){
-                    //startActivity(new Intent(orderslist.this,ordeersactivityadmin.class));
+                    startActivity(new Intent(orderslist.this,bookordersactivityadmin.class));
 
                 }else {
                     startActivity(new Intent(orderslist.this,Bookordersactivity.class));

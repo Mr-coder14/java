@@ -26,6 +26,12 @@
         android:theme="@style/Base.Theme.Java"
         tools:targetApi="34">
         <activity
+            android:name=".bookordersactivityadmin"
+            android:exported="false" />
+        <activity
+            android:name=".bookorderactivityuser"
+            android:exported="false" />
+        <activity
             android:name=".Bookordersactivity"
             android:exported="false" />
         <activity

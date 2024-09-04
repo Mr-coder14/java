@@ -12,8 +12,11 @@ import com.example.java.databinding.ActivityBookFormApplicationBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +24,7 @@ import java.util.Locale;
 
 public class BookFormApplication extends AppCompatActivity {
     private ActivityBookFormApplicationBinding binding;
+    private  String name,phno;
 
 
     // Firebase instances
@@ -31,6 +35,24 @@ public class BookFormApplication extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityBookFormApplicationBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        String userid=FirebaseAuth.getInstance().getUid();
+        DatabaseReference d=FirebaseDatabase.getInstance().getReference().child("users").child(userid);
+
+        d.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    User user =snapshot.getValue(User.class);
+                    name=user.getName();
+                    phno=user.getPhno();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
@@ -87,8 +109,10 @@ public class BookFormApplication extends AppCompatActivity {
         String orderDate = sdfDate.format(new Date());
         String orderTime = sdfTime.format(new Date());
 
+
+
         // Create a BookModel object
-        BookModel book = new BookModel(bookName, authorName, launchedYear, isbn, publisher, price, description, orderDate, orderTime);
+        BookModel book = new BookModel(bookName, authorName, launchedYear, isbn, publisher, price, description, orderDate, orderTime,name,phno);
 
         // Get the current user's UID
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
