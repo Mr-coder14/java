@@ -106,7 +106,11 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     private void setupCategoryListeners() {
 
         graph.setOnClickListener(v -> openProductPreview("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE", "120", R.drawable.graphh));
-
+        calculator.setOnClickListener(v -> openProductPreview("Caltrix CX-991S Scientific Calculator","600",R.drawable.caltrix,"Brand\tCaltrix\n" +
+                "Calculator Type\tEngineering/Scientific\n" +
+                "Power Source\tBattery Powered\n" +
+                "Model Name\tCX 991S\n" +
+                "Material\tPlastic"));
         aenote.setOnClickListener(v -> openProductPreview("A3 Sketch Book/Art Book/Drawing Book", "300", R.drawable.athreenotee));
         drafter.setOnClickListener(v -> openProductPreview("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)", "800", R.drawable.drafter1));
         tippencil.setOnClickListener(v -> openProductPreview("Mechanical Pencils with 1 Tube Lead, 0.7mm Tip", "15", R.drawable.tippencil,

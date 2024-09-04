@@ -77,6 +77,7 @@ public class AllProducts extends AppCompatActivity {
                 "Tip size : 0.7mm\n" +
                 "\n" +
                 "Set includes mechanical pencil with one tube of lead (0.7mm)"));
+        productDetails.add(new ProductDetails("Bipolar Graph (100 sheets)","140",R.drawable.bipolar,1));
         productDetails.add(new ProductDetails("Tip Bpx Camlin Kokuyo 0.7mm Klick Lead Tube","5",R.drawable.tipbox,1,"Leads are tough, smooth and dark\n" +
                 "0.7mm B leads\n" +
                 "High polymer fine leads for smooth writing"));
