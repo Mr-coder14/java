@@ -49,7 +49,17 @@ public class AllProducts extends AppCompatActivity {
         cart1=findViewById(R.id.mycarthome2);
         cartIconWithBadge = findViewById(R.id.cart_icon_with_badge2);
         badgeTextView = cartIconWithBadge.findViewById(R.id.cart_badge);
-        productDetails.add(new ProductDetails("Casio FX-991ES Plus Second Edition Scientific Calculator","750",R.drawable.calculatorr));
+        productDetails.add(new ProductDetails("Casio FX-991MS Scientific Calculator, 401 Functions and 2-line Display","1165",R.drawable.casio991,1,"Style Name: 2nd Gen\n" +
+                "Brand\tCasio\n" +
+                "Colour\tBlack\n" +
+                "Calculator Type\tEngineering/Scientific\n" +
+                "Power Source\tBattery Powered\n" +
+                "Screen Size\t7 Inches"));
+        productDetails.add(new ProductDetails("Caltrix CX-991S Scientific Calculator","600",R.drawable.caltrix,1,"Brand\tCaltrix\n" +
+                "Calculator Type\tEngineering/Scientific\n" +
+                "Power Source\tBattery Powered\n" +
+                "Model Name\tCX 991S\n" +
+                "Material\tPlastic"));
         productDetails.add(new ProductDetails("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE","120",R.drawable.graphh));
         productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Blue (0.7mm)","10",R.drawable.stylishpenblue));
         productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Black (0.7mm)","10",R.drawable.stylishblackpen));
@@ -107,6 +117,14 @@ public class AllProducts extends AppCompatActivity {
                 "Style:    Envelope\n" +
                 "Brand:    Shuban\n" +
                 "Sheet Size:    letter\n"));
+        productDetails.add(new ProductDetails("FLAIR FC-991 MS FC-991 MS Scientific Calculator  (12 Digit)","670",R.drawable.flair,1,"\n" +
+                "Crafted with special features, this FC-991 MS Scientific from FLAIR is a perfect companion that will help you make lengthy calculations with great ease. Promising you with multiple benefits, this FC991MS Scientific calculator is the most useful tool for calculating your mathematical problems with great ease. An ideal tool for young students and professionals, this 12 digits calculator is designed with innovative technologies."));
+        productDetails.add(new ProductDetails("Casio FX-991ES Plus-2nd Edition Scientific Calculator","1350",R.drawable.calculatorr,1,"\n" +
+                "Brand\tCasio\n" +
+                "Colour\tBlack\n" +
+                "Calculator Type\tEngineering/Scientific\n" +
+                "Power Source\tBattery Powered\n" +
+                "Screen Size\t4 Inches"));
         adaptor=new ProductlistAdaptor(productDetails,this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adaptor);

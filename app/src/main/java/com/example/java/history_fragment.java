@@ -106,7 +106,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     private void setupCategoryListeners() {
 
         graph.setOnClickListener(v -> openProductPreview("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE", "120", R.drawable.graphh));
-        calculator.setOnClickListener(v -> openProductPreview("Casio FX-991ES Plus Second Edition Scientific Calculator", "750", R.drawable.calculatorr));
+
         aenote.setOnClickListener(v -> openProductPreview("A3 Sketch Book/Art Book/Drawing Book", "300", R.drawable.athreenotee));
         drafter.setOnClickListener(v -> openProductPreview("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)", "800", R.drawable.drafter1));
         tippencil.setOnClickListener(v -> openProductPreview("Mechanical Pencils with 1 Tube Lead, 0.7mm Tip", "15", R.drawable.tippencil,
@@ -150,7 +150,11 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     private void loadProducts() {
         new Handler().postDelayed(() -> {
             productDetails.clear();
-            productDetails.add(new ProductDetails("Casio FX-991ES Plus Second Edition Scientific Calculator", "750", R.drawable.calculatorr));
+            productDetails.add(new ProductDetails("Caltrix CX-991S Scientific Calculator","600",R.drawable.caltrix,1,"Brand\tCaltrix\n" +
+                    "Calculator Type\tEngineering/Scientific\n" +
+                    "Power Source\tBattery Powered\n" +
+                    "Model Name\tCX 991S\n" +
+                    "Material\tPlastic"));
             productDetails.add(new ProductDetails("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE", "120", R.drawable.graphh));
             productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Blue (0.7mm)", "10", R.drawable.stylishpenblue));
             productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Black (0.7mm)", "10", R.drawable.stylishblackpen));
