@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private DatabaseReference tempadminsref;
     private ArrayList<String> tempadmins = new ArrayList<>();
-    private String adminEmail = "abcd1234@gmail.com";
+    private ArrayList<String> admins = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,9 @@ public class SplashActivity extends AppCompatActivity {
 
         logoImageView = findViewById(R.id.logoImageViewsplash);
         progressBar = findViewById(R.id.progressBarsplash);
+        admins.add("abcd1234@gmail.com");
+        admins.add("saleem1712005@gmail.com");
+        admins.add("jayaraman00143@gmail.com");
 
         auth = FirebaseAuth.getInstance();
         tempadminsref = FirebaseDatabase.getInstance().getReference().child("tempadmin");
@@ -76,7 +79,7 @@ public class SplashActivity extends AppCompatActivity {
         if (currentUser != null) {
             String userEmail = currentUser.getEmail();
             if (userEmail != null) {
-                if (userEmail.equals(adminEmail)) {
+                if (admins.contains(userEmail)) {
                     intent = new Intent(SplashActivity.this, Adminactivity.class);
                 } else if (tempadmins.contains(userEmail)) {
                     intent = new Intent(SplashActivity.this, tempadminmainactivity.class);

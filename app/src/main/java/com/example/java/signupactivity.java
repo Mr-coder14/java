@@ -32,8 +32,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class signupactivity extends AppCompatActivity {
-    String adminEmail = "abcd1234@gmail.com";
+
     private ArrayList<String> tempadmins = new ArrayList<>();
+    private ArrayList<String> admins = new ArrayList<>();
     private ProgressDialog progressDialog;
     CheckBox termsCheckBox;
     String tempadminemail;
@@ -41,6 +42,9 @@ public class signupactivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        admins.add("abcd1234@gmail.com");
+        admins.add("saleem1712005@gmail.com");
+        admins.add("jayaraman00143@gmail.com");
         DatabaseReference tempadminsref;
         tempadminsref = FirebaseDatabase.getInstance().getReference().child("tempadmin");
         tempadminsref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -61,7 +65,7 @@ public class signupactivity extends AppCompatActivity {
         });
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            if (currentUser.getEmail().equals(adminEmail)) {
+            if (admins.contains(currentUser.getEmail())) {
                 startActivity(new Intent(signupactivity.this, Adminactivity.class));
                 finish();
             } else if (tempadmins.contains(currentUser.getEmail())) {
@@ -140,8 +144,8 @@ public class signupactivity extends AppCompatActivity {
                     Toast.makeText(signupactivity.this, "Enter same passwords", Toast.LENGTH_SHORT).show();
                 } else {
                     progressDialog.show();
-                    if (userEmail.equals(adminEmail)) {
-                        createUser(adminEmail, userPass, userName, userPhone,"", true, false);
+                    if (admins.contains(userEmail)) {
+                        createUser(userEmail, userPass, userName, userPhone,"", true, false);
                     } else if (tempadmins.contains(userEmail)) {
                         createUser(userEmail, userPass, userName, userPhone,"", false, true);
                     } else {

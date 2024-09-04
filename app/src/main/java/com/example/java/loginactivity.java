@@ -50,6 +50,7 @@ public class loginactivity extends AppCompatActivity {
         super.onStart();
         admins.add("abcd1234@gmail.com");
         admins.add("saleem1712005@gmail.com");
+        admins.add("jayaraman00143@gmail.com");
 
         tempadminsref1 = FirebaseDatabase.getInstance().getReference().child("tempadmin1");
         tempadminsref1.addListenerForSingleValueEvent(new ValueEventListener() {
