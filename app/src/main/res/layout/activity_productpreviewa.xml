@@ -180,25 +180,11 @@
                     android:text="I love this dress! It's so well-made and comfortable, and it fits beautifully. The fabric is high quality and I'm sure I can wear it for years to come. It fits exactly as I wanted."
                     android:textSize="15.5dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Cristen Alba"
-                    android:textStyle="bold" />
-
-                <RatingBar
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:rating="4.9"
-                    android:stepSize="0.1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="The quality of this dress is really amazing. The fabric is very soft and pleasant to the touch, and the stitching is very clean and delicate." />
+              <androidx.recyclerview.widget.RecyclerView
+                  android:layout_width="match_parent"
+                  android:layout_marginTop="10dp"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/recyluerreviews"/>
             </LinearLayout>
 
             <Button

@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.recyculer.ProductDetails;
+import com.example.java.recyculer.ReviewAdaptor1;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,12 +26,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Productpreviewa extends AppCompatActivity {
     private ImageButton back;
     private ImageView iamge;
     private ImageButton minus,plus;
     private TextView name,amt;
+    private RecyclerView recyclerViewReviews;
+    private ReviewAdaptor1 reviewAdapter;
+    private List<Review> reviewList = new ArrayList<>();
+    private DatabaseReference reviewsRef;
     private LinearLayout cart1,gh;
     private FirebaseUser user;
     private ArrayList<String> admins=new ArrayList<>();
@@ -61,6 +69,7 @@ public class Productpreviewa extends AppCompatActivity {
         admins.add("jayaraman00143@gmail.com");
         Intent intent = getIntent();
         currentProduct = (ProductDetails) intent.getSerializableExtra("product");
+
 
         name.setText(currentProduct.getProductname());
         iamge.setImageResource(currentProduct.getProductimage());
@@ -133,7 +142,36 @@ public class Productpreviewa extends AppCompatActivity {
                 finish();
             }
         });
+        recyclerViewReviews = findViewById(R.id.recyluerreviews);
+        recyclerViewReviews.setLayoutManager(new LinearLayoutManager(this));
+        reviewAdapter = new ReviewAdaptor1(reviewList);
+        recyclerViewReviews.setAdapter(reviewAdapter);
+        reviewsRef = FirebaseDatabase.getInstance().getReference("ProductReview");
 
+        fetchReviews();
+
+    }
+    private void fetchReviews() {
+        reviewsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                reviewList.clear();
+                if(dataSnapshot.exists()){
+                for (DataSnapshot reviewSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot u1 : reviewSnapshot.getChildren())
+                        if (u1.getKey().equals(currentProduct.getProductname())) {
+                            Review review = u1.getValue(Review.class);
+                            reviewList.add(review);
+                        }
+                    reviewAdapter.notifyDataSetChanged();
+                }
+            }}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(Productpreviewa.this, "Failed to load reviews", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
