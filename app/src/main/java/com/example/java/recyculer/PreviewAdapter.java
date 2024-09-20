@@ -1,12 +1,9 @@
 package com.example.java.recyculer;
 
 
-
 import android.app.Activity;
-
 import android.content.Context;
 import android.content.Intent;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
@@ -23,10 +20,12 @@ import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,11 +34,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.PDFDetails;
 import com.example.java.R;
-
-import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.util.FitPolicy;
-
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -57,6 +51,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
     private Uri[] uris;
     private String[] fileNames;
     private String orderid;
+    private float spiralCost = 20.0f;
     private Context context;
 
 
@@ -255,6 +250,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             }
         });
 
+
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -270,6 +266,12 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                     holder.qtyno.setText(String.valueOf(holder.count));
                     holder.updateamt(p);
                 }
+            }
+        });
+        holder.spiralSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                holder.updateamt(p);
             }
         });
 
@@ -326,6 +328,8 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView fileNameTextView;
         private ImageView pdfThumbnail;
+        private Switch spiralSwitch;
+
         private TextView  pg, amt1, qtyno, qtytxt1, perpageamt, colortxt,finalamt;
 
         private EditText qty;
@@ -356,6 +360,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             gradient = itemView.findViewById(R.id.gradientcolor);
             pg = itemView.findViewById(R.id.pagenoadmin);
             spinner3 = itemView.findViewById(R.id.spinner3admin);
+            spiralSwitch=itemView.findViewById(R.id.spiralswitch);
             spinner= itemView.findViewById(R.id.spinneradmin);
             amt1 = itemView.findViewById(R.id.amt1admin);
             spinner1 = itemView.findViewById(R.id.spinner1admin);
@@ -414,6 +419,9 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                         float discount = 0.05f * finalamount;
                         finalamount -= discount;
                     }
+                    if (spiralSwitch.isChecked()) {
+                        finalamount += spiralCost;
+                    }
 
 
 
@@ -428,6 +436,9 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 amtperqty = perpage * pgsam;
                 finalamount = perpage * pgsam * count;
                 pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
+                if (spiralSwitch.isChecked()) {
+                    finalamount += spiralCost;
+                }
                 setamt();
 
 
@@ -440,6 +451,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
             perpageamt.setText(String.format("%.2f", perpage));
             pdfDetailsList.get(currentPdfIndex).setPerpage(String.valueOf(perpage));
+            pdfDetailsList.get(currentPdfIndex).setSpiral(spiralSwitch.isChecked());
             finalamt.setText(String.format("₹ %.2f", finalamount));
             amt1.setText(String.format("₹ %.2f", amtperqty));
             pdfDetailsList.get(currentPdfIndex).setPerqtyamt(String.valueOf(amtperqty));

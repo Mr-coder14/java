@@ -183,6 +183,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             Fileinmodel fileModel = new Fileinmodel();
                             fileModel.setName0(fileNames.get(finalI));
                             fileModel.setUri0(details.getUri());
+                            fileModel.setSpiral(details.isSpiral());
                             fileModel.setOrderid0(details.getOrderid1());
                             fileModel.setColor0(details.getColor());
                             fileModel.setGrandTotal0(details.getGrandtotal());

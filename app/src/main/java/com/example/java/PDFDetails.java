@@ -1,5 +1,6 @@
 package com.example.java;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -17,6 +18,15 @@ public class PDFDetails implements Parcelable {
     private String orderdate;
     private String Grandtotal;
     private String orderid;
+    private boolean isSpiral;
+
+    public void setSpiral(boolean spiral) {
+        isSpiral = spiral;
+    }
+
+    public boolean isSpiral() {
+        return isSpiral;
+    }
 
     public String getUri() {
         return uri;
@@ -167,6 +177,9 @@ public class PDFDetails implements Parcelable {
         color=in.readString();
         deliverycharge=in.readString();
         pages=in.readString();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            isSpiral=in.readBoolean();
+        }
         perqtyamt=in.readString();
         perpage=in.readString();
         userid =in.readString();
@@ -187,6 +200,9 @@ public class PDFDetails implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeInt(count);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            dest.writeBoolean(isSpiral);
+        }
         dest.writeString(color);
         dest.writeString(deliverycharge);
         dest.writeString(pages);
