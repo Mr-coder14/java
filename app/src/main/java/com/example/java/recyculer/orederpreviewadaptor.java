@@ -109,6 +109,12 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
         holder.deliveryamtuser.setText("₹ "+fileinmodel.getDeliveyamt0());
         holder.qtynouser.setText(fileinmodel.getQty0());
         holder.pguser.setText(fileinmodel.getPages0());
+        boolean tt=fileinmodel.isSpiral();
+        if(tt){
+            holder.spiraltxt.setText("Yes");
+        }else {
+            holder.spiraltxt.setText("No");
+        }
 
     }
 
@@ -119,7 +125,7 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView fileNameTextViewauser, colortxtuser, sheetuser, formatuser, perpageamtuser, perqtyamtuser, ratiouser, finalamtuser, deliveryamtuser, qtynouser, pguser;
+        TextView fileNameTextViewauser, colortxtuser, sheetuser, formatuser, perpageamtuser, perqtyamtuser, ratiouser, finalamtuser, deliveryamtuser, qtynouser, pguser, spiraltxt;
         Button preview;
 
 
@@ -136,6 +142,7 @@ public class orederpreviewadaptor extends RecyclerView.Adapter<orederpreviewadap
             ratiouser = itemView.findViewById(R.id.ratiouser);
             finalamtuser = itemView.findViewById(R.id.amt1user);
             deliveryamtuser = itemView.findViewById(R.id.deliveryamtuser);
+            spiraltxt=itemView.findViewById(R.id.spiraltxt);
             qtynouser = itemView.findViewById(R.id.qtynouser);
             preview=itemView.findViewById(R.id.previewuser);
             pguser = itemView.findViewById(R.id.pagenouser);

@@ -63,6 +63,8 @@ public class AllProducts extends AppCompatActivity {
         productDetails.add(new ProductDetails("GRAPH NOTE BOOK - Practice Map 100 PAGES - A4 SIZE","120",R.drawable.graphh));
         productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Blue (0.7mm)","10",R.drawable.stylishpenblue));
         productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Black (0.7mm)","10",R.drawable.stylishblackpen));
+        productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Blue (0.7mm)","7",R.drawable.stylishpenblue));
+        productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Black (0.7mm)","7",R.drawable.stylishblackpen));
         productDetails.add(new ProductDetails("A3 Sketch Book/Art Book/Drawing Book","300",R.drawable.athreenotee));
         productDetails.add(new ProductDetails("Mechanical Pencils with 1 Tube Lead, 0.7mm Tip","15",R.drawable.tippencil,1,"Name : Faber-Castell Tri-Click Mechanical Pencils with 1 Tube Lead, 0.7mm Tip\n" +
                 "\n" +
@@ -81,7 +83,7 @@ public class AllProducts extends AppCompatActivity {
         productDetails.add(new ProductDetails("Tip Bpx Camlin Kokuyo 0.7mm Klick Lead Tube","5",R.drawable.tipbox,1,"Leads are tough, smooth and dark\n" +
                 "0.7mm B leads\n" +
                 "High polymer fine leads for smooth writing"));
-        productDetails.add(new ProductDetails("Kokuyo Camlin Exam Scale Broad 30cm Ruler ","20",R.drawable.scale,1,"Camlin Exam portfolio of scales are the perfect tools for high precision and accuracy. Smooth taped edges that lie flat on the surface to give a sharp line. Transparent body"));
+        productDetails.add(new ProductDetails("Kokuyo Camlin Exam Scale Broad 30cm Ruler ","10",R.drawable.scale,1,"Camlin Exam portfolio of scales are the perfect tools for high precision and accuracy. Smooth taped edges that lie flat on the surface to give a sharp line. Transparent body"));
         productDetails.add(new ProductDetails("White Apsara Eraser","5",R.drawable.eraser,1,"As a quality focused firm, we are engaged in offering a high quality range of Apsara Eraser."));
         productDetails.add(new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)","800",R.drawable.drafter1));
         productDetails.add(new ProductDetails("A4 Sheet Bundle COPIER PAPER 80 GSM 500 SHEETS","280",R.drawable.afoursheet,1,"Brand\tTNPL\n" +
@@ -100,7 +102,31 @@ public class AllProducts extends AppCompatActivity {
                 "Theme\tPlain\n" +
                 "Cover Material\tsoft cover\n" +
                 "Style\tindian"));
+        productDetails.add(new ProductDetails("Classmate Long Size Notebook(A4) - 120 Pages (UnRuled)","60",R.drawable.note,1,"\n" +
+                "Brand\tClassmate\n" +
+                "Colour\tWhite\n" +
+                "Theme\tPlain\n" +
+                "Cover Material\tsoft cover\n" +
+                "Style\tindian"));
+        productDetails.add(new ProductDetails("Classmate Long Size Notebook(A4) - 60 Pages (Ruled)","30",R.drawable.note,1,"\n" +
+                "Brand\tClassmate\n" +
+                "Colour\tWhite\n" +
+                "Theme\tPlain\n" +
+                "Cover Material\tsoft cover\n" +
+                "Style\tindian"));
+        productDetails.add(new ProductDetails("Classmate Long Size Notebook(A4) - 60 Pages (UnRuled)","30",R.drawable.note,1,"\n" +
+                "Brand\tClassmate\n" +
+                "Colour\tWhite\n" +
+                "Theme\tPlain\n" +
+                "Cover Material\tsoft cover\n" +
+                "Style\tindian"));
         productDetails.add(new ProductDetails("Classmate Small Size Notebook - 120 Pages (Ruled)","40",R.drawable.smallnote,1,"\n" +
+                "Brand\tClassmate\n" +
+                "Colour\tWhite\n" +
+                "Theme\tPlain\n" +
+                "Cover Material\tsoft cover\n" +
+                "Style\tindian"));
+        productDetails.add(new ProductDetails("Classmate Small Size Notebook - 120 Pages (UnRuled)","40",R.drawable.smallnote,1,"\n" +
                 "Brand\tClassmate\n" +
                 "Colour\tWhite\n" +
                 "Theme\tPlain\n" +
@@ -113,7 +139,7 @@ public class AllProducts extends AppCompatActivity {
                 "Durable\n" +
                 "Color of the product delivered is subject to stock availability\n" +
                 "Product information provided by the seller on the Website is not exhaustive, please read the label on the physical product carefully for complete information provided by the manufacturer. For additional information, please contact the manufacturer."));
-        productDetails.add(new ProductDetails("Shuban Documents File Folder Fs Poly-Plastic Certificate Organizer With Snap Button Closure For School Office Gazette File","30",R.drawable.files,1,"Colour:    Gazette File (Single type)-Mix\n" +
+        productDetails.add(new ProductDetails("Shuban Documents File Folder Fs Poly-Plastic Certificate Organizer With Snap Button Closure For School Office Gazette File","20",R.drawable.files,1,"Colour:    Gazette File (Single type)-Mix\n" +
                 "Material:    Plastic\n" +
                 "Style:    Envelope\n" +
                 "Brand:    Shuban\n" +
