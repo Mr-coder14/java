@@ -65,7 +65,7 @@ public class AllProducts extends AppCompatActivity {
         productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Black (0.7mm)","10",R.drawable.stylishblackpen));
         productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Blue (0.7mm)","7",R.drawable.stylishpenblue));
         productDetails.add(new ProductDetails("Stylish X3 Ball Pen - Black (0.7mm)","7",R.drawable.stylishblackpen));
-        productDetails.add(new ProductDetails("A3 Sketch Book/Art Book/Drawing Book","300",R.drawable.athreenotee));
+        productDetails.add(new ProductDetails("A3 Sketch Book/Art Book/Drawing Book(40 pages)","60",R.drawable.athreenotee));
         productDetails.add(new ProductDetails("Mechanical Pencils with 1 Tube Lead, 0.7mm Tip","15",R.drawable.tippencil,1,"Name : Faber-Castell Tri-Click Mechanical Pencils with 1 Tube Lead, 0.7mm Tip\n" +
                 "\n" +
                 "Brand : Faber Castell\n" +
@@ -85,7 +85,7 @@ public class AllProducts extends AppCompatActivity {
                 "High polymer fine leads for smooth writing"));
         productDetails.add(new ProductDetails("Kokuyo Camlin Exam Scale Broad 30cm Ruler ","10",R.drawable.scale,1,"Camlin Exam portfolio of scales are the perfect tools for high precision and accuracy. Smooth taped edges that lie flat on the surface to give a sharp line. Transparent body"));
         productDetails.add(new ProductDetails("White Apsara Eraser","5",R.drawable.eraser,1,"As a quality focused firm, we are engaged in offering a high quality range of Apsara Eraser."));
-        productDetails.add(new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)","800",R.drawable.drafter1));
+        productDetails.add(new ProductDetails("ORFORX Mini Drafter with Heavy Mild Steel Rod & Shatterproof Scale for Engineering Student With Protective Cover (Blue)","330",R.drawable.drafter1));
         productDetails.add(new ProductDetails("A4 Sheet Bundle COPIER PAPER 80 GSM 500 SHEETS","280",R.drawable.afoursheet,1,"Brand\tTNPL\n" +
                 "Colour\tWhite\n" +
                 "Item Weight\t80 Grams\n" +

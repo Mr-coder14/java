@@ -24,13 +24,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadtor.ViewHolder> {
     private Context context;
@@ -171,8 +169,7 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                     if (task.isSuccessful()) {
                         fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                             String downloadUrl = uri.toString();
-                            HashMap<String, Object> timestamp = new HashMap<>();
-                            timestamp.put("timestamp", ServerValue.TIMESTAMP);
+
 
                             PDFDetails details = pdfDetails.get(finalI);
                             details.setGrandtotal(grandtotal.toString());
@@ -203,6 +200,8 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
                             fileModel.setDelivered(delevried);
                             fileModel.setNotes(notes != null ? notes : "");
                             fileModel.setUsername(username);
+                            fileModel.setUploadTime(System.currentTimeMillis());
+
                             databaseReference.child(userid).child(orderid).child(sanitizedFileName).setValue(fileModel)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {

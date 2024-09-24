@@ -21,11 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class orderspreview extends AppCompatActivity {
-    private TextView username,phno,total,orderid,date,ntotes,total1;
+    private TextView username,phno,total,orderid,date,ntotes,total1,gh;
     private ImageView orderStatusImage, deliveredStatusImage;
     private RecyclerView productRecyclerView;
     private ImageButton backButton;
@@ -38,6 +39,7 @@ public class orderspreview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderspreview);
         username=findViewById(R.id.orderedusername);
+        gh=findViewById(R.id.deliveryby);
         phno=findViewById(R.id.ordereduserphno);
         total=findViewById(R.id.totalpriceorderpreview);
         orderid=findViewById(R.id.orderidorderpreview);
@@ -107,6 +109,15 @@ public class orderspreview extends AppCompatActivity {
             total.setText(order.getOrderTotal());
             orderid.setText(order.getOrderId());
             date.setText(formatDate(order.getOrderTimestamp()));
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(order.getOrderTimestamp());
+
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+            String newDate = dateFormat.format(calendar.getTime());
+            gh.setText(newDate);
             String notes = order.getNotes();
 
 

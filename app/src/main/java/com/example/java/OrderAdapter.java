@@ -32,6 +32,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         mauth=FirebaseAuth.getInstance();
         user=mauth.getCurrentUser();
         arrayList.add("abcd1234@gmail.com");
+        arrayList.add("saleem1712005@gmail.com");
+        arrayList.add("jayaraman00143@gmail.com");
     }
 
     @NonNull

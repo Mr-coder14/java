@@ -1,20 +1,10 @@
 package com.example.java;
+
 import android.Manifest;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -27,6 +17,13 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.java.recyculer.orederpreviewadaptor;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,6 +62,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
     private Query query;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +94,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
                 Intent intent=new Intent(OrderDetialsadmin.this, Processorderactivity.class);
                 intent.putExtra("orderid2",orderid);
                 intent.putExtra("gt2",grandtotal);
+
                 startActivity(intent);
             }
         });
@@ -113,6 +112,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
                         if (orderSnapshot.getKey().equals(orderid)) {
                             for (DataSnapshot fileSnapshot : orderSnapshot.getChildren()) {
                                 Fileinmodel pdfFile = fileSnapshot.getValue(Fileinmodel.class);
+
                                 if (pdfFile != null) {
                                     fileinmodels.add(pdfFile);
                                 }
@@ -132,6 +132,7 @@ public class OrderDetialsadmin extends AppCompatActivity {
                 Toast.makeText(OrderDetialsadmin.this, "No files", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         dbtn.setOnClickListener(new View.OnClickListener() {
             @Override

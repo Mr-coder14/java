@@ -1,8 +1,5 @@
 package Tempadmin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +7,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.java.Fileinmodel;
 import com.example.java.R;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class Processorderactivity extends AppCompatActivity {
     
-    private TextView gt;
+    private TextView gt,timee;
     private String orderid,grandtotal;
     private List<Fileinmodel> fileinmodels;
     TextView note;
@@ -33,6 +33,7 @@ public class Processorderactivity extends AppCompatActivity {
     private Button btn;
     private boolean delivered;
     private ImageButton backbtn;
+
     DatabaseReference databaseReference,newchild;
 
     @Override
@@ -44,6 +45,7 @@ public class Processorderactivity extends AppCompatActivity {
         backbtn=findViewById(R.id.back_btnadmin12);
         gt=findViewById(R.id.gtt);
         note=findViewById(R.id.notesuserdisplay1);
+
         fileinmodels=new ArrayList<>();
         orderid=getIntent().getStringExtra("orderid2");
         databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
@@ -65,11 +67,13 @@ public class Processorderactivity extends AppCompatActivity {
                         if (orderSnapshot.getKey().equals(orderid)) {
                             for (DataSnapshot fileSnapshot : orderSnapshot.getChildren()) {
                                 notes = fileSnapshot.child("notes").getValue(String.class);
+
                             }
                         }
                     }
                 }
                 note.setText(notes);
+
             }
 
             @Override
@@ -77,6 +81,8 @@ public class Processorderactivity extends AppCompatActivity {
 
             }
         });
+
+
 
 
         btn.setOnClickListener(new View.OnClickListener() {

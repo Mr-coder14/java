@@ -17,8 +17,16 @@ public class PDFDetails implements Parcelable {
     private String finalmat="89";
     private String orderdate;
     private String Grandtotal;
-    private String orderid;
+    private String orderid,time;
     private boolean isSpiral;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public void setSpiral(boolean spiral) {
         isSpiral = spiral;
@@ -186,6 +194,7 @@ public class PDFDetails implements Parcelable {
         orderdate=in.readString();
         formats=in.readString();
         ratios=in.readString();
+        time=in.readString();
         sheet=in.readString();
 
     }
@@ -209,6 +218,7 @@ public class PDFDetails implements Parcelable {
         dest.writeString(perqtyamt);
         dest.writeString(perpage);
         dest.writeString(userid);
+        dest.writeString(time);
         dest.writeString(finalmat);
         dest.writeString(orderdate);
         dest.writeString(formats);

@@ -394,15 +394,25 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                                 break;
                             case "1:2":
                             case "1:4":
-                                perpage = 0.85f;
-                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.85));
+                                perpage = 0.75f;
+                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.75));
                                 break;
                         }
 
                     }
 
                     amtperqty = perpage * pgsam;
+
                     finalamount = perpage * pgsam * count;
+                    if(ratios.equals("1:2")){
+                        finalamount=finalamount/2;
+                        amtperqty=amtperqty/2;
+
+                    }
+                    if(ratios.equals("1:4")){
+                        finalamount=finalamount/4;
+                        amtperqty=amtperqty/4;
+                    }
                     pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
 
 

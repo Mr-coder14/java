@@ -3,10 +3,18 @@ package com.example.java;
 public class Fileinmodel {
     String uri0;
     String userid0, orderid0;
-    String name0,username;
+    String name0;
+    String username;
+    private long uploadTime;
     private boolean isSpiral;
 
+    public long getUploadTime() {
+        return uploadTime;
+    }
 
+    public void setUploadTime(long uploadTime) {
+        this.uploadTime = uploadTime;
+    }
 
     public void setSpiral(boolean spiral) {
         isSpiral = spiral;
@@ -129,12 +137,13 @@ public class Fileinmodel {
         this.orderDate0 = orderDate;
     }
 
-    public Fileinmodel(String name0, String uri0, String userid0, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid0, String perqtyamt, String perpage, String deliveyamt,boolean orderd,boolean delivered,String notes,String username,boolean isSpiral){
+    public Fileinmodel(String name0, String uri0, String userid0, String amt, String ratio, String format, String sheet, String color, String qty, String pages, String orderid0, String perqtyamt, String perpage, String deliveyamt, boolean orderd, boolean delivered, String notes, String username, boolean isSpiral){
         this.name0 = name0;
         this.uri0 = uri0;
         this.deliveyamt0 =deliveyamt;
         this.userid0 = userid0;
         this.finalamt0 =amt;
+
         this.perpage0 =perpage;
         this.isSpiral=isSpiral;
         this.notes=notes;
