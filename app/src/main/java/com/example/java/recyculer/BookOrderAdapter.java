@@ -43,9 +43,7 @@ public class BookOrderAdapter extends RecyclerView.Adapter<BookOrderAdapter.Book
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an Intent to start the BookOrderActivityUser
                 Intent intent = new Intent(context, bookorderactivityuser.class);
-                // Put book details in the Intent
                 intent.putExtra("bookName", book.getBookName());
                 intent.putExtra("authorName", book.getAuthorName());
                 intent.putExtra("launchedYear", book.getLaunchedYear());

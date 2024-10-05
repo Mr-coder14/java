@@ -4,16 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -32,8 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class history_fragment extends Fragment implements BannerAdapter.OnBannerClickListener {
-
+public class StationaryActivity extends AppCompatActivity implements BannerAdapter.OnBannerClickListener {
     private ViewPager2 bannerViewPager;
     private RecyclerView recyclerView;
     private ProductlistAdaptor adaptor;
@@ -48,57 +44,46 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
     private ProgressBar progressBar;
     private LinearLayout contentLayout;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.history_fragment, container, false);
-        initializeViews(view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_stationary);
+        bannerViewPager = findViewById(R.id.bannerViewPager);
+        recyclerView = findViewById(R.id.productrecyculer);
+        tippencil = findViewById(R.id.onclicktippencil);
+        graph = findViewById(R.id.onclickgraph);
+        editText = findViewById(R.id.tyu);
+        aenote = findViewById(R.id.onclicka3note);
+        drafter =findViewById(R.id.onclickdrafter);
+        calculator = findViewById(R.id.onclickcalculator);
+        cart = findViewById(R.id.mycarthome);
+        allproducts = findViewById(R.id.allproducts);
+        cartIconWithBadge = findViewById(R.id.cart_icon_with_badge);
+        book=findViewById(R.id.onclickbook);
+        progressBar = findViewById(R.id.progress_barvbn);
+        contentLayout = findViewById(R.id.content_layout);
+
+        productDetails = new ArrayList<>();
+        adaptor = new ProductlistAdaptor(productDetails, this);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setAdapter(adaptor);
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), BookFormApplication.class));
+                startActivity(new Intent(StationaryActivity.this, BookFormApplication.class));
             }
         });
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         showLoading();
         setupListeners();
         initializeFirebase();
         loadBanners();
         loadProducts();
     }
-
-    private void initializeViews(View view) {
-        bannerViewPager = view.findViewById(R.id.bannerViewPager);
-        recyclerView = view.findViewById(R.id.productrecyculer);
-        tippencil = view.findViewById(R.id.onclicktippencil);
-        graph = view.findViewById(R.id.onclickgraph);
-        editText = view.findViewById(R.id.tyu);
-        aenote = view.findViewById(R.id.onclicka3note);
-        drafter = view.findViewById(R.id.onclickdrafter);
-        calculator = view.findViewById(R.id.onclickcalculator);
-        cart = view.findViewById(R.id.mycarthome);
-        allproducts = view.findViewById(R.id.allproducts);
-        cartIconWithBadge = view.findViewById(R.id.cart_icon_with_badge);
-        book=view.findViewById(R.id.onclickbook);
-        progressBar = view.findViewById(R.id.progress_barvbn);
-        contentLayout = view.findViewById(R.id.content_layout);
-
-        productDetails = new ArrayList<>();
-        adaptor = new ProductlistAdaptor(productDetails, getContext());
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recyclerView.setAdapter(adaptor);
-    }
-
     private void setupListeners() {
-        editText.setOnClickListener(v -> startActivity(new Intent(getContext(), AllProducts.class)));
-        cart.setOnClickListener(v -> startActivity(new Intent(getContext(), Mycart.class)));
-        cartIconWithBadge.setOnClickListener(v -> startActivity(new Intent(getContext(), Mycart.class)));
-        allproducts.setOnClickListener(v -> startActivity(new Intent(getContext(), AllProducts.class)));
+        editText.setOnClickListener(v -> startActivity(new Intent(StationaryActivity.this, AllProducts.class)));
+        cart.setOnClickListener(v -> startActivity(new Intent(StationaryActivity.this, Mycart.class)));
+        cartIconWithBadge.setOnClickListener(v -> startActivity(new Intent(StationaryActivity.this, Mycart.class)));
+        allproducts.setOnClickListener(v -> startActivity(new Intent(StationaryActivity.this, AllProducts.class)));
 
         setupCategoryListeners();
     }
@@ -129,7 +114,7 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
 
     private void openProductPreview(String name, String price, int imageResource, String description) {
         ProductDetails pr = new ProductDetails(name, price, imageResource, 1, description);
-        Intent intent = new Intent(getContext(), Productpreviewa.class);
+        Intent intent = new Intent(StationaryActivity.this, Productpreviewa.class);
         intent.putExtra("product", pr);
         startActivity(intent);
     }
@@ -201,14 +186,13 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int itemCount = (int) dataSnapshot.getChildrenCount();
-                if (isAdded()) {
-                    updateCartBadge(itemCount);
-                }
+
+                updateCartBadge(itemCount);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
+
             }
         });
     }
@@ -236,13 +220,13 @@ public class history_fragment extends Fragment implements BannerAdapter.OnBanner
         Intent intent;
         switch (bannerItem.getButtonText()) {
             case "Buy Now":
-                intent = new Intent(getContext(), ComboOfferpen.class);
+                intent = new Intent(StationaryActivity.this, ComboOfferpen.class);
                 break;
             case "Shop Now":
-                intent = new Intent(getContext(), Combopencil.class);
+                intent = new Intent(StationaryActivity.this, Combopencil.class);
                 break;
             default:
-                intent = new Intent(getContext(), ComboDrafter.class);
+                intent = new Intent(StationaryActivity.this, ComboDrafter.class);
                 break;
         }
         startActivity(intent);

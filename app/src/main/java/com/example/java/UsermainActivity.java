@@ -60,7 +60,7 @@ public class UsermainActivity extends AppCompatActivity {
                 }
 
                 if(id==R.id.Historybottom){
-                    fragment=new history_fragment();
+                    fragment=new shopchoosingactivity();
 
                 }
                 if(id==R.id.profilebottom)

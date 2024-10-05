@@ -27,8 +27,6 @@ public class BookFormApplication extends AppCompatActivity {
     private  String name,phno;
 
 
-    // Firebase instances
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

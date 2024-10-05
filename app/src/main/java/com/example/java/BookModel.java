@@ -17,8 +17,10 @@ public class BookModel {
     private String orderDate;
     private String orderTime;
 
-
     public BookModel() {
+    }
+
+    public BookModel(String name, String model, String price, String description, String orderDate, String orderTime) {
     }
 
     public String getUsername() {

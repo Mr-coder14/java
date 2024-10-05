@@ -19,12 +19,27 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/logo"
+        android:icon="@drawable/jasalogo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Java"
         tools:targetApi="34">
+        <activity
+            android:name=".projectorderactivityuser"
+            android:exported="false" />
+        <activity
+            android:name=".Productordersactivity"
+            android:exported="false" />
+        <activity
+            android:name=".productsordersactivityadmin"
+            android:exported="false" />
+        <activity
+            android:name=".Projectproductsfrormapplication"
+            android:exported="false" />
+        <activity
+            android:name=".StationaryActivity"
+            android:exported="false" />
         <activity
             android:name=".bookordersactivityadmin"
             android:exported="false" />

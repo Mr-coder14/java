@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }
                 }
-                // Move the checkUserAndRedirect call here
+
                 new Handler().postDelayed(() -> checkUserAndRedirect(), SPLASH_DURATION);
             }
 

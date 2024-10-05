@@ -1,5 +1,4 @@
 package com.example.java;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +9,10 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,7 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class profile_fragment extends Fragment {
@@ -39,7 +35,6 @@ public class profile_fragment extends Fragment {
     private ScrollView scrollView;
     private FirebaseUser user;
     private DatabaseReference usersRef;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,7 +54,6 @@ public class profile_fragment extends Fragment {
         email = view.findViewById(R.id.emailprofile);
         progressBar.setVisibility(View.VISIBLE);
         scrollView.setVisibility(View.GONE);
-
         allordersbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,9 +88,7 @@ public class profile_fragment extends Fragment {
                                                     .load(R.drawable.person3)
                                                     .into(circleImageView);
                                         }
-
                                     }
-
                                 }
                             }
                         });
@@ -106,31 +98,26 @@ public class profile_fragment extends Fragment {
                     scrollView.setVisibility(View.VISIBLE);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 progressBar.setVisibility(View.GONE);
                 scrollView.setVisibility(View.VISIBLE);
             }
         });
-
         btnlout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showLogoutDialog();
             }
         });
-
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), editdetails.class));
             }
         });
-
         return view;
     }
-
     private void showLogoutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Logout");
@@ -138,7 +125,6 @@ public class profile_fragment extends Fragment {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
                 if (user != null) {
                     auth.signOut();
                     cart.clearInstance();
