@@ -401,10 +401,11 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
                     }
 
+
                     amtperqty = perpage * pgsam;
 
                     finalamount = perpage * pgsam * count;
-                    if(ratios.equals("1:2")){
+                    if(ratios.equals("1:2") ){
                         finalamount=finalamount/2;
                         amtperqty=amtperqty/2;
 
@@ -412,6 +413,10 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                     if(ratios.equals("1:4")){
                         finalamount=finalamount/4;
                         amtperqty=amtperqty/4;
+                    }
+                    if(formats.equals("Front & Back")){
+                        finalamount=finalamount/2;
+                        amtperqty=amtperqty/2;
                     }
                     pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
 
@@ -432,6 +437,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                     if (spiralSwitch.isChecked()) {
                         finalamount += spiralCost;
                     }
+
 
 
 
