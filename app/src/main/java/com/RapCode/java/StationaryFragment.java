@@ -127,7 +127,10 @@ public class StationaryFragment extends Fragment implements BannerAdapter.OnBann
         List<BannerItem> banners = new ArrayList<>();
         banners.add(new BannerItem("Combo Offer!", "Blue Pen-3,Black-1", "Buy Now", Color.parseColor("#FFE4E1"), R.drawable.pencombo));
         banners.add(new BannerItem("Combo Offer!", "Tip Pencil,Box,Scale,Eraser", "Shop Now", Color.parseColor("#E1F5FE"), R.drawable.pencilcombo));
-        banners.add(new BannerItem("Drafter Combo", "Drafter,A3 Note", "Get Now", Color.parseColor("#f0df60"), R.drawable.draftercombo));
+        banners.add(new BannerItem("Drafter Combo!", "Drafter,A3 Note", "Get Now", Color.parseColor("#f0df60"), R.drawable.draftercombo));
+        banners.add(new BannerItem("Order Your Favourite Book!","","Order Now",Color.parseColor("#FFE4E1"),R.drawable.books));
+        banners.add(new BannerItem("Order Your Products For Your Project!","","Order Now",Color.parseColor("#E1F5FE"),R.drawable.uioop));
+
 
         BannerAdapter bannerAdapter = new BannerAdapter(banners, this);
         bannerViewPager.setAdapter(bannerAdapter);
@@ -155,7 +158,7 @@ public class StationaryFragment extends Fragment implements BannerAdapter.OnBann
                     "\n" +
                     "Set includes mechanical pencil with one tube of lead (0.7mm)"));
             productDetails.add(new ProductDetails("Bipolar Graph (100 sheets)","140",R.drawable.bipolar,1));
-            productDetails.add(new ProductDetails("Tip Bpx Camlin Kokuyo 0.7mm Klick Lead Tube","5",R.drawable.tipbox,1,"Leads are tough, smooth and dark\n" +
+            productDetails.add(new ProductDetails("Tip Box Camlin Kokuyo 0.7mm Klick Lead Tube","5",R.drawable.tipbox,1,"Leads are tough, smooth and dark\n" +
                     "0.7mm B leads\n" +
                     "High polymer fine leads for smooth writing"));
             productDetails.add(new ProductDetails("Kokuyo Camlin Exam Scale Broad 30cm Ruler ","10",R.drawable.scale,1,"Camlin Exam portfolio of scales are the perfect tools for high precision and accuracy. Smooth taped edges that lie flat on the surface to give a sharp line. Transparent body"));

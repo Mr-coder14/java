@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +21,7 @@ import Tempadmin.AllOrderstempadmin;
 
 public class OrdersListFragment extends Fragment {
     private ConstraintLayout c1, c2, c3, c4;
-    private ImageButton c;
+
     private FirebaseUser user;
     private ArrayList<String> admins = new ArrayList<>();
 
@@ -34,7 +33,7 @@ public class OrdersListFragment extends Fragment {
         c1 = view.findViewById(R.id.xeroxorders);
         c4 = view.findViewById(R.id.productorders);
         c2 = view.findViewById(R.id.stationryorders);
-        c = view.findViewById(R.id.backbtnordersuser11);
+
         c3 = view.findViewById(R.id.bookorders);
         user = FirebaseAuth.getInstance().getCurrentUser();
         admins.add("abcd1234@gmail.com");
@@ -52,12 +51,7 @@ public class OrdersListFragment extends Fragment {
             }
         });
 
-        c.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
+
 
         c3.setOnClickListener(new View.OnClickListener() {
             @Override

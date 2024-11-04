@@ -1,14 +1,18 @@
 package com.RapCode.java;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,12 +25,12 @@ import java.util.ArrayList;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DURATION = 3000;
-    private ImageView logoImageView;
-    private ProgressBar progressBar;
+    private static final int SPLASH_DURATION = 5000; // 3 seconds
+    private TextView textView;
 
     private FirebaseAuth auth;
     private DatabaseReference tempadminsref;
+    private LottieAnimationView lottieAnimationView, lottieAnimationView1;
     private ArrayList<String> tempadmins = new ArrayList<>();
     private ArrayList<String> admins = new ArrayList<>();
 
@@ -35,16 +39,52 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashactivity);
 
-        logoImageView = findViewById(R.id.logoImageViewsplash);
-        progressBar = findViewById(R.id.progressBarsplash);
+        lottieAnimationView1 = findViewById(R.id.shopss);
+        textView = findViewById(R.id.jasatxt);
+        lottieAnimationView = findViewById(R.id.shopdesign);
+
         admins.add("abcd1234@gmail.com");
         admins.add("saleem1712005@gmail.com");
         admins.add("jayaraman00143@gmail.com");
 
+        Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
+        textView.post(() -> textView.startAnimation(slideIn));
+        lottieAnimationView1.post(() -> lottieAnimationView1.setAnimation(slideIn));
+
+        lottieAnimationView.setAnimation(R.raw.shopdesign);
+        lottieAnimationView1.setAnimation(R.raw.shops);
+        lottieAnimationView1.playAnimation();
+        lottieAnimationView.playAnimation();
+
+        // Set up looping animations
+        lottieAnimationView1.addAnimatorListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                lottieAnimationView1.playAnimation();
+            }
+        });
+
+        lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {}
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                lottieAnimationView.playAnimation();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {}
+        });
+
         auth = FirebaseAuth.getInstance();
         tempadminsref = FirebaseDatabase.getInstance().getReference().child("tempadmin");
 
-        loadTempAdmins();
+        // Delay loading temp admins and checking user status
+        new Handler().postDelayed(this::loadTempAdmins, SPLASH_DURATION);
     }
 
     private void loadTempAdmins() {
@@ -60,15 +100,12 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }
                 }
-
-                new Handler().postDelayed(() -> checkUserAndRedirect(), SPLASH_DURATION);
+                checkUserAndRedirect();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error if needed
-                // Still proceed to check user and redirect
-                new Handler().postDelayed(() -> checkUserAndRedirect(), SPLASH_DURATION);
+                checkUserAndRedirect();
             }
         });
     }
@@ -84,9 +121,7 @@ public class SplashActivity extends AppCompatActivity {
                 } else if (tempadmins.contains(userEmail)) {
                     intent = new Intent(SplashActivity.this, tempadminmainactivity.class);
                 } else {
-
                     intent = new Intent(SplashActivity.this, UsermainActivity.class);
-
                 }
             } else {
                 intent = new Intent(SplashActivity.this, loginactivity.class);

@@ -3,7 +3,7 @@
 <item
     android:title="Shop"
     android:id="@+id/Shopbottom"
-    android:icon="@drawable/btn_1"
+    android:icon="@drawable/btn_3"
 
     />
     <item
