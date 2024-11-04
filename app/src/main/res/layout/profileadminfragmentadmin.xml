@@ -114,7 +114,7 @@
 
                     <ImageView
                         android:id="@+id/imageViewadminmain"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="@+id/homeconstraint1adminmain"
@@ -125,11 +125,12 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="60dp"
                         android:layout_marginEnd="24dp"
                         android:layout_marginBottom="8dp"
+                        android:padding="8dp"
                         android:background="@drawable/whitebg_profile"
                         android:elevation="6dp"
                         android:orientation="vertical"
@@ -371,39 +372,6 @@
 
                         </LinearLayout>
 
-                        <View
-                            android:id="@+id/view5adminmain"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_margin="7dp"
-                            android:background="#D9D9D9" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView9984adminmain"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Last Order"
-                                android:textColor="#182693"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/textView1099adminmain"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="20/4/2024"
-                                android:textAlignment="viewEnd"
-                                android:textColor="#5B5B5B"
-                                android:textSize="16sp" />
-
-                        </LinearLayout>
                     </LinearLayout>
 
 

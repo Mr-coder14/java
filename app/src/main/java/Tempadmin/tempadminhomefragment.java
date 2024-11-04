@@ -20,13 +20,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.java.Fileinmodel;
-import com.example.java.R;
-import com.example.java.RetrivepdfAdaptorhomeadmin;
-import com.example.java.recyculer.orderadaptortadmin;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.RapCode.java.Fileinmodel;
+import com.RapCode.java.R;
+import com.RapCode.java.recyculer.orderadaptortadmin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

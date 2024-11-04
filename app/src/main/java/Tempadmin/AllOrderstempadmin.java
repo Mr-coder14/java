@@ -19,12 +19,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.java.Fileinmodel;
-import com.example.java.R;
-import com.example.java.RetrivepdfAdaptorhomeadmin;
-import com.example.java.recyculer.allordersadaptor;
-import com.example.java.recyculer.orderadaptormyorders;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.RapCode.java.Fileinmodel;
+import com.RapCode.java.R;
+import com.RapCode.java.recyculer.allordersadaptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
