@@ -101,9 +101,17 @@ public class ReviewAdaptor extends RecyclerView.Adapter<ReviewAdaptor.ProductVie
                 // Prepare the data to upload to Firebase
                 Review review = new Review(rating, feedback, username);
 
-                // Upload the data under username and product name
+                // Sanitize the product name by replacing restricted characters
+                String sanitizedProductName = product.getProductname()
+                        .replace(".", "_")
+                        .replace("#", "_")
+                        .replace("$", "_")
+                        .replace("[", "_")
+                        .replace("]", "_");
+
+                // Upload the data under username and sanitized product name
                 databaseReference.child(userid)
-                        .child(product.getProductname()) // Assuming getProductname() returns a unique product name
+                        .child(sanitizedProductName)
                         .setValue(review)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {

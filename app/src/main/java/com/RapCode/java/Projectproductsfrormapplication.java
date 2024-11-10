@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ public class Projectproductsfrormapplication extends AppCompatActivity {
     private EditText pname,pmodel,pprice,pdescription;
     private Button btn;
     private  String username,phno,userid;
+    private ImageButton img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +35,18 @@ public class Projectproductsfrormapplication extends AppCompatActivity {
         pname=findViewById(R.id.editTextBookName1);
         pmodel=findViewById(R.id.editTextAuthorName1);
         pprice=findViewById(R.id.editTextPrice1);
+        img=findViewById(R.id.backbtnbook1);
         btn=findViewById(R.id.buttonSubmitg1);
         pdescription=findViewById(R.id.editTextDescription1);
         userid=FirebaseAuth.getInstance().getUid();
         DatabaseReference d=FirebaseDatabase.getInstance().getReference().child("users").child(userid);
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         d.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -118,6 +118,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         int p=position;
         holder.currentPdfIndex=position;
         holder.bind(uris[p], fileNames[p],p);
+        holder.updateamt(p);
 
         PDFDetails pdfDetails = pdfDetailsList.get(p);
 
@@ -164,6 +165,47 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
             }
         });
+        ArrayList<String> ratio = new ArrayList<>();
+        ratio.add("1:1");
+        ratio.add("1:2");
+
+        RatioSpinnerAdaptor ratioAdapter = new RatioSpinnerAdaptor(context, ratio.toArray(new String[0]));
+        holder.spinner1.setAdapter(ratioAdapter);
+
+        // Prevent multiple event firing
+        holder.spinner1.setOnItemSelectedListener(null);
+
+        // Set initial selection if needed
+        if (pdfDetails.getRatios() != null) {
+            int initPosition = ratio.indexOf(pdfDetails.getRatios());
+            if (initPosition >= 0) {
+                holder.spinner1.setSelection(initPosition);
+            }
+        }
+
+        holder.spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                if (view != null) {
+                    // Get the actual ratio text from the adapter
+                    String selectedRatio = ratio.get(pos);
+                    holder.ratios = selectedRatio;
+                    pdfDetailsList.get(p).setRatios(selectedRatio);
+
+                    // Ignore clicks on the preview button
+                    if (view.findViewById(R.id.ratioPreviewBtn) != null &&
+                            view.findViewById(R.id.ratioPreviewBtn).hasFocus()) {
+                        return;
+                    }
+
+                    holder.updateamt(p);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
 
         ArrayList<String> format = new ArrayList<>();
@@ -190,32 +232,8 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             }
         });
 
-        ArrayList<String> ratio = new ArrayList<>();
-        ratio.add("1:1");
-        ratio.add("1:2");
-        ratio.add("1:4");
-        ArrayAdapter<String> Adaptor2 = new ArrayAdapter<>(
-                context,
-                R.layout.spinner_item_layout,
-                ratio
-        );
-        Adaptor2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        holder.spinner1.setAdapter(Adaptor2);
-        holder.spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position3, long id) {
-                holder.ratios=parent.getItemAtPosition(position3).toString();
-                String a=parent.getItemAtPosition(position3).toString();
-                pdfDetailsList.get(p).setRatios(a);
-                holder.updateamt(p);
 
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         holder.qty.setFilters(new InputFilter[]{new PreviewAdapter.InputFilterMinMax(1, 10000)});
         holder.qty.addTextChangedListener(new TextWatcher() {
@@ -234,7 +252,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                     holder.count = Integer.parseInt(a);
                     pdfDetailsList.get(p).setCount(Integer.parseInt(a));
                     holder.qtytxt1.setText(a);
-                    holder.qtyno.setText(a);
+
 
                     holder.updateamt(p);
                 } else {
@@ -243,7 +261,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                     pdfDetailsList.get(p).setCount(Integer.parseInt("1"));
 
                     holder.qtytxt1.setText(String.valueOf(holder.count));
-                    holder.qtyno.setText(String.valueOf(holder.count));
+
 
 
                 }
@@ -263,7 +281,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                     pdfDetailsList.get(p).setCount(holder.count);
                     holder.qty.setText(String.valueOf(holder.count));
                     holder.qtytxt1.setText(String.valueOf(holder.count));
-                    holder.qtyno.setText(String.valueOf(holder.count));
                     holder.updateamt(p);
                 }
             }
@@ -284,7 +301,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 pdfDetailsList.get(p).setCount(holder.count);
                 holder.qty.setText(String.valueOf(holder.count));
                 holder.qtytxt1.setText(String.valueOf(holder.count));
-                holder.qtyno.setText(String.valueOf(holder.count));
                 holder.updateamt(p);
             }
         });
@@ -330,7 +346,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         private ImageView pdfThumbnail;
         private Switch spiralSwitch;
 
-        private TextView  pg, amt1, qtyno, qtytxt1, perpageamt, colortxt,finalamt;
+        private TextView  pg, amt1, qtytxt1, perpageamt, colortxt,finalamt;
 
         private EditText qty;
         private int currentPdfIndex = 0;
@@ -354,7 +370,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
             fileNameTextView = itemView.findViewById(R.id.filenametxt1admin);
             qtytxt1 = itemView.findViewById(R.id.qtytxt1admin);
-            qtyno = itemView.findViewById(R.id.qtynoadmin);
             fileNameTextView = itemView.findViewById(R.id.filenametxt1admin);
             black = itemView.findViewById(R.id.blackcolor);
             gradient = itemView.findViewById(R.id.gradientcolor);
@@ -369,7 +384,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             preview = itemView.findViewById(R.id.preview);
             perpageamt = itemView.findViewById(R.id.perpageamtadmin);
             plus = itemView.findViewById(R.id.addqtyadmin);
-            qtyno = itemView.findViewById(R.id.qtynoadmin);
             minus = itemView.findViewById(R.id.minusqtyadmin);
             pdfThumbnail = itemView.findViewById(R.id.pdfViewadmin);
             colortxt = itemView.findViewById(R.id.colorfontadmin);
@@ -387,17 +401,31 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                         perpage=10.0f;
                     }
                     else {
-                        switch (pdfDetailsList.get(position).getRatios()) {
-                            case "1:1":
-                                perpage = 0.75f;
-                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.75));
-                                break;
-                            case "1:2":
-                            case "1:4":
-                                perpage = 0.75f;
-                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.75));
-                                break;
+                        String ratio=pdfDetailsList.get(position).getRatios();String format=pdfDetailsList.get(position).getFormats();
+                        if(format.equals("Front Only") && ratio.equals("1:1")){
+                            perpage=0.675f;
                         }
+                        if(format.equals("Front & Back") && ratio.equals("1:2")){
+                            perpage=0.7f;
+                        }
+                        if(format.equals("Front & Back") && ratio.equals("1:1")){
+                            perpage=0.75f;
+                        }
+                        if(format.equals("Front Only") && ratio.equals("1:2")){
+                            perpage=0.675f;
+                        }
+
+
+//                        switch (pdfDetailsList.get(position).getRatios()) {
+//                            case "1:1":
+//                                perpage = 0.75f;
+//                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.75));
+//                                break;
+//                            case "1:2":
+//                                perpage = 0.75f;
+//                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.75));
+//                                break;
+//                        }
 
                     }
 
@@ -410,14 +438,8 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                         amtperqty=amtperqty/2;
 
                     }
-                    if(ratios.equals("1:4")){
-                        finalamount=finalamount/4;
-                        amtperqty=amtperqty/4;
-                    }
-                    if(formats.equals("Front & Back")){
-                        finalamount=finalamount/2;
-                        amtperqty=amtperqty/2;
-                    }
+
+
                     pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
 
 
@@ -430,7 +452,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                         finalamount -= discount;
                     }
 
-                    if((ratios.equals("1:2") || ratios.equals("1:4")) && formats.equals("Front & Back") && pgsam>200){
+                    if((ratios.equals("1:2") && formats.equals("Front & Back") && pgsam>200)){
                         float discount = 0.05f * finalamount;
                         finalamount -= discount;
                     }

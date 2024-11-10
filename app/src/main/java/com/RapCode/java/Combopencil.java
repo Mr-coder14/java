@@ -62,9 +62,9 @@ public class Combopencil extends AppCompatActivity {
         productDetailsList.add(new ProductDetails("Tip Bpx Camlin Kokuyo 0.7mm Klick Lead Tube","5",R.drawable.tipbox,1,"Leads are tough, smooth and dark\n" +
                 "0.7mm B leads\n" +
                 "High polymer fine leads for smooth writing"));
-        productDetailsList.add(new ProductDetails("Kokuyo Camlin Exam Scale Broad 30cm Ruler ","20",R.drawable.scale,1,"Camlin Exam portfolio of scales are the perfect tools for high precision and accuracy. Smooth taped edges that lie flat on the surface to give a sharp line. Transparent body"));
+        productDetailsList.add(new ProductDetails("Kokuyo Camlin Exam Scale Broad 30cm Ruler ","10",R.drawable.scale,1,"Camlin Exam portfolio of scales are the perfect tools for high precision and accuracy. Smooth taped edges that lie flat on the surface to give a sharp line. Transparent body"));
         productDetailsList.add(new ProductDetails("White Apsara Eraser","5",R.drawable.eraser,1,"As a quality focused firm, we are engaged in offering a high quality range of Apsara Eraser."));
-        cpmbofferpen=new ProductDetails("Combo Offer Tip Pencil,Box,Scale,Eraser","45",R.drawable.pencilcombo,1);
+        cpmbofferpen=new ProductDetails("Combo Offer Tip Pencil,Box,Scale,Eraser","35",R.drawable.pencilcombo,1);
         updateEmptyCartMessage();
 
         adaptor = new mylistcombopenadaptor(productDetailsList, this);

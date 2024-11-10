@@ -35,6 +35,7 @@ public class Productpreviewa extends AppCompatActivity {
     private TextView name,amt;
     private RecyclerView recyclerViewReviews;
     private ReviewAdaptor1 reviewAdapter;
+    private String productname;
     private List<Review> reviewList = new ArrayList<>();
     private DatabaseReference reviewsRef;
     private LinearLayout cart1,gh;
@@ -52,6 +53,7 @@ public class Productpreviewa extends AppCompatActivity {
         setContentView(R.layout.activity_productpreviewa);
         back=findViewById(R.id.backButtonproductview);
         gh=findViewById(R.id.qtyjkjii);
+
         iamge=findViewById(R.id.productImagevieww);
         discription=findViewById(R.id.discriptionview);
 
@@ -69,6 +71,12 @@ public class Productpreviewa extends AppCompatActivity {
         admins.add("jayaraman00143@gmail.com");
         Intent intent = getIntent();
         currentProduct = (ProductDetails) intent.getSerializableExtra("product");
+        productname=currentProduct.getProductname()
+                .replace(".", "_")
+                .replace("#", "_")
+                .replace("$", "_")
+                .replace("[", "_")
+                .replace("]", "_");
 
 
         name.setText(currentProduct.getProductname());
@@ -159,7 +167,7 @@ public class Productpreviewa extends AppCompatActivity {
                 if(dataSnapshot.exists()){
                 for (DataSnapshot reviewSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot u1 : reviewSnapshot.getChildren())
-                        if (u1.getKey().equals(currentProduct.getProductname())) {
+                        if (u1.getKey().equals(productname)) {
                             Review review = u1.getValue(Review.class);
                             reviewList.add(review);
                         }

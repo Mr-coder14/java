@@ -68,8 +68,8 @@ public class UsermainActivity extends AppCompatActivity {
                     fragment = new profile_fragment();
 
                 }
-                if(id==R.id.Ordersbottom){
-                    fragment=new OrdersListFragment();
+                if(id==R.id.Bookandproductbottom){
+                    fragment=new BookProductFragment();
                 }
                 if(fragment!=null) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containerm, fragment).commit();

@@ -47,9 +47,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Introduction"
+                android:text="Terms and Conditions"
                 android:fontFamily="@font/lato"
-                android:textSize="22sp"/>
+                android:textSize="22sp"/>z
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,11 +57,33 @@
                 android:fontFamily="@font/plus"
                 android:textSize="17sp"
                 android:textColor="@color/black"
-                android:text="Welcome to Jasa. These Terms and Conditions govern your use of the payment services provided by Jasa. By using our payment services, you agree to these Terms and Conditions in full. Please read them carefully before using the service."/>
+                android:text="
+Welcome to Jasa Essential!  These terms and conditions outline the rules and regulations for using our app and services. By using our app, you accept these terms in full. \n\n
+
+1. User Accounts\n
+Users must create an account to place orders. Ensure all information is accurate and up-to-date. You are responsible for maintaining the confidentiality of your account and password.\n\n
+
+2. Services Provided\n
+We offer a wide range of stationery products and Xerox/printing services tailored for students. Please check the product descriptions and pricing before placing an order.
+\n\n
+3. Payment and Order Processing\n
+All payments are securely processed through Razorpay. Orders will be processed once the payment is confirmed.
+\n\n
+4. Shipping and Delivery\n
+We strive to deliver orders within the estimated time frame. Delivery times may vary based on location and product availability.
+\n\n
+5. No Refund Policy\n
+Due to the nature of our services, we have a strict no-refund policy. Please ensure your order details are correct before confirming your purchase.
+\n\n
+6. Limitation of Liability\n
+We are not liable for any delays or damages caused by third-party delivery services. We are committed to resolving any issues within our control promptly.
+\n\n
+7. Modifications to Terms\n
+We reserve the right to modify these terms at any time. Updated terms will be available on the app."/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="User Agreement"
+                android:text="Privacy Policy"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/lato"
                 android:textSize="22sp"/>
@@ -72,11 +94,26 @@
                 android:fontFamily="@font/plus"
                 android:textSize="17sp"
                 android:textColor="@color/black"
-                android:text="By accessing and using the payment services within JASA, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you must not use our payment services. Users must be at least 16 years old to use the payment services provided through our app."/>
+                android:text="We value your privacy. This policy outlines how we collect, use, and protect your information.\n\n
+
+1. Information Collection\n
+We collect personal information (such as your name, contact details, and payment information) to process orders and provide services.
+\n\n
+2. Data Usage\n
+Your data is used for order processing, customer support, and service improvement. We may also send you notifications regarding new products and services.
+\n\n
+3. Data Security\n
+All transactions are securely processed, and personal information is stored in accordance with data protection laws.
+\n\n
+4. Data Sharing\n
+We do not share your personal information with third parties, except as necessary for order processing and delivery.
+\n\n
+5. User Rights\n
+You have the right to access, update, or delete your personal information. Please contact us for any privacy-related inquiries."/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Refund and Cancellation Policy"
+                android:text="Shipping Policy"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/lato"
                 android:textSize="22sp"/>
@@ -87,9 +124,19 @@
                 android:fontFamily="@font/plus"
                 android:textSize="17sp"
                 android:textColor="@color/black"
-                android:text="All sales are final, and we do not offer refunds except in cases where the product or service is defective or not as described. To request a refund, please contact our support team within 24 Hours of your purchase with a detailed description of the issue.
-Refunds will be processed back to the original payment method used at the time of purchase. Please note that processing times for refunds may vary based on your financial institution.
-Please note that we do not refund any transaction fees or charges incurred by Razorpay during the payment process."/>
+                android:text="We deliver stationery items and printed documents across India through reliable delivery services.
+\n\n
+1. Delivery Time\n
+Orders are typically processed within [1-2 days] and delivered within [3-5 days] depending on the location.
+\n\n
+2. Shipping Charges\n
+Shipping charges are calculated based on the order size and delivery location.
+\n\n
+3. Order Tracking\n
+After placing an order, you will receive tracking details to monitor the delivery status.
+\n\n
+4. Delays and Issues\n
+While we work to ensure timely delivery, occasional delays may occur. Please contact customer support for assistance with any delivery issues."/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,7 +158,7 @@ It is your responsibility to ensure that your account details and payment inform
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Privacy Policy"
+                android:text="Refund Policy"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/lato"
                 android:textSize="22sp"/>
@@ -122,7 +169,18 @@ It is your responsibility to ensure that your account details and payment inform
                 android:fontFamily="@font/plus"
                 android:textSize="17sp"
                 android:textColor="@color/black"
-                android:text="We are committed to protecting your privacy. We collect and use your personal information only as needed to process your transactions and provide the best possible service to you. Your payment information is securely processed through Razorpay and is not stored on our servers"/>
+                android:text="Since we deal in stationery items and custom printing services, we maintain a no-refund policy.
+\n\n
+1. No Refunds\n
+Once an order is placed and payment is confirmed, it cannot be refunded.
+\n\n
+2. Order Accuracy\n
+Please ensure your order details are correct, including product specifications for Xerox services. We are not responsible for user errors in order specifications.
+\n\n
+3. Replacement\n
+In case of incorrect or damaged items, please contact us within 48 hours of delivery. We will work to provide a replacement if applicable.
+
+"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

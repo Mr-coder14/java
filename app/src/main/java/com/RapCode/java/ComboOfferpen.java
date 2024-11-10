@@ -47,8 +47,18 @@ public class ComboOfferpen extends AppCompatActivity {
             }
         });
 
-        productDetailsList.add(new ProductDetails("Stylish X3 Ball Pen - Blue (0.7mm)","10",R.drawable.stylishpenblue,3));
-        productDetailsList.add(new ProductDetails("Stylish X3 Ball Pen - Black (0.7mm)","10",R.drawable.stylishblackpen,1));
+        productDetailsList.add(new ProductDetails("Hauser XO Ball Pen Blue INK","30",R.drawable.xoblue,3,"\n" +
+                "Brand: \tGeneric\n" +
+                "Ink Colour: \tBlue\n" +
+                "Net Quantity: \t10.0 count\n" +
+                "Body Shape: \tRound\n" +
+                "Hand Orientation: \tAmbidextrous"));
+        productDetailsList.add(new ProductDetails("Hauser XO Ball Pen Black INK","10",R.drawable.xooblack,1,"\n" +
+                "Brand: \tGeneric\n" +
+                "Ink Colour: \tBlack\n" +
+                "Net Quantity: \t10.0 count\n" +
+                "Body Shape: \tRound\n" +
+                "Hand Orientation: \tAmbidextrous"));
         cpmbofferpen=new ProductDetails("Combo Offer  Blue Pen-3,Black-1","40",R.drawable.pencombo,1);
         updateEmptyCartMessage();
 

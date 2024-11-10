@@ -13,9 +13,9 @@
 
         />
     <item
-        android:title="Orders"
-        android:id="@+id/Ordersbottom"
-        android:icon="@drawable/baseline_history_24"
+        android:title="Books  Products"
+        android:id="@+id/Bookandproductbottom"
+        android:icon="@drawable/baseline_menu_book_24"
 
         />
     <item

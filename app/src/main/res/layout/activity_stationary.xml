@@ -327,8 +327,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/allproducts"
+                android:textSize="16dp"
                 android:text="See all"
-                android:textColor="#4CAF50" />
+                android:textColor="#E91E63" />
         </LinearLayout>
 
 

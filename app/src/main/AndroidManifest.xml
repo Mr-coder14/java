@@ -25,9 +25,18 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Java"
         tools:targetApi="34">
-        <activity
-            android:name=".OrdersListFragment"
-            android:exported="false" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.java.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name=".projectorderactivityuser"
             android:exported="false" />
@@ -40,9 +49,7 @@
         <activity
             android:name=".Projectproductsfrormapplication"
             android:exported="false" />
-        <activity
-            android:name=".StationaryActivity"
-            android:exported="false" />
+
         <activity
             android:name=".bookordersactivityadmin"
             android:exported="false" />
