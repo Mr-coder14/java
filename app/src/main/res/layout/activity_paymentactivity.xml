@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,94 +8,263 @@
     android:background="#f5f5f5"
     android:padding="16dp"
     tools:context=".Paymentactivity">
-
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/headerLayout">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:id="@+id/backbtnpayment"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_gravity="center_vertical" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/lato"
-            android:text="Payment Options"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp" />
-
-    </LinearLayout>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"
-        android:id="@+id/ioi"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/headerLayout" />
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Address"
-        android:fontFamily="@font/lato"
-        android:drawableStart="@drawable/baseline_location_on_24"
-        android:textSize="20sp"
-        android:drawablePadding="5dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@id/ioi"
-        android:id="@+id/addressLabel" />
-
-    <!-- Address Container -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:elevation="8dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@drawable/whitebg_profile"
-        android:layout_below="@id/addressLabel">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ratiobtnaddress" />
-
-        <EditText
+        android:layout_weight="1"
+        >
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="17sp"
-            android:id="@+id/address"
-            android:background="@null"
-            android:text="Paavai Engineering College,Pachal,Tamilnadu,637018"
-            android:textColor="@color/black"
-            android:fontFamily="@font/plus"
-            android:layout_margin="1dp" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/headerLayout">
 
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back"
+                    android:id="@+id/backbtnpayment"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato"
+                    android:text="Payment Options"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="16dp" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:id="@+id/ioi"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/headerLayout" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:fontFamily="@font/lato"
+                android:drawableStart="@drawable/baseline_location_on_24"
+                android:textSize="20sp"
+                android:drawablePadding="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/ioi"
+                android:id="@+id/addressLabel" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:elevation="8dp"
+                android:id="@+id/suma"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/whitebg_profile"
+                android:layout_below="@id/addressLabel">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratiobtnaddress" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:id="@+id/address"
+                    android:background="@null"
+                    android:text="Paavai Engineering College,Pachal,Tamilnadu,637018"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/plus"
+                    android:layout_margin="1dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_below="@+id/suma"
+                android:id="@+id/uie"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/whitebg_profile"
+                android:elevation="8dp"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Payments To pay"
+                    android:layout_margin="8dp"
+                    android:fontFamily="@font/lato"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <RadioGroup
+                        android:id="@+id/radioGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radioButton1full"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/plus"
+                        android:textColor="@color/black"
+                        android:text="Full Payment" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton2off"
+                        android:layout_width="wrap_content"
+                        android:fontFamily="@font/plus"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"
+                        android:text="50% Payment (Balance amount to be paid upon delivery)" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sum1"
+                android:background="@drawable/whitebg_profile"
+                android:orientation="vertical"
+                android:layout_below="@+id/uie"
+                android:elevation="8dp"
+                android:padding="6dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="QR Code"
+                    android:fontFamily="@font/lato"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:id="@+id/qrCodeImageView"
+                    android:src="@drawable/qrcodesalem"
+                    />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Download QR"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/plus"
+                    android:id="@+id/qrdownlaodbtn"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="@color/green"
+                    android:background="@drawable/button_background"
+                    android:drawableLeft="@drawable/baseline_file_download_24"
+                    android:drawableTint="@color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/sum1"
+                android:background="@drawable/whitebg_profile"
+                android:elevation="8dp"
+                android:padding="6dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Upload The Paid screenshot Here"
+                    android:fontFamily="@font/lato"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/baseline_info_24"
+                        android:layout_gravity="center"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noteupalod"
+                        android:fontFamily="@font/plus"
+                        android:text="Please upload a screenshot that clearly shows the correct payment amount from the confirmation message. Ensure this matches your order’s total; otherwise, the order won’t be placed. Any other image uploads or incorrect payment amounts will also prevent your order from processing."
+                        />
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:layout_margin="10dp"
+                    android:id="@+id/uploadedimgaes"
+                    android:src="@drawable/uploadqr"
+                    />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Screenshot"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background"
+                    android:fontFamily="@font/plus"
+                    android:id="@+id/uploadscreenshotbtn"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="@color/green"
+                    android:drawableLeft="@drawable/baseline_file_upload_24"
+                    android:drawableTint="@color/white"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:padding="2dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/bottomLayout">
 
@@ -121,4 +290,6 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-</RelativeLayout>
+
+
+</LinearLayout>

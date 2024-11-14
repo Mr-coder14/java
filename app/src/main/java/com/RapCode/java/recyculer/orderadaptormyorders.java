@@ -20,6 +20,7 @@ public class orderadaptormyorders extends RecyclerView.Adapter<RetrivepdfAdaptor
     private List<Fileinmodel> orderList;
     private Context context;
 
+
     public orderadaptormyorders(List<Fileinmodel> orderList, Context context) {
         this.orderList = orderList;
         this.context = context;
@@ -43,6 +44,7 @@ public class orderadaptormyorders extends RecyclerView.Adapter<RetrivepdfAdaptor
         holder.Grandtotal.setText("₹ " + fld.getGrandTotal0());
         holder.UserName1.setText(fld.getUsername());
 
+
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, orderdetailsmyorders.class);
             intent.putExtra("orderid", fld.getOrderid0());
@@ -56,4 +58,5 @@ public class orderadaptormyorders extends RecyclerView.Adapter<RetrivepdfAdaptor
     public int getItemCount() {
         return orderList.size();
     }
+
 }

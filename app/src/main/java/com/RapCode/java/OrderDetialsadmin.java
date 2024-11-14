@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -58,6 +59,8 @@ public class OrderDetialsadmin extends AppCompatActivity {
     private ProgressBar progressBar;
     private ArrayList<Fileinmodel>fileinmodels;
     private  TextView gt;
+    private DownloadManager downloadManager;
+
     private FirebaseAuth mAuth;
     private Query query;
 
@@ -101,6 +104,36 @@ public class OrderDetialsadmin extends AppCompatActivity {
 
 
 
+       loadpfds();
+        downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+
+
+
+
+        dbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkPermission()) {
+                    downloadAllPdfs();
+                } else {
+                    requestPermission();
+                }
+            }
+        });
+
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+
+
+    }
+
+    private void loadpfds() {
         pdfsRef = FirebaseDatabase.getInstance().getReference().child("pdfs");
         pdfsRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -132,29 +165,6 @@ public class OrderDetialsadmin extends AppCompatActivity {
                 Toast.makeText(OrderDetialsadmin.this, "No files", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-        dbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkPermission()) {
-                    downloadAllPdfs();
-                } else {
-                    requestPermission();
-                }
-            }
-        });
-
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-
-
-
     }
 
     private void displaypdfs() {
@@ -174,12 +184,27 @@ public class OrderDetialsadmin extends AppCompatActivity {
 
 
     private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        return result == PackageManager.PERMISSION_GRANTED;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+        } else {
+            int result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED;
+        }
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            try {
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+            } catch (Exception e) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        }
     }
 
     @Override
@@ -193,11 +218,26 @@ public class OrderDetialsadmin extends AppCompatActivity {
             }
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    downloadAllPdfs();
+                } else {
+                    Toast.makeText(this, "Permission denied to access storage", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
 
     private void downloadAllPdfs() {
         totalPdfs = fileinmodels.size();
         downloadedPdfs = 0;
 
+        // Set up the progress dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Downloading PDFs");
         progressDialog.setMessage("Downloaded 0 of " + totalPdfs);
@@ -207,31 +247,76 @@ public class OrderDetialsadmin extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        // Register the BroadcastReceiver for download completion
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(downloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(downloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        }
+
+        // Start downloads for each file and keep track of download IDs
+        ArrayList<Long> downloadIds = new ArrayList<>();
         for (Fileinmodel pdfFile : fileinmodels) {
-            String pdfUrl = pdfFile.getUri0();
+            Uri pdfUri = Uri.parse(pdfFile.getUri0());
             String fileName = pdfFile.getName0();
 
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(pdfUrl));
+            DownloadManager.Request request = new DownloadManager.Request(pdfUri);
             request.setTitle("Downloading " + fileName);
             request.setDescription("Downloading PDF file");
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
 
-            final long downloadId = downloadManager.enqueue(request);
+            long downloadId = downloadManager.enqueue(request);
+            downloadIds.add(downloadId);
+        }
 
-            BroadcastReceiver onComplete = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-                    if (id == downloadId) {
-                        updateDownloadProgress();
+        // Check progress periodically
+        new Thread(() -> {
+            boolean downloading = true;
+            while (downloading) {
+                downloading = false;
+                for (Long downloadId : downloadIds) {
+                    DownloadManager.Query query = new DownloadManager.Query();
+                    query.setFilterById(downloadId);
+                    try (Cursor cursor = downloadManager.query(query)) {
+                        if (cursor != null && cursor.moveToFirst()) {
+                            int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                            if (status == DownloadManager.STATUS_RUNNING) {
+                                downloading = true;
+                                final int bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                                final int bytesTotal = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                                if (bytesTotal > 0) {
+                                    final int progress = (int) ((bytesDownloaded * 100L) / bytesTotal);
+                                    runOnUiThread(() -> progressDialog.setProgress(progress));
+                                }
+                            }
+                        }
                     }
                 }
-            };
-            registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        }
+                // Sleep to avoid high CPU usage
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
+
+    private final BroadcastReceiver downloadReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            downloadedPdfs++;
+            progressDialog.setProgress(downloadedPdfs);
+            progressDialog.setMessage("Downloaded " + downloadedPdfs + " of " + totalPdfs);
+
+            if (downloadedPdfs == totalPdfs) {
+                progressDialog.dismiss();
+                Toast.makeText(OrderDetialsadmin.this, "All PDFs downloaded successfully", Toast.LENGTH_SHORT).show();
+                unregisterReceiver(this);  // Unregister the receiver after all files are downloaded
+            }
+        }
+    };
 
     private void updateDownloadProgress() {
         downloadedPdfs++;

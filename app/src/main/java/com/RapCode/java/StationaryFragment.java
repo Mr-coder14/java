@@ -138,8 +138,8 @@ public class StationaryFragment extends Fragment implements BannerAdapter.OnBann
         banners.add(new BannerItem("Combo Offer!", "Blue Pen-3,Black-1", "Buy Now", Color.parseColor("#FFE4E1"), R.drawable.pencombo));
         banners.add(new BannerItem("Combo Offer!", "Tip Pencil,Box,Scale,Eraser", "Shop Now", Color.parseColor("#E1F5FE"), R.drawable.pencilcombo));
         banners.add(new BannerItem("Drafter Combo!", "Drafter,A3 Note", "Get Now", Color.parseColor("#f0df60"), R.drawable.draftercombo));
-        banners.add(new BannerItem("Order Your Favourite Book!","","Get Book",Color.parseColor("#FFE4E1"),R.drawable.books));
-        banners.add(new BannerItem("Order Your Products For Your Project!","","Get Products",Color.parseColor("#E1F5FE"),R.drawable.uioop));
+        banners.add(new BannerItem("Order Book!","Order your Favourite Book now!","Get Book",Color.parseColor("#FFE4E1"),R.drawable.bookimg));
+        banners.add(new BannerItem("Order products!","Get the Products for Projects!","Get Products",Color.parseColor("#E1F5FE"),R.drawable.productimagee));
 
 
         BannerAdapter bannerAdapter = new BannerAdapter(banners, this);

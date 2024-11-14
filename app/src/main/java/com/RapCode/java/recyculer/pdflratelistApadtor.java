@@ -39,7 +39,11 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
     ArrayList<PDFDetails> pdfDetails;
     private boolean orderd,delevried;
     private Activity activity;
+    private boolean isPaymentActivityStarted = false;
+    private int totalUploadedFiles = 0;
+    private boolean isUploadingComplete = false;
     private String username;
+    private ProgressDialog progressDialog;
     private boolean[] uploaded;
     private String orderid;
     String userid;
@@ -141,155 +145,121 @@ public class pdflratelistApadtor extends RecyclerView.Adapter<pdflratelistApadto
 
             return fileName.replaceAll("[.#$\\[\\]]", "_");
         }
-
         public void uploadPdf() {
-            ProgressDialog progressDialog = new ProgressDialog(context);
+            progressDialog = new ProgressDialog(context);
             progressDialog.setTitle("Uploading");
             progressDialog.setMessage("Please wait");
             progressDialog.setCancelable(false);
             progressDialog.show();
 
-            isUploading = true;
             orderd = true;
             delevried = false;
             databaseReference = FirebaseDatabase.getInstance().getReference().child("pdfs");
 
-            int totalFiles = uris.size();
-            int[] uploadedCount = {0};
+            // Start the first upload
+            uploadNextFile(0, progressDialog);
+        }
 
-            for (int i = 0; i < totalFiles; i++) {
-                String path = "pdfs/" + orderid + "/" + fileNames.get(i);
-                String sanitizedFileName = sanitizeFileName(fileNames.get(i));
-                StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(path);
+        private void uploadNextFile(int index, ProgressDialog progressDialog) {
+            if (index >= uris.size()) {
+                // All files have been uploaded
+                if (!isPaymentActivityStarted && activity != null && !activity.isFinishing()) {
+                    isPaymentActivityStarted = true;
+                    activity.runOnUiThread(() -> {
+                        dismissProgressDialog();
+                        Toast.makeText(context, "All files uploaded successfully", Toast.LENGTH_SHORT).show();
+                        // Open PaymentActivity after all files are uploaded
+                        Intent intent = new Intent(context, Paymentactivity.class);
+                        intent.putExtra("orderid", orderid);
+                        intent.putExtra("tt", grandtotal);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        activity.startActivity(intent);
+                        activity.finish();
 
-                int finalI = i;
 
-                UploadTask uploadTask = fileRef.putFile(uris.get(i));
-                uploadTask.addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            String downloadUrl = uri.toString();
+                    });
+                }
+                return;
+            }
 
+            String path = "pdfs/" + orderid + "/" + fileNames.get(index);
+            String sanitizedFileName = sanitizeFileName(fileNames.get(index));
+            StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(path);
 
-                            PDFDetails details = pdfDetails.get(finalI);
-                            details.setGrandtotal(grandtotal.toString());
-                            details.setOrderid1(orderid);
-                            details.setUserid(userid);
-                            details.setUri(downloadUrl);
+            UploadTask uploadTask = fileRef.putFile(uris.get(index));
 
-                            Fileinmodel fileModel = new Fileinmodel();
-                            fileModel.setName0(fileNames.get(finalI));
-                            fileModel.setUri0(details.getUri());
-                            fileModel.setSpiral(details.isSpiral());
-                            fileModel.setOrderid0(details.getOrderid1());
-                            fileModel.setColor0(details.getColor());
-                            fileModel.setGrandTotal0(details.getGrandtotal());
-                            fileModel.setQty0(String.valueOf(details.getCount()));
-                            fileModel.setFormat0(details.getFormats());
-                            fileModel.setRatio0(details.getRatios());
-                            fileModel.setSheet0(details.getSheet());
-                            fileModel.setDeliveyamt0("Free");
-                            fileModel.setPages0(details.getPages());
-                            fileModel.setPerpage0(details.getPerpage());
-                            fileModel.setPerqtyamt0(details.getPerqtyamt());
-                            fileModel.setOrderDate0(details.getOrderdate());
-                            fileModel.setFinalamt0(details.getFinalmat());
-                            fileModel.setPaid(false);
-                            fileModel.setuserid0(details.getUserid());
-                            fileModel.setOrderd(orderd);
-                            fileModel.setDelivered(delevried);
-                            fileModel.setNotes(notes != null ? notes : "");
-                            fileModel.setUsername(username);
-                            fileModel.setUploadTime(System.currentTimeMillis());
+            uploadTask.addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String downloadUrl = uri.toString();
+                        PDFDetails details = pdfDetails.get(index);
+                        details.setGrandtotal(grandtotal.toString());
+                        details.setOrderid1(orderid);
+                        details.setUserid(userid);
+                        details.setUri(downloadUrl);
 
-                            databaseReference.child(userid).child(orderid).child(sanitizedFileName).setValue(fileModel)
-                                    .addOnCompleteListener(task1 -> {
-                                        if (task1.isSuccessful()) {
-                                            uploaded[finalI] = true;
-                                        } else {
-                                            uploaded[finalI] = false;
-                                        }
+                        Fileinmodel fileModel = new Fileinmodel();
+                        fileModel.setName0(fileNames.get(index));
+                        fileModel.setUri0(details.getUri());
+                        fileModel.setSpiral(details.isSpiral());
+                        fileModel.setOrderid0(details.getOrderid1());
+                        fileModel.setColor0(details.getColor());
+                        fileModel.setGrandTotal0(details.getGrandtotal());
+                        fileModel.setQty0(String.valueOf(details.getCount()));
+                        fileModel.setFormat0(details.getFormats());
+                        fileModel.setRatio0(details.getRatios());
+                        fileModel.setSheet0(details.getSheet());
+                        fileModel.setDeliveyamt0("Free");
+                        fileModel.setPages0(details.getPages());
+                        fileModel.setPerpage0(details.getPerpage());
+                        fileModel.setPerqtyamt0(details.getPerqtyamt());
+                        fileModel.setOrderDate0(details.getOrderdate());
+                        fileModel.setFinalamt0(details.getFinalmat());
+                        fileModel.setPaid(false);
+                        fileModel.setuserid0(details.getUserid());
+                        fileModel.setOrderd(orderd);
+                        fileModel.setDelivered(delevried);
+                        fileModel.setNotes(notes != null ? notes : "");
+                        fileModel.setUsername(username);
+                        fileModel.setUploadTime(System.currentTimeMillis());
 
-                                        uploadedCount[0]++;
-
-                                        if (uploadedCount[0] == totalFiles) {
-                                            isUploading = false;
-
-                                            if (activity != null && !activity.isFinishing()) {
-                                                activity.runOnUiThread(() -> {
-                                                    try {
-                                                        if (progressDialog != null && progressDialog.isShowing()) {
-                                                            progressDialog.dismiss();
-                                                        }
-
-                                                        boolean allSuccessful = true;
-                                                        for (boolean status : uploaded) {
-                                                            if (!status) {
-                                                                allSuccessful = false;
-                                                                break;
-                                                            }
-                                                        }
-
-                                                        if (allSuccessful) {
-                                                            Toast.makeText(context, "Upload successful for all files", Toast.LENGTH_SHORT).show();
-                                                           Intent intent=new Intent(context, Paymentactivity.class);
-                                                            intent.putExtra("tt",grandtotal);
-                                                            activity.startActivity(intent);
-
-                                                        } else {
-                                                            Toast.makeText(context, "Upload unsuccessful for some files", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                });
-                                            }
-                                        } else {
-                                            // Update progress
-                                            if (activity != null && !activity.isFinishing()) {
-                                                activity.runOnUiThread(() -> {
-                                                    try {
-                                                        if (progressDialog != null && progressDialog.isShowing()) {
-                                                            progressDialog.setMessage("Uploading file " + (uploadedCount[0] + 1) + " of " + totalFiles);
-                                                        }
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    });
-                        });
-                    } else {
-                        uploaded[finalI] = false;
-                        uploadedCount[0]++;
-
-                        if (activity != null && !activity.isFinishing()) {
-                            activity.runOnUiThread(() -> {
-                                try {
-                                    Toast.makeText(context, "Upload failed for " + fileNames.get(finalI), Toast.LENGTH_SHORT).show();
-
-                                    if (uploadedCount[0] == totalFiles) {
-                                        isUploading = false;
-                                        if (progressDialog != null && progressDialog.isShowing()) {
-                                            progressDialog.dismiss();
-                                        }
-                                        Toast.makeText(context, "Upload failed for some files", Toast.LENGTH_SHORT).show();
+                        databaseReference.child(userid).child(orderid).child(sanitizedFileName).setValue(fileModel)
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        // Start uploading the next file
+                                        uploadNextFile(index + 1, progressDialog);
                                     } else {
-
-                                        if (progressDialog != null && progressDialog.isShowing()) {
-                                            progressDialog.setMessage("Uploading file " + (uploadedCount[0] + 1) + " of " + totalFiles);
-                                        }
+                                        // Handle failure and show a message to the user
+                                        handleUploadFailure(progressDialog, "Some files failed to upload");
                                     }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            });
-                        }
-                    }
-                });
+                                });
+                    });
+                } else {
+                    // Handle failure and show a message to the user
+                    handleUploadFailure(progressDialog, "Some files failed to upload");
+                }
+            });
+        }
+
+        private void handleUploadFailure(ProgressDialog progressDialog, String message) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            if (activity != null && !activity.isFinishing()) {
+                activity.finish();
             }
         }
+        private void dismissProgressDialog() {
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+        }
+
+
+
+
 
 
 

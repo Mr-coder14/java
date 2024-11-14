@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.RapCode.java.recyculer.orderadaptormyorders;
+import com.RapCode.java.recyculer.ordersadaptormyordersadmin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -42,7 +44,7 @@ public class ordersfragment_adminmain extends Fragment {
     private DatabaseReference databaseReference;
     private DatabaseReference pdfsRef;
     private FirebaseAuth auth;
-    private orderadaptormyorders adapter;
+    private ordersadaptormyordersadmin adapter;
     private TextView txt;
     private Query query;
     private ProgressBar progressBar;
@@ -54,6 +56,7 @@ public class ordersfragment_adminmain extends Fragment {
     private boolean deleivired;
     private TextView tamt;
     private String userid;
+    private ImageButton deleteButton;
     private Handler debounceHandler = new Handler(Looper.getMainLooper());
     private Runnable searchRunnable;
 
@@ -66,12 +69,14 @@ public class ordersfragment_adminmain extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("orderstempadmin");
         recyclerView = view.findViewById(R.id.recyclerhometadminhis1);
         auth = FirebaseAuth.getInstance();
-        tamt=view.findViewById(R.id.totalAmountTextView);
-        txt=view.findViewById(R.id.nordersmyordersadmin1);
-        editText=view.findViewById(R.id.search_edit_texttadminhis1);
+        tamt = view.findViewById(R.id.totalAmountTextView);
+        txt = view.findViewById(R.id.nordersmyordersadmin1);
+        editText = view.findViewById(R.id.search_edit_texttadminhis1);
         user = auth.getCurrentUser();
         recyclerView.setHasFixedSize(true);
-        gtl=new ArrayList<>();
+        deleteButton = view.findViewById(R.id.delete_button);
+
+        gtl = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         progressBar = view.findViewById(R.id.progressbarhometadminhis1);
         progressBar.setVisibility(View.VISIBLE);
@@ -85,6 +90,7 @@ public class ordersfragment_adminmain extends Fragment {
             editText.setCompoundDrawables(searchIcon, null, null, null);
         }
         query = databaseReference;
+        deleteButton.setOnClickListener(v -> deleteSelectedItems());
 
 
         pdfsRef = FirebaseDatabase.getInstance().getReference().child("orderstempadmin");
@@ -133,11 +139,10 @@ public class ordersfragment_adminmain extends Fragment {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if (snapshot.exists()) {
                     setupAdapter();
                     progressBar.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     progressBar.setVisibility(View.GONE);
                     txt.setVisibility(View.VISIBLE);
                 }
@@ -170,15 +175,16 @@ public class ordersfragment_adminmain extends Fragment {
         });
 
 
-
         return view;
     }
+
     private void setupAdapter() {
         List<Fileinmodel> uniqueOrdersList = new ArrayList<>(uniqueOrders.values());
-        adapter = new orderadaptormyorders(uniqueOrdersList, getContext());
+        adapter = new ordersadaptormyordersadmin(uniqueOrdersList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }
+
     private void filterOrders(String searchText) {
         List<Fileinmodel> filteredList = new ArrayList<>();
         for (Fileinmodel order : uniqueOrders.values()) {
@@ -200,8 +206,24 @@ public class ordersfragment_adminmain extends Fragment {
 
     }
 
-
-
-
+    private void deleteSelectedItems() {
+        List<Fileinmodel> selectedItems = adapter.getSelectedItems();
+        for (Fileinmodel item : selectedItems) {
+            String orderId = item.getOrderid0();
+            // Remove from Firebase
+            pdfsRef.child(orderId).removeValue().addOnSuccessListener(aVoid -> {
+                uniqueOrders.remove(orderId);
+                setupAdapter(); // Refresh RecyclerView
+            }).addOnFailureListener(e -> {
+                // Handle failure
+            });
+        }
+    }
 
 }
+
+
+
+
+
+
