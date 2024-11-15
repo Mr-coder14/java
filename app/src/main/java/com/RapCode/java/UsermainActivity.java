@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -20,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.concurrent.TimeUnit;
 
 public class UsermainActivity extends AppCompatActivity {
     private int PERMISSION_REQUEST_CODE=100;
@@ -35,6 +39,10 @@ public class UsermainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_usermain);
         bottomNavigationView=findViewById(R.id.bottomappbarm);
         auth=FirebaseAuth.getInstance();
+        PeriodicWorkRequest cleanupRequest =
+                new PeriodicWorkRequest.Builder(CleanupWorker.class, 1, TimeUnit.DAYS)
+                        .build();
+        WorkManager.getInstance(this).enqueue(cleanupRequest);
         fragment=new StationaryFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containerm,fragment).commit();
         checkPermissions();

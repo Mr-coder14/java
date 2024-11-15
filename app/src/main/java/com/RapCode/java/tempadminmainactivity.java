@@ -1,17 +1,19 @@
 package com.RapCode.java;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.concurrent.TimeUnit;
 
 import Tempadmin.Myorderstempadminfragment;
 import Tempadmin.tempadminhomefragment;
@@ -31,6 +33,10 @@ public class tempadminmainactivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         userid=auth.getCurrentUser().getUid();
         bottomNavigationView=findViewById(R.id.tadminbottom);
+        PeriodicWorkRequest cleanupRequest =
+                new PeriodicWorkRequest.Builder(CleanupWorker.class, 1, TimeUnit.DAYS)
+                        .build();
+        WorkManager.getInstance(this).enqueue(cleanupRequest);
         fragment=new tempadminhomefragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcpntainertadmin,fragment).commit();
 
