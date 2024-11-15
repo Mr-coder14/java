@@ -66,7 +66,6 @@ public class Productpreviewa extends AppCompatActivity {
         cartIconWithBadge = findViewById(R.id.cart_icon_with_badge1);
         badgeTextView = cartIconWithBadge.findViewById(R.id.cart_badge);
         amt=findViewById(R.id.productamtview);
-        admins.add("abcd1234@gmail.com");
         admins.add("saleem1712005@gmail.com");
         admins.add("jayaraman00143@gmail.com");
         Intent intent = getIntent();

@@ -48,7 +48,7 @@ public class loginactivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        admins.add("abcd1234@gmail.com");
+
         admins.add("saleem1712005@gmail.com");
         admins.add("jayaraman00143@gmail.com");
 

@@ -42,7 +42,7 @@ public class signupactivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        admins.add("abcd1234@gmail.com");
+
         admins.add("saleem1712005@gmail.com");
         admins.add("jayaraman00143@gmail.com");
         DatabaseReference tempadminsref;

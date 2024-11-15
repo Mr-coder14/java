@@ -33,7 +33,6 @@ public class orderslist extends AppCompatActivity {
 
         c3=findViewById(R.id.bookorders);
         user= FirebaseAuth.getInstance().getCurrentUser();
-        admins.add("abcd1234@gmail.com");
         admins.add("saleem1712005@gmail.com");
         admins.add("jayaraman00143@gmail.com");
         c4.setOnClickListener(new View.OnClickListener() {

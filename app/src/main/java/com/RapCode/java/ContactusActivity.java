@@ -14,11 +14,13 @@ public class ContactusActivity extends AppCompatActivity {
     private ImageButton img;
     private TextView whatsappTextView,instagramTextView;
     private LinearLayout emailTextView;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contactus);
+
         img=findViewById(R.id.backbtncontact);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,10 +31,18 @@ public class ContactusActivity extends AppCompatActivity {
 
         emailTextView = findViewById(R.id.emailid);
         whatsappTextView = findViewById(R.id.whatsapp);
+        layout=findViewById(R.id.rapcde1);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://rapcodetech.netlify.app"));
+                startActivity(browserIntent);
+            }
+        });
         emailTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openEmailClient("Jasaessential@gmail.com"); // Replace with your email address
+                openEmailClient("Jasaessential@gmail.com");
             }
         });
         whatsappTextView.setOnClickListener(new View.OnClickListener() {

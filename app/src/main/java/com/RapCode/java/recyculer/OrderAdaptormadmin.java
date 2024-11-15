@@ -18,7 +18,6 @@ import com.RapCode.java.oderspreviewadmin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,14 +26,13 @@ public class OrderAdaptormadmin extends RecyclerView.Adapter<OrderAdaptormadmin.
     private Context context;
     private FirebaseAuth mauth;
     private FirebaseUser user;
-    private ArrayList<String> arrayList=new ArrayList<>();
+
 
     public OrderAdaptormadmin(List<Order> orders,Context context){
         this.orders = orders;
         this.context=context;
         mauth=FirebaseAuth.getInstance();
         user=mauth.getCurrentUser();
-        arrayList.add("abcd1234@gmail.com");
     }
     public void updateList(List<Order> newList) {
         orders = newList;

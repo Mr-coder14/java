@@ -154,6 +154,7 @@ public class StationaryFragment extends Fragment implements BannerAdapter.OnBann
                     "Calculator Type: \tEngineering/Scientific\n" +
                     "Power Source: \tBattery Powered\n" +
                     "Screen Size: \t7 Inches"));
+
             productDetails.add(new ProductDetails("Caltrix CX-991S Scientific Calculator","600",R.drawable.caltrix,1,"Brand\tCaltrix\n" +
                     "Calculator Type: \tEngineering/Scientific\n" +
                     "Power Source: \tBattery Powered\n" +
@@ -266,6 +267,8 @@ public class StationaryFragment extends Fragment implements BannerAdapter.OnBann
                     "Calculator Type: \tEngineering/Scientific\n" +
                     "Power Source: \tBattery Powered\n" +
                     "Screen Size: \t4 Inches"));
+            productDetails.add(new ProductDetails("Photo Frame (5*7 Inches) For Love","350",R.drawable.hotot,1,"A photo frame is a decorative and protective casing designed to display cherished memories captured in photographs. It serves both a functional and aesthetic purpose, safeguarding the photo from damage while enhancing its visual appeal. Photo frames come in various styles, sizes, and materials, allowing you to personalize how you showcase your moments. Whether placed on a desk, mounted on a wall, or gifted to a loved one, a photo frame adds warmth and sentiment to any space."));
+            productDetails.add(new ProductDetails("Photo Frame (5*7 Inches) For Birthday Gift","350",R.drawable.phto,1,"A photo frame is a decorative and protective casing designed to display cherished memories captured in photographs. It serves both a functional and aesthetic purpose, safeguarding the photo from damage while enhancing its visual appeal. Photo frames come in various styles, sizes, and materials, allowing you to personalize how you showcase your moments. Whether placed on a desk, mounted on a wall, or gifted to a loved one, a photo frame adds warmth and sentiment to any space."));
 
 
             adaptor.notifyDataSetChanged();

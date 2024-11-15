@@ -3,10 +3,13 @@ package com.RapCode.java;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,25 +28,44 @@ import java.util.ArrayList;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DURATION = 5000; // 3 seconds
+    private static final int SPLASH_DURATION = 5000;
     private TextView textView;
 
     private FirebaseAuth auth;
+    private LinearLayout layout;
     private DatabaseReference tempadminsref;
     private LottieAnimationView lottieAnimationView, lottieAnimationView1;
     private ArrayList<String> tempadmins = new ArrayList<>();
     private ArrayList<String> admins = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashactivity);
 
+
         lottieAnimationView1 = findViewById(R.id.shopss);
+        layout=findViewById(R.id.rapcde1);
         textView = findViewById(R.id.jasatxt);
         lottieAnimationView = findViewById(R.id.shopdesign);
 
-        admins.add("abcd1234@gmail.com");
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://rapcodetech.netlify.app"));
+                startActivity(browserIntent);
+            }
+        });
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
         admins.add("saleem1712005@gmail.com");
         admins.add("jayaraman00143@gmail.com");
 
