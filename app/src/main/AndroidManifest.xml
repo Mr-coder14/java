@@ -14,7 +14,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.SEND_SMS" />
 
@@ -28,7 +30,9 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Java"
         tools:targetApi="34">
-
+        <activity
+            android:name=".Paymentcart"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -52,7 +56,6 @@
         <activity
             android:name=".Projectproductsfrormapplication"
             android:exported="false" />
-
         <activity
             android:name=".bookordersactivityadmin"
             android:exported="false" />

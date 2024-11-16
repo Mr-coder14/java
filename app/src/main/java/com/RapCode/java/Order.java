@@ -12,11 +12,19 @@ import java.util.List;
 
 public class Order implements Parcelable {
     private String orderId;
-    private String orderTotal;
+    private String orderTotal,address;
     private Boolean odered,delivered;
 
     public String getUsername() {
         return username;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setUsername(String username) {
@@ -60,13 +68,14 @@ public class Order implements Parcelable {
 
     private List<ProductDetails> products;
 
-    public Order(String orderId, String orderTotal, Long orderTimestamp, List<ProductDetails> products,String uername,String phno,String notes,Boolean odered,Boolean delivered) {
+    public Order(String orderId, String orderTotal, Long orderTimestamp, List<ProductDetails> products,String uername,String phno,String notes,Boolean odered,Boolean delivered,String address) {
         this.orderId = orderId;
         this.orderTotal = orderTotal;
         this.username=uername;
         this.odered=odered;
         this.delivered=delivered;
         this.notes=notes;
+        this.address=address;
         this.phno=phno;
         this.orderTimestamp = orderTimestamp;
         this.products = products;
@@ -83,6 +92,7 @@ public class Order implements Parcelable {
         products = new ArrayList<>();
         in.readList(products, ProductDetails.class.getClassLoader());
         username = in.readString();
+        address=in.readString();
         phno = in.readString();
         notes = in.readString();
     }
@@ -111,6 +121,7 @@ public class Order implements Parcelable {
         dest.writeString(orderTotal);
         dest.writeLong(orderTimestamp);
         dest.writeList(products);
+        dest.writeString(address);
         dest.writeString(username);
         dest.writeString(phno);
         dest.writeString(notes);

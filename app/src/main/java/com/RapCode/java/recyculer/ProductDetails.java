@@ -1,42 +1,41 @@
 package com.RapCode.java.recyculer;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class ProductDetails implements Serializable {
-    String productname,productamt;
-    int productimage;
-    int qty;
+public class ProductDetails implements Parcelable {
+    private String productname, productamt, discription, key;
+    private int productimage, qty;
     private float rating;
-    private String key;
-    private String discription;
 
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
+    // Default constructor
     public ProductDetails() {
-
     }
 
-    public String getDiscription() {
-        return discription;
+    // Constructor for Parcelable
+    protected ProductDetails(Parcel in) {
+        productname = in.readString();
+        productamt = in.readString();
+        discription = in.readString();
+        key = in.readString();
+        productimage = in.readInt();
+        qty = in.readInt();
+        rating = in.readFloat();
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
-    }
+    public static final Creator<ProductDetails> CREATOR = new Creator<ProductDetails>() {
+        @Override
+        public ProductDetails createFromParcel(Parcel in) {
+            return new ProductDetails(in);
+        }
 
+        @Override
+        public ProductDetails[] newArray(int size) {
+            return new ProductDetails[size];
+        }
+    };
+
+    // Constructor with essential fields
     public ProductDetails(String productname, String productamt, int productimage) {
         this.productname = productname;
         this.productamt = productamt;
@@ -58,12 +57,11 @@ public class ProductDetails implements Serializable {
         this.qty=qty;
     }
 
+    // Getters and Setters
     public String getProductname() {
         return productname;
     }
-    public int getQty() {
-        return qty;
-    }
+
     public void setProductname(String productname) {
         this.productname = productname;
     }
@@ -79,12 +77,57 @@ public class ProductDetails implements Serializable {
     public int getProductimage() {
         return productimage;
     }
+
+    public void setProductimage(int productimage) {
+        this.productimage = productimage;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
     public void setQty(int qty) {
         this.qty = qty;
     }
 
+    public float getRating() {
+        return rating;
+    }
 
-    public void setProductimage(int productimage) {
-        this.productimage = productimage;
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getDiscription() {
+        return discription;
+    }
+
+    public void setDiscription(String discription) {
+        this.discription = discription;
+    }
+
+    // Parcelable Methods
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(productname);
+        dest.writeString(productamt);
+        dest.writeString(discription);
+        dest.writeString(key);
+        dest.writeInt(productimage);
+        dest.writeInt(qty);
+        dest.writeFloat(rating);
     }
 }

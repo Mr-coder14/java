@@ -1,4 +1,5 @@
 package com.RapCode.java;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,25 +11,22 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.RapCode.java.recyculer.Itemlistadaptormycart;
 import com.RapCode.java.recyculer.ProductDetails;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class Mycart extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -37,14 +35,17 @@ public class Mycart extends AppCompatActivity {
     private int totalAmount;
     private ArrayList<ProductDetails> productDetailsList;
     private TextView emptymsg,subtotal, feedelivery, total;
-    private DatabaseReference databaseReference,orderrefrence,userref;
+    private DatabaseReference databaseReference;
     private ProgressBar progressBar;
     private Button btnq,addnotes;
     private FirebaseAuth auth;
     private String userid;
     private EditText notes;
-    private String note,username,phno;
+    private String note;
     private int deliveryFee=0;
+    public Mycart(){
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,30 +88,18 @@ public class Mycart extends AppCompatActivity {
             public void onClick(View v)
             {
                 note=notes.getText().toString();
+                Toast.makeText(Mycart.this, "Notes Added SuccessFully", Toast.LENGTH_SHORT).show();
             }
         });
 
 
         if (userid != null) {
             databaseReference = FirebaseDatabase.getInstance().getReference("userscart").child(userid);
-            orderrefrence=FirebaseDatabase.getInstance().getReference("userorders").child(userid);
-            userref=FirebaseDatabase.getInstance().getReference().child("users").child(userid);
+
+
             fetchCartItems();
         }
-        userref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User userData = snapshot.getValue(User.class);
-                if (userData != null) {
-                    username=userData.getName();
-                    phno=userData.getPhno();
-                }
-                }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
 
 
         deleteButton = findViewById(R.id.deletebuttonmycart);
@@ -134,6 +123,16 @@ public class Mycart extends AppCompatActivity {
                 }
             }
         });
+        btnq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Mycart.this,Paymentcart.class);
+                intent.putParcelableArrayListExtra("productList", productDetailsList);
+                intent.putExtra("gt",String.valueOf(totalAmount));
+                intent.putExtra("notes",note);
+                startActivity(new Intent(intent));
+            }
+        });
 
         adaptor = new Itemlistadaptormycart(productDetailsList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -141,11 +140,7 @@ public class Mycart extends AppCompatActivity {
 
         deleteButton.setVisibility(View.GONE);
     }
-    private String generateOrderId() {
-        UUID uuid = UUID.randomUUID();
-        String uuidString = uuid.toString().replaceAll("-", "");
-        return uuidString.substring(0, Math.min(uuidString.length(), 10));
-    }
+
 
     private void fetchCartItems() {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -175,55 +170,10 @@ public class Mycart extends AppCompatActivity {
                 updateEmptyCartMessage();
             }
         });
-        btnq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (productDetailsList.isEmpty()) {
-                    Toast.makeText(Mycart.this, "No Item To Checkout", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (totalAmount >= 50) {
 
-                        String orderId = generateOrderId();
-
-                        if (orderId != null) {
-                            DatabaseReference newOrderRef = orderrefrence.child(orderId);
-                            Map<String, Object> orderItems = new HashMap<>();
-                            for (ProductDetails item : productDetailsList) {
-                                orderItems.put(item.getKey(), item);
-                            }
-                            orderItems.put("orderTotal", total.getText().toString());
-                            orderItems.put("orderTimestamp", ServerValue.TIMESTAMP);
-                            orderItems.put("username", username);
-                            orderItems.put("phno", phno);
-                            orderItems.put("notes", note);
-                            orderItems.put("odered", true);
-                            orderItems.put("delivered", false);
-
-                            newOrderRef.setValue(orderItems).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        databaseReference.removeValue();
-                                        productDetailsList.clear();
-                                        adaptor.notifyDataSetChanged();
-                                        updateEmptyCartMessage();
-                                        startActivity(new Intent(Mycart.this, suceesanimation.class));
-                                        finish();
-                                    } else {
-                                        Toast.makeText(Mycart.this, "Failed to place order. Please try again.", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        } else {
-                            Toast.makeText(Mycart.this, "Failed to generate order ID. Please try again.", Toast.LENGTH_SHORT).show();
-                        }
-                    }else {
-                        Toast.makeText(Mycart.this, "The Minimum Order Should be 50 Rupees", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
     }
+
+
 
     public void calculateAndDisplayTotals() {
         int subTotalAmount = 0;

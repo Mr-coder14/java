@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class orderspreview extends AppCompatActivity {
-    private TextView username,phno,total,orderid,date,ntotes,total1,gh;
+    private TextView username,phno,total,orderid,date,ntotes,total1,gh,address;
     private ImageView orderStatusImage, deliveredStatusImage;
     private RecyclerView productRecyclerView;
     private ImageButton backButton;
@@ -40,6 +40,7 @@ public class orderspreview extends AppCompatActivity {
         setContentView(R.layout.activity_orderspreview);
         username=findViewById(R.id.orderedusername);
         gh=findViewById(R.id.deliveryby);
+        address=findViewById(R.id.address1);
         phno=findViewById(R.id.ordereduserphno);
         total=findViewById(R.id.totalpriceorderpreview);
         orderid=findViewById(R.id.orderidorderpreview);
@@ -104,12 +105,18 @@ public class orderspreview extends AppCompatActivity {
     }
     private void displayOrderDetails(Order order) {
         if (order!=null) {
-            username.setText(order.getUsername());
+            username.setText(order.getAddress());
             phno.setText(order.getPhno());
             total.setText(order.getOrderTotal());
             orderid.setText(order.getOrderId());
             date.setText(formatDate(order.getOrderTimestamp()));
             Calendar calendar = Calendar.getInstance();
+            String as = order.getUsername();
+            if (as == null || as.isEmpty()) {
+                address.setText("No Address Provided");
+            } else {
+                address.setText(as);
+            }
             calendar.setTimeInMillis(order.getOrderTimestamp());
 
             calendar.add(Calendar.DAY_OF_MONTH, 1);

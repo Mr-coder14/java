@@ -77,16 +77,17 @@ public class OrdersActivity extends AppCompatActivity {
                     String notes=orderSnapshot.child("notes").getValue(String.class);
                     Boolean ordred=orderSnapshot.child("odered").getValue(Boolean.class);
                     Boolean delivered=orderSnapshot.child("delivered").getValue(Boolean.class);
+                    String add=orderSnapshot.child("address").getValue(String.class);
 
                     List<ProductDetails> products = new ArrayList<>();
                     for (DataSnapshot productSnapshot : orderSnapshot.getChildren()) {
-                        if (!productSnapshot.getKey().equals("orderTotal") && !productSnapshot.getKey().equals("orderTimestamp") && !productSnapshot.getKey().equals("username") && !productSnapshot.getKey().equals("phno") && !productSnapshot.getKey().equals("notes") && !productSnapshot.getKey().equals("odered") && !productSnapshot.getKey().equals("delivered")) {
+                        if (!productSnapshot.getKey().equals("orderTotal") && !productSnapshot.getKey().equals("orderTimestamp") && !productSnapshot.getKey().equals("username") && !productSnapshot.getKey().equals("phno") && !productSnapshot.getKey().equals("notes") && !productSnapshot.getKey().equals("odered") && !productSnapshot.getKey().equals("delivered") && !productSnapshot.getKey().equals("address")) {
                             ProductDetails product = productSnapshot.getValue(ProductDetails.class);
                             products.add(product);
                         }
                     }
 
-                    Order order = new Order(orderId, orderTotal, orderTimestamp, products, username, phno, notes,ordred,delivered);
+                    Order order = new Order(orderId, orderTotal, orderTimestamp, products, username, phno, notes,ordred,delivered,add);
                     orderList.add(order);
                 }
 
@@ -95,8 +96,10 @@ public class OrdersActivity extends AppCompatActivity {
 
                 if (orderList.isEmpty()) {
                     emptyOrdersText.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     emptyOrdersText.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 

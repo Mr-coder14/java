@@ -47,7 +47,7 @@ public class ComboOfferpen extends AppCompatActivity {
             }
         });
 
-        productDetailsList.add(new ProductDetails("Hauser XO Ball Pen Blue INK","30",R.drawable.xoblue,3,"\n" +
+        productDetailsList.add(new ProductDetails("Hauser XO Ball Pen Blue INK","25",R.drawable.xoblue,3,"\n" +
                 "Brand: \tGeneric\n" +
                 "Ink Colour: \tBlue\n" +
                 "Net Quantity: \t10.0 count\n" +

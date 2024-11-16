@@ -46,7 +46,7 @@ public class Combopencil extends AppCompatActivity {
 
             }
         });
-        productDetailsList.add(new ProductDetails("Mechanical Pencils with 1 Tube Lead, 0.7mm Tip","15",R.drawable.tippencil,1,"Name : Faber-Castell Tri-Click Mechanical Pencils with 1 Tube Lead, 0.7mm Tip\n" +
+        productDetailsList.add(new ProductDetails("Mechanical Pencils with 1 Tube Lead, 0.7mm Tip","10",R.drawable.tippencil,1,"Name : Faber-Castell Tri-Click Mechanical Pencils with 1 Tube Lead, 0.7mm Tip\n" +
                 "\n" +
                 "Brand : Faber Castell\n" +
                 "\n" +

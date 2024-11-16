@@ -47,7 +47,7 @@ public class UsermainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containerm,fragment).commit();
         checkPermissions();
         userid=FirebaseAuth.getInstance().getCurrentUser().getUid();
-        ordersRef= FirebaseDatabase.getInstance().getReference().child("pdfs").child(userid);
+        ordersRef= FirebaseDatabase.getInstance().getReference().child("pdfs");
         checkOrderPaidStatus();
 
         FirebaseApp.initializeApp(/*context=*/ this);
@@ -111,16 +111,17 @@ public class UsermainActivity extends AppCompatActivity {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
                if(snapshot.exists()){
-                   for(DataSnapshot s:snapshot.getChildren()){
-                       for(DataSnapshot q:s.getChildren()){
+                   for(DataSnapshot r:snapshot.getChildren()){
+                   for(DataSnapshot s:r.getChildren()) {
+                       for (DataSnapshot q : s.getChildren()) {
                            Boolean paid = q.child("paid").getValue(Boolean.class);
                            if (paid != null && !paid) {
                                q.getRef().removeValue();
-                           }
-                           else {
+                           } else {
 
                            }
                        }
+                   }
                    }
                }
            }

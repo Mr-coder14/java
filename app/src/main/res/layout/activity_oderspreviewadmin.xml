@@ -209,6 +209,35 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Address"
+            android:textSize="19sp"
+            android:layout_marginLeft="8dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/lato"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="8dp"
+            android:elevation="5dp"
+            android:background="@drawable/whitebg_profile"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="no"
+                android:textSize="17sp"
+                android:fontFamily="@font/plus"
+                android:id="@+id/address11"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Notes"
             android:textSize="19sp"
             android:layout_marginLeft="8dp"

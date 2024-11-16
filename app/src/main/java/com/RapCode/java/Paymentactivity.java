@@ -143,7 +143,7 @@ public class Paymentactivity extends AppCompatActivity {
         storageRef = FirebaseStorage.getInstance().getReference();
 
 
-        qrCodeImageView.setImageResource(R.drawable.qrcodesalem);
+        qrCodeImageView.setImageResource(R.drawable.htt);
         address.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

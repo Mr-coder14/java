@@ -65,38 +65,56 @@ public class ordeersactivityadmin extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 orderList.clear();
-                for(DataSnapshot ui:dataSnapshot.getChildren()){
-                for (DataSnapshot orderSnapshot : ui.getChildren()) {
-                    String orderId = orderSnapshot.getKey();
-                    String orderTotal = orderSnapshot.child("orderTotal").getValue(String.class);
-                    Long orderTimestamp = orderSnapshot.child("orderTimestamp").getValue(Long.class);
-                    String username= orderSnapshot.child("username").getValue(String.class);
-                    String phno=orderSnapshot.child("phno").getValue(String.class);
-                    String notes=orderSnapshot.child("notes").getValue(String.class);
-                    Boolean ordred=orderSnapshot.child("odered").getValue(Boolean.class);
-                    Boolean delivered=orderSnapshot.child("delivered").getValue(Boolean.class);
 
-                    List<ProductDetails> products = new ArrayList<>();
-                    for (DataSnapshot productSnapshot : orderSnapshot.getChildren()) {
-                        if (!productSnapshot.getKey().equals("orderTotal") && !productSnapshot.getKey().equals("orderTimestamp") && !productSnapshot.getKey().equals("username") && !productSnapshot.getKey().equals("phno") && !productSnapshot.getKey().equals("notes") && !productSnapshot.getKey().equals("odered") && !productSnapshot.getKey().equals("delivered")) {
-                            ProductDetails product = productSnapshot.getValue(ProductDetails.class);
-                            products.add(product);
+
+                if (!dataSnapshot.exists()) {
+                    progressBar.setVisibility(View.GONE);
+                    emptyOrdersText.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                for (DataSnapshot ui : dataSnapshot.getChildren()) {
+                    for (DataSnapshot orderSnapshot : ui.getChildren()) {
+                        String orderId = orderSnapshot.getKey();
+                        String orderTotal = orderSnapshot.child("orderTotal").getValue(String.class);
+                        Long orderTimestamp = orderSnapshot.child("orderTimestamp").getValue(Long.class);
+                        String username = orderSnapshot.child("username").getValue(String.class);
+                        String phno = orderSnapshot.child("phno").getValue(String.class);
+                        String notes = orderSnapshot.child("notes").getValue(String.class);
+                        Boolean ordred = orderSnapshot.child("odered").getValue(Boolean.class);
+                        Boolean delivered = orderSnapshot.child("delivered").getValue(Boolean.class);
+                        String add = orderSnapshot.child("address").getValue(String.class);
+
+                        List<ProductDetails> products = new ArrayList<>();
+                        for (DataSnapshot productSnapshot : orderSnapshot.getChildren()) {
+                            if (!productSnapshot.getKey().equals("orderTotal") &&
+                                    !productSnapshot.getKey().equals("orderTimestamp") &&
+                                    !productSnapshot.getKey().equals("username") &&
+                                    !productSnapshot.getKey().equals("phno") &&
+                                    !productSnapshot.getKey().equals("notes") &&
+                                    !productSnapshot.getKey().equals("odered") &&
+                                    !productSnapshot.getKey().equals("delivered") &&
+                                    !productSnapshot.getKey().equals("address")) {
+                                ProductDetails product = productSnapshot.getValue(ProductDetails.class);
+                                products.add(product);
+                            }
                         }
-                    }
 
-                    Order order = new Order(orderId, orderTotal, orderTimestamp, products, username, phno, notes,ordred,delivered);
-                    orderList.add(order);
+                        Order order = new Order(orderId, orderTotal, orderTimestamp, products, username, phno, notes, ordred, delivered, add);
+                        orderList.add(order);
+                    }
                 }
 
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
+
 
                 if (orderList.isEmpty()) {
                     emptyOrdersText.setVisibility(View.VISIBLE);
                 } else {
                     emptyOrdersText.setVisibility(View.GONE);
                 }
-            }}
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -105,4 +123,5 @@ public class ordeersactivityadmin extends AppCompatActivity {
             }
         });
     }
+
 }

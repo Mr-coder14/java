@@ -155,7 +155,7 @@ public class homeadminmain extends Fragment {
                             String phno = orderSnapshot.child("phno").getValue(String.class);
                             String notes = orderSnapshot.child("notes").getValue(String.class);
                             Boolean ordered = orderSnapshot.child("odered").getValue(Boolean.class);
-
+                            String add=orderSnapshot.child("address").getValue(String.class);
                             List<ProductDetails> products = new ArrayList<>();
                             for (DataSnapshot productSnapshot : orderSnapshot.getChildren()) {
                                 if (!productSnapshot.getKey().equals("orderTotal") &&
@@ -163,6 +163,7 @@ public class homeadminmain extends Fragment {
                                         !productSnapshot.getKey().equals("username") &&
                                         !productSnapshot.getKey().equals("phno") &&
                                         !productSnapshot.getKey().equals("notes") &&
+                                        !productSnapshot.getKey().equals("address") &&
                                         !productSnapshot.getKey().equals("odered") &&
                                         !productSnapshot.getKey().equals("delivered")) {
                                     ProductDetails product = productSnapshot.getValue(ProductDetails.class);
@@ -172,7 +173,7 @@ public class homeadminmain extends Fragment {
                                 }
                             }
 
-                            Order order = new Order(orderId, orderTotal, orderTimestamp, products, username, phno, notes, ordered, delivered);
+                            Order order = new Order(orderId, orderTotal, orderTimestamp, products, username, phno, notes, ordered, delivered,add);
                             orderList.add(order);
                             fullOrderList.add(order);
                         }

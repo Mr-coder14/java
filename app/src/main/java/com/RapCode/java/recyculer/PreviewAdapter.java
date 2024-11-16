@@ -51,7 +51,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
     private Uri[] uris;
     private String[] fileNames;
     private String orderid;
-    private float spiralCost = 20.0f;
+    private float spiralCost = 0.0f;
     private Context context;
 
 
@@ -187,12 +187,12 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (view != null) {
-                    // Get the actual ratio text from the adapter
+
                     String selectedRatio = ratio.get(pos);
                     holder.ratios = selectedRatio;
                     pdfDetailsList.get(p).setRatios(selectedRatio);
 
-                    // Ignore clicks on the preview button
+
                     if (view.findViewById(R.id.ratioPreviewBtn) != null &&
                             view.findViewById(R.id.ratioPreviewBtn).hasFocus()) {
                         return;
@@ -393,6 +393,9 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
         }
 
         private void updateamt(int position) {
+            if(spiralSwitch.isChecked()){
+                spiralCost=20.0f;
+            }
             if(pdfDetailsList.get(position).getSheet().toString().equals("A4")){
                 try {
                     String amt1Text = amt1.getText().toString().replaceAll("[^\\d.]", "");
@@ -403,34 +406,26 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                     else {
                         String ratio=pdfDetailsList.get(position).getRatios();String format=pdfDetailsList.get(position).getFormats();
                         if(format.equals("Front Only") && ratio.equals("1:1")){
-                            perpage=0.675f;
+                            perpage=1.30f;//1.30
                         }
                         if(format.equals("Front & Back") && ratio.equals("1:2")){
-                            perpage=0.7f;
+                            perpage=0.75f;//1.50
                         }
                         if(format.equals("Front & Back") && ratio.equals("1:1")){
-                            perpage=0.75f;
+                            perpage=0.75f;//1.50
                         }
                         if(format.equals("Front Only") && ratio.equals("1:2")){
-                            perpage=0.675f;
+                            perpage=1.30f;//1.30
                         }
 
 
-//                        switch (pdfDetailsList.get(position).getRatios()) {
-//                            case "1:1":
-//                                perpage = 0.75f;
-//                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.75));
-//                                break;
-//                            case "1:2":
-//                                perpage = 0.75f;
-//                                pdfDetailsList.get(position).setPerpage(String.valueOf(0.75));
-//                                break;
-//                        }
+
+
 
                     }
 
 
-                    amtperqty = perpage * pgsam;
+                    amtperqty = perpage * pgsam ;
 
                     finalamount = perpage * pgsam * count;
                     if(ratios.equals("1:2") ){
@@ -447,16 +442,8 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
 
 
 
-                    if (ratios.equals("1:1") && formats.equals("Front Only") && pgsam > 50) {
-                        float discount = 0.05f * finalamount;
-                        finalamount -= discount;
-                    }
-
-                    if((ratios.equals("1:2") && formats.equals("Front & Back") && pgsam>200)){
-                        float discount = 0.05f * finalamount;
-                        finalamount -= discount;
-                    }
                     if (spiralSwitch.isChecked()) {
+                        spiralCost=spiralCost*count;
                         finalamount += spiralCost;
                     }
 
@@ -471,10 +458,11 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
                 String amt1Text = amt1.getText().toString().replaceAll("[^\\d.]", "");
                 perpage=15.0f;
                 pdfDetailsList.get(position).setPerpage(String.valueOf(15.0));
-                amtperqty = perpage * pgsam;
+                amtperqty = perpage * pgsam ;
                 finalamount = perpage * pgsam * count;
                 pdfDetailsList.get(position).setPerqtyamt(String.valueOf(amtperqty));
                 if (spiralSwitch.isChecked()) {
+                    spiralCost=spiralCost*count;
                     finalamount += spiralCost;
                 }
                 setamt();

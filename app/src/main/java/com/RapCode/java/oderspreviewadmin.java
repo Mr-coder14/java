@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class oderspreviewadmin extends AppCompatActivity {
-    private TextView username,phno,total,orderid,date,ntotes,total1;
+    private TextView username,phno,total,orderid,date,ntotes,total1,address;
     private ImageView orderStatusImage, deliveredStatusImage;
     private RecyclerView productRecyclerView;
     private ImageButton backButton;
@@ -38,6 +38,7 @@ public class oderspreviewadmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oderspreviewadmin);
         username=findViewById(R.id.orderedusername1);
+        address=findViewById(R.id.address11);
         phno=findViewById(R.id.ordereduserphno1);
         total=findViewById(R.id.totalpriceorderpreview1);
         orderid=findViewById(R.id.orderidorderpreview1);
@@ -54,6 +55,7 @@ public class oderspreviewadmin extends AppCompatActivity {
         Order order = getIntent().getParcelableExtra("order");
         if (order != null) {
             displayOrderDetails(order);
+
         } else {
 
             Toast.makeText(this, "Error: Order details not found", Toast.LENGTH_SHORT).show();
@@ -111,12 +113,18 @@ public class oderspreviewadmin extends AppCompatActivity {
 
     private void displayOrderDetails(Order order) {
         if (order!=null) {
-            username.setText(order.getUsername());
+            username.setText(order.getAddress());
             phno.setText(order.getPhno());
             total.setText(order.getOrderTotal());
             orderid.setText(order.getOrderId());
             date.setText(formatDate(order.getOrderTimestamp()));
             String notes = order.getNotes();
+            String as = order.getUsername();
+            if (as == null || as.isEmpty()) {
+                address.setText("No Address Provided");
+            } else {
+                address.setText(as);
+            }
             ntotes.setText(notes != null && !notes.isEmpty() ? notes : "No Notes");
             total1.setText("Total: " + order.getOrderTotal());
 
