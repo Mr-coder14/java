@@ -54,7 +54,8 @@ public class Paymentcart extends AppCompatActivity {
         addre=findViewById(R.id.ratiobtnaddress);
         payment=findViewById(R.id.radioButton1full);
         btnw=findViewById(R.id.backbtnpayment);
-        productDetailsList = getIntent().getParcelableArrayListExtra("productList");
+        Intent intent=getIntent();
+        productDetailsList = (ArrayList<ProductDetails>) intent.getSerializableExtra("productList");
         totalAmount =Integer.parseInt(getIntent().getStringExtra("gt"));
         btn=findViewById(R.id.orderbtnuser124);
         Gtt.setText("₹ "+ String.valueOf(totalAmount));

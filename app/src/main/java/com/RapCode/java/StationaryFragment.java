@@ -115,9 +115,7 @@ public class StationaryFragment extends Fragment implements BannerAdapter.OnBann
         tippencil.setOnClickListener(v -> openProductPreview("Mechanical Pencils with 1 Tube Lead, 0.7mm Tip", "15", R.drawable.tippencil, "Name : Faber-Castell Tri-Click Mechanical Pencils with 1 Tube Lead, 0.7mm Tip\nBrand : Faber Castell\nNet Quantity (N) : 1\nErgonomic triangular grip zone\nRetractable metal sleeve-pocket safe\nTip size : 0.7mm\nSet includes mechanical pencil with one tube of lead (0.7mm)"));
     }
 
-    private void openProductPreview(String name, String price, int imageResource) {
-        openProductPreview(name, price, imageResource, null);
-    }
+
 
     private void openProductPreview(String name, String price, int imageResource, String description) {
         ProductDetails pr = new ProductDetails(name, price, imageResource, 1, description);

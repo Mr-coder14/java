@@ -2,6 +2,7 @@ package com.RapCode.java.recyculer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class mylistcombopenadaptor extends RecyclerView.Adapter<mylistcombopenad
 
 
 
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,18 +72,22 @@ public class mylistcombopenadaptor extends RecyclerView.Adapter<mylistcombopenad
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView name, qty, amt;
         private ImageView img;
+        TextView productPricecomboStriked;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.productNamecombo);
             qty = itemView.findViewById(R.id.quantityValuecombo);
+            productPricecomboStriked = itemView.findViewById(R.id.productPricecomboStriked);
             amt = itemView.findViewById(R.id.productPricecombo);
             img = itemView.findViewById(R.id.productImagecombo);
         }
         public void bind(ProductDetails p) {
             name.setText(p.getProductname());
-            amt.setText("₹ " + p.getProductamt());
+            amt.setText("₹ " + p.getOfferamt());
             img.setImageResource(p.getProductimage());
             qty.setText(String.valueOf(p.getQty()));
+            productPricecomboStriked.setText("₹ " + p.getProductamt());
+            productPricecomboStriked.setPaintFlags(productPricecomboStriked.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         }
     }

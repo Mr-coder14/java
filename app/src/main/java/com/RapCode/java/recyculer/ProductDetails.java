@@ -1,60 +1,47 @@
 package com.RapCode.java.recyculer;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.io.Serializable;
 
-public class ProductDetails implements Parcelable {
-    private String productname, productamt, discription, key;
+public class ProductDetails implements Serializable {
+    private String productname, productamt, discription, key, offeramt;
     private int productimage, qty;
     private float rating;
 
-    // Default constructor
+
     public ProductDetails() {
     }
-
-    // Constructor for Parcelable
-    protected ProductDetails(Parcel in) {
-        productname = in.readString();
-        productamt = in.readString();
-        discription = in.readString();
-        key = in.readString();
-        productimage = in.readInt();
-        qty = in.readInt();
-        rating = in.readFloat();
-    }
-
-    public static final Creator<ProductDetails> CREATOR = new Creator<ProductDetails>() {
-        @Override
-        public ProductDetails createFromParcel(Parcel in) {
-            return new ProductDetails(in);
-        }
-
-        @Override
-        public ProductDetails[] newArray(int size) {
-            return new ProductDetails[size];
-        }
-    };
 
     // Constructor with essential fields
     public ProductDetails(String productname, String productamt, int productimage) {
         this.productname = productname;
         this.productamt = productamt;
-        this.discription="";
         this.productimage = productimage;
+        this.discription = "";
     }
-    public ProductDetails(String productname, String productamt, int productimage,int qty,String discription) {
+
+    public ProductDetails(String productname, String productamt, int productimage, int qty, String discription) {
         this.productname = productname;
         this.productamt = productamt;
-        this.discription=discription;
         this.productimage = productimage;
-        this.qty=qty;
+        this.qty = qty;
+        this.discription = discription;
     }
-    public ProductDetails(String productname, String productamt, int productimage,int qty) {
+
+    public ProductDetails(String productname, String productamt, String offeramt, int productimage, int qty, String discription) {
         this.productname = productname;
         this.productamt = productamt;
-        this.discription="";
+        this.offeramt = offeramt;
         this.productimage = productimage;
-        this.qty=qty;
+        this.qty = qty;
+        this.discription = discription;
+    }
+
+    public ProductDetails(String productname, String productamt, int productimage, int qty) {
+        this.productname = productname;
+        this.productamt = productamt;
+        this.productimage = productimage;
+        this.qty = qty;
+        this.discription = "";
     }
 
     // Getters and Setters
@@ -98,6 +85,14 @@ public class ProductDetails implements Parcelable {
         this.rating = rating;
     }
 
+    public String getOfferamt() {
+        return offeramt;
+    }
+
+    public void setOfferamt(String offeramt) {
+        this.offeramt = offeramt;
+    }
+
     public String getKey() {
         return key;
     }
@@ -112,22 +107,5 @@ public class ProductDetails implements Parcelable {
 
     public void setDiscription(String discription) {
         this.discription = discription;
-    }
-
-    // Parcelable Methods
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(productname);
-        dest.writeString(productamt);
-        dest.writeString(discription);
-        dest.writeString(key);
-        dest.writeInt(productimage);
-        dest.writeInt(qty);
-        dest.writeFloat(rating);
     }
 }

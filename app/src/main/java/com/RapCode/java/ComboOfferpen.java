@@ -47,19 +47,19 @@ public class ComboOfferpen extends AppCompatActivity {
             }
         });
 
-        productDetailsList.add(new ProductDetails("Hauser XO Ball Pen Blue INK","25",R.drawable.xoblue,3,"\n" +
+        productDetailsList.add(new ProductDetails("Hauser XO Ball Pen Blue INK","30","25",R.drawable.xoblue,3,"\n" +
                 "Brand: \tGeneric\n" +
                 "Ink Colour: \tBlue\n" +
                 "Net Quantity: \t10.0 count\n" +
                 "Body Shape: \tRound\n" +
                 "Hand Orientation: \tAmbidextrous"));
-        productDetailsList.add(new ProductDetails("Hauser XO Ball Pen Black INK","10",R.drawable.xooblack,1,"\n" +
+        productDetailsList.add(new ProductDetails("Hauser XO Ball Pen Black INK","10","5",R.drawable.xooblack,1,"\n" +
                 "Brand: \tGeneric\n" +
                 "Ink Colour: \tBlack\n" +
                 "Net Quantity: \t10.0 count\n" +
                 "Body Shape: \tRound\n" +
                 "Hand Orientation: \tAmbidextrous"));
-        cpmbofferpen=new ProductDetails("Combo Offer  Blue Pen-3,Black-1","40",R.drawable.pencombo,1);
+        cpmbofferpen=new ProductDetails("Combo Offer  Blue Pen-3,Black-1","30",R.drawable.pencombo,1);
         updateEmptyCartMessage();
 
         adaptor = new mylistcombopenadaptor(productDetailsList, this);

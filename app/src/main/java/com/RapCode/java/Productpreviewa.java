@@ -68,6 +68,7 @@ public class Productpreviewa extends AppCompatActivity {
         amt=findViewById(R.id.productamtview);
         admins.add("saleem1712005@gmail.com");
         admins.add("jayaraman00143@gmail.com");
+
         Intent intent = getIntent();
         currentProduct = (ProductDetails) intent.getSerializableExtra("product");
         productname=currentProduct.getProductname()
@@ -79,7 +80,9 @@ public class Productpreviewa extends AppCompatActivity {
 
 
         name.setText(currentProduct.getProductname());
+
         iamge.setImageResource(currentProduct.getProductimage());
+
         amt.setText("₹ "+currentProduct.getProductamt());
         qty.setText(String.valueOf(currentProduct.getQty()));
         discription.setText(currentProduct.getDiscription());

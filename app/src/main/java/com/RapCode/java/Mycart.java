@@ -127,7 +127,7 @@ public class Mycart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Mycart.this,Paymentcart.class);
-                intent.putParcelableArrayListExtra("productList", productDetailsList);
+                intent.putExtra("productList", productDetailsList);
                 intent.putExtra("gt",String.valueOf(totalAmount));
                 intent.putExtra("notes",note);
                 startActivity(new Intent(intent));

@@ -78,24 +78,40 @@
 
 
     </LinearLayout>
-
-
-
-    <TextView
-        android:id="@+id/productPricecombo"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="$48"
-        android:textStyle="bold"
-        android:layout_marginStart="8dp"
-        android:textSize="16dp"
-        android:fontFamily="@font/plus"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/black"
+        android:orientation="horizontal"
         app:layout_constraintStart_toEndOf="@id/qwertycombo"
-        app:layout_constraintBottom_toBottomOf="@id/qwertycombo"/>
+        app:layout_constraintBottom_toBottomOf="@id/qwertycombo"
+        >
+        <TextView
+            android:id="@+id/productPricecomboStriked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4545"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/plus"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/qwertycombo"
+            app:layout_constraintBottom_toBottomOf="@id/qwertycombo" />
 
-
+        <TextView
+            android:id="@+id/productPricecombo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$48"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:textSize="16dp"
+            android:fontFamily="@font/plus"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/green"
+            />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
