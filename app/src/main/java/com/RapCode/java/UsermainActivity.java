@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +32,7 @@ public class UsermainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private Fragment fragment;
     private DatabaseReference ordersRef;
+    private StorageReference storageReference;
     private String userid;
     private FirebaseAuth auth;
 
@@ -38,6 +41,7 @@ public class UsermainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usermain);
         bottomNavigationView=findViewById(R.id.bottomappbarm);
+        storageReference= FirebaseStorage.getInstance().getReference();
         auth=FirebaseAuth.getInstance();
         PeriodicWorkRequest cleanupRequest =
                 new PeriodicWorkRequest.Builder(CleanupWorker.class, 1, TimeUnit.DAYS)
@@ -107,29 +111,45 @@ public class UsermainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(historybottom);
     }
     private void checkOrderPaidStatus() {
-       ordersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot snapshot) {
-               if(snapshot.exists()){
-                   for(DataSnapshot r:snapshot.getChildren()){
-                   for(DataSnapshot s:r.getChildren()) {
-                       for (DataSnapshot q : s.getChildren()) {
-                           Boolean paid = q.child("paid").getValue(Boolean.class);
-                           if (paid != null && !paid) {
-                               q.getRef().removeValue();
-                           } else {
+        ordersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
+                        for (DataSnapshot pdfSnapshot : orderSnapshot.getChildren()) {
+                            for (DataSnapshot fileSnapshot : pdfSnapshot.getChildren()) {
+                                String orderId = fileSnapshot.child("orderid0").getValue(String.class);
+                                Boolean paid = fileSnapshot.child("paid").getValue(Boolean.class);
 
-                           }
-                       }
-                   }
-                   }
-               }
-           }
+                                if (paid != null && !paid) {
+                                    fileSnapshot.getRef().removeValue();
 
-           @Override
-           public void onCancelled(@NonNull DatabaseError error) {
 
-           }
-       });
+                                    StorageReference orderRef = storageReference.child("pdfs/" + orderId);
+
+                                    orderRef.listAll().addOnSuccessListener(listResult -> {
+                                        for (StorageReference fileRef : listResult.getItems()) {
+                                            fileRef.delete().addOnSuccessListener(aVoid -> {
+
+
+                                            }).addOnFailureListener(e -> {
+
+                                            });
+                                        }
+                                    }).addOnFailureListener(e -> {
+
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
     }
