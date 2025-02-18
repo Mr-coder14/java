@@ -1,11 +1,8 @@
 package com.RapCode.java;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -27,12 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -59,8 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class editdetailsmadmin extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final int CAMERA_REQUEST = 2;
-    private static final int REQUEST_CAMERA_PERMISSION = 3;
+
 
     private EditText editTextName, editTextPhno;
     private CircleImageView circleImageView;
@@ -100,7 +92,7 @@ public class editdetailsmadmin extends AppCompatActivity {
         profileimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showImageOptions();
+                openFileChooser();
             }
         });
 
@@ -155,48 +147,8 @@ public class editdetailsmadmin extends AppCompatActivity {
         });
     }
 
-    private void showImageOptions() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Choose an option");
-        builder.setItems(new String[]{"Camera", "Gallery"}, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:
-                        // Camera option selected
-                        if (ContextCompat.checkSelfPermission(editdetailsmadmin.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(editdetailsmadmin.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-                        } else {
-                            openCamera();
-                        }
-                        break;
-                    case 1:
-                        // Gallery option selected
-                        openFileChooser();
-                        break;
-                }
-            }
-        });
-        builder.show();
-    }
 
-    private void openCamera() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                ex.printStackTrace();
-            }
-            if (photoFile != null) {
-                imageUri = FileProvider.getUriForFile(this, "com.example.java.fileprovider", photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST);
-            }
-        }
-    }
+
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -226,16 +178,6 @@ public class editdetailsmadmin extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                profileimage.setImageBitmap(bitmap);
-                // Convert to circular image
-                Bitmap circularBitmap = getCircularBitmap(bitmap);
-                profileimage.setImageBitmap(circularBitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 profileimage.setImageBitmap(bitmap);
@@ -373,17 +315,7 @@ public class editdetailsmadmin extends AppCompatActivity {
         return output;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openCamera();
-            } else {
-                Toast.makeText(this, "Camera permission is required to take a photo", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+
     private InputFilter phoneNumberFilter() {
         return new InputFilter() {
             @Override

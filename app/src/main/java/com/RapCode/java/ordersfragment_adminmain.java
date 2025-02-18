@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.RapCode.java.recyculer.orderadaptormyorders;
 import com.RapCode.java.recyculer.ordersadaptormyordersadmin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -207,6 +206,10 @@ public class ordersfragment_adminmain extends Fragment {
     }
 
     private void deleteSelectedItems() {
+        if (adapter == null || adapter.getItemCount() == 0) {
+            // Prevent crash if adapter is null or no items are available
+            return;
+        }
         List<Fileinmodel> selectedItems = adapter.getSelectedItems();
         for (Fileinmodel item : selectedItems) {
             String orderId = item.getOrderid0();

@@ -78,7 +78,7 @@ public class SplashActivity extends AppCompatActivity {
         lottieAnimationView1.playAnimation();
         lottieAnimationView.playAnimation();
 
-        // Set up looping animations
+
         lottieAnimationView1.addAnimatorListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

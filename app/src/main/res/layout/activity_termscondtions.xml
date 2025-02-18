@@ -94,22 +94,110 @@ We reserve the right to modify these terms at any time. Updated terms will be av
                 android:fontFamily="@font/plus"
                 android:textSize="17sp"
                 android:textColor="@color/black"
-                android:text="We value your privacy. This policy outlines how we collect, use, and protect your information.\n\n
+                android:text="Privacy Policy for Jasa Essential\n\n
+1. Introduction\n
+At Jasa Essential, we are committed to protecting your privacy. Our app serves as an e-commerce platform for students, enabling them to conveniently order a variety of stationery products and upload materials for printing, including books and other documents. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application (the App). By accessing or using our App, you agree to this Privacy Policy.
+\n
+2. Information We Collect\n
+We collect the following types of information:\n
+\n\n
+a. Personal Information\n
+\n
+Full Name\n
+Phone Number\n
+Email Address\n
+Delivery Address\n
+b. User-Uploaded Content\n
+\n
+Files, materials, or books uploaded for printing.\n
+\n\n
+c. Payment Information\n
+\n
+Payment details are processed securely through a third-party payment gateway. We do not store sensitive financial information such as credit/debit card numbers.\n
+d. Usage Information\n
+\n
+Device information (e.g., device type, operating system, and app version).\n
+Log data (e.g., IP address, access times, pages viewed).\n
+e. Permissions We Request\n
+\n
+Storage Access: To upload files from the device for printing purposes.\n
+3. How We Use Your Information\n
+We use the information collected for the following purposes:\n
+\n
+To create and manage your account.\n
+To process and fulfill your orders.\n
+To communicate with you regarding orders, inquiries, or updates.\n
+To enhance our App's functionality and improve services based on user feedback.\n
+To personalize your experience by recommending relevant products.\n
+To comply with legal obligations, such as fraud prevention and regulatory requirements.\n
+4. Third-Party Services\n
+We use third-party services to enhance the functionality of our app. These services have their own privacy policies, and we encourage you to review them.\n
+\n
+a. Razorpay Payment Gateway\n
+We use Razorpay to securely process payments. Razorpay collects your payment details, and Jasa Essential does not store sensitive financial data like credit or debit card information. For more information, please refer to the Razorpay Privacy Policy.
+\n
+b. Firebase by Google\n
+We use Firebase for:\n
 
-1. Information Collection\n
-We collect personal information (such as your name, contact details, and payment information) to process orders and provide services.
-\n\n
-2. Data Usage\n
-Your data is used for order processing, customer support, and service improvement. We may also send you notifications regarding new products and services.
-\n\n
-3. Data Security\n
-All transactions are securely processed, and personal information is stored in accordance with data protection laws.
-\n\n
-4. Data Sharing\n
-We do not share your personal information with third parties, except as necessary for order processing and delivery.
-\n\n
-5. User Rights\n
-You have the right to access, update, or delete your personal information. Please contact us for any privacy-related inquiries."/>
+Storage: To securely store user-uploaded content like files and materials.\n
+Analytics and Logging: To improve app performance and user experience.\n
+For more details, please review the Firebase Privacy Policy.\n
+
+5. Data Sharing and Disclosure\n
+We do not sell or trade your Personal Information. However, we may share your information in the following ways:
+\n
+a. Service Providers\n
+We may share your data with trusted third-party service providers who assist in:
+\n
+Payment processing (Razorpay).\n
+Storage and app functionality (Firebase).\n
+b. Legal Obligations\n
+We may disclose your information if required to comply with applicable laws, regulations, or valid legal processes.
+\n
+c. Analytics Services\n
+We may use third-party tools (e.g., Firebase Analytics) to collect aggregated usage data to improve the App.
+\n
+6. Security of Your Information\n
+We implement industry-standard security measures to protect your information, such as encryption and secure servers. However, please note that no method of transmission over the internet or electronic storage is entirely secure, and we cannot guarantee absolute security.
+\n
+7. Data Retention\n
+We retain your data for as long as necessary to:\n
+
+Fulfill the purposes outlined in this Privacy Policy.\n
+Comply with legal, tax, or accounting requirements.\n
+Once the retention period expires, we securely delete or anonymize your data.
+\n
+8. Your Rights\n
+You have the following rights regarding your Personal Information:\n
+
+Access: Request access to the data we hold about you.\n
+Correction: Request corrections to inaccurate or incomplete data.\n
+Deletion: Request the deletion of your Personal Information, subject to legal requirements.\n
+To exercise these rights, please contact us at jasaessential@gmail.com.\n
+
+9. Children’s Privacy\n
+Our App is not intended for children under the age of 13. We do not knowingly collect information from children. If you believe a child has provided us with Personal Information, please contact us immediately at jasaessential@gmail.com, and we will take appropriate action to delete the data.
+\n
+10. Permissions Disclosure\n
+Our app requests the following permissions:\n
+
+Storage Access: To select and upload files from your device for printing purposes.\n
+Internet Access: Required to connect to the server and process orders.\n
+Network State Access: To ensure the app functions smoothly with an active internet connection.\n
+Write External Storage: To temporarily store files for processing orders.\n
+We only request these permissions when required and provide a clear explanation at the time of use.
+\n
+11. Changes to This Privacy Policy\n
+We may update this Privacy Policy from time to time. When we make changes, we will notify you by:\n
+
+Posting the updated Privacy Policy on this page.\n
+Highlighting the changes in the App for user review.\n
+It is recommended that you review this Privacy Policy periodically for any updates.\n
+
+12. Contact Us\n
+If you have any questions, concerns, or feedback about this Privacy Policy or our data practices, you can contact us at:
+\n
+Email: jasaessential@gmail.com"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

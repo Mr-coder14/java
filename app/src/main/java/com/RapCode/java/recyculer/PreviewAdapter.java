@@ -1,6 +1,4 @@
 package com.RapCode.java.recyculer;
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -53,10 +51,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.ViewHold
     private String orderid;
     private float spiralCost = 0.0f;
     private Context context;
-
-
-
-
     private Activity activity;
 
     private ArrayList<PDFDetails> pdfDetailsList;
