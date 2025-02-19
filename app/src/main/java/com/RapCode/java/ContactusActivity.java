@@ -35,7 +35,7 @@ public class ContactusActivity extends AppCompatActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://rapcodetech.netlify.app"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://rapcodetechsolutions.netlify.app/"));
                 startActivity(browserIntent);
             }
         });
